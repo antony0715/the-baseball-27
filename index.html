@@ -225,6 +225,7 @@ body.lkon #hud,body.lkon #msg,body.lkon #call,body.lkon #fb,body.lkon #bfb,body.
 .mr-sp{display:flex;align-items:center;gap:4px;background:#ffffff14;border-radius:10px;padding:3px}.mr-sp button{width:30px;height:30px;border-radius:8px;background:none;font-size:22px;font-weight:800;padding:0}.mr-sp b{min-width:54px;text-align:center;font-size:15px}.mr-sp.dis button{visibility:hidden}
 .mr-go{grid-column:3;grid-row:3;background:linear-gradient(#ffd24a,#f0a30a);color:#3a2400;border-radius:16px;font-size:22px;font-weight:900;padding:12px;border:2px solid #ffe9a8;box-shadow:0 4px 0 #a86b00}
 @media (max-width:760px){#mpR{grid-template-columns:1fr 1fr}.mr-i{grid-column:1/3}.mr-s{grid-column:1/3}.mr-go{grid-column:1/3;grid-row:auto}.mr-ping{margin-right:0}}
+/* 牽制鈕：直式畫面時往上移，避開球種鈕（#pwb）；橫式維持原位 */#pkb{bottom:calc(100% + 100px)}@media (orientation:landscape){#pkb{bottom:calc(100% + 12px)}}
 </style></head><body>
 <div id="hud"></div><div id="call"></div><div id="fb"></div><div id="bfb"></div><div id="pfb"></div><div id="msg"></div><div id="hsb"></div><div id="zpip"><span>好球帶</span></div>
 <div id="camc"><button id="fldb"><svg viewBox="0 0 24 24"><path d="M12 22L2 11A14 14 0 0 1 22 11Z" fill="#2f8a43"/><path d="M12 19L6.5 12.5 12 7l5.5 5.5Z" fill="#c29a66"/><path d="M12 17.5L9 13.5 12 10.5l3 3Z" fill="#2f8a43"/></svg><span id="fln">投手</span></button><button id="pcb" title="投球視角">投1</button><button id="fpb" title="第一人稱">👁</button><button id="cmb" title="視角：人／球">🧍</button><button id="mpi" title="玩家資訊" style="display:none">👥</button><button id="fsb" title="全螢幕">⛶</button></div><div id="mpp"></div>
@@ -1770,7 +1771,7 @@ function startGame(){cdL.fill(0);cdC.fill(0);PV=null;{const mn=$('menu');mn.styl
  找不到的檔案就不發聲（hit／catch／out 會暫用內建電子音）。
  ※ 要用網站（http／https）開啟；直接雙擊開本機檔案時，瀏覽器會擋住音檔。 */
 const SND=(()=>{
- const VOL={hit1:1,hit2:.9,song:.9,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1.2,crowd:.8},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
+ const VOL={hit1:1,hit2:.9,song:.85,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1,crowd:.4},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
   EXT=['mp3','wav','ogg','m4a'],
   NT=[-16,-22],/* 自動音量平衡的目標：[短音效, 長音檔（群眾、歡呼、應援曲）] dBFS；程式會把每個檔案都調到這個響度，再乘上下面 VOL */
   SWEET=.7,/* 擊球品質 ≥ 此值（0~1）播 hit1，否則播 hit2 */
