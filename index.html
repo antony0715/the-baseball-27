@@ -226,6 +226,7 @@ body.lkon #hud,body.lkon #msg,body.lkon #call,body.lkon #fb,body.lkon #bfb,body.
 .mr-go{grid-column:3;grid-row:3;background:linear-gradient(#ffd24a,#f0a30a);color:#3a2400;border-radius:16px;font-size:22px;font-weight:900;padding:12px;border:2px solid #ffe9a8;box-shadow:0 4px 0 #a86b00}
 @media (max-width:760px){#mpR{grid-template-columns:1fr 1fr}.mr-i{grid-column:1/3}.mr-s{grid-column:1/3}.mr-go{grid-column:1/3;grid-row:auto}.mr-ping{margin-right:0}}
 /* 牽制鈕：直式畫面時往上移，避開球種鈕（#pwb）；橫式維持原位 */#pkb{bottom:calc(100% + 100px)}@media (orientation:landscape){#pkb{bottom:calc(100% + 12px)}}
+/* 投球區外框不攔截點擊（橫式時它整個蓋在球種鈕上），只有按鈕本身可按 */#pit2,#gow{pointer-events:none}#go,#pkb{pointer-events:auto}
 </style></head><body>
 <div id="hud"></div><div id="call"></div><div id="fb"></div><div id="bfb"></div><div id="pfb"></div><div id="msg"></div><div id="hsb"></div><div id="zpip"><span>好球帶</span></div>
 <div id="camc"><button id="fldb"><svg viewBox="0 0 24 24"><path d="M12 22L2 11A14 14 0 0 1 22 11Z" fill="#2f8a43"/><path d="M12 19L6.5 12.5 12 7l5.5 5.5Z" fill="#c29a66"/><path d="M12 17.5L9 13.5 12 10.5l3 3Z" fill="#2f8a43"/></svg><span id="fln">投手</span></button><button id="pcb" title="投球視角">投1</button><button id="fpb" title="第一人稱">👁</button><button id="cmb" title="視角：人／球">🧍</button><button id="mpi" title="玩家資訊" style="display:none">👥</button><button id="fsb" title="全螢幕">⛶</button></div><div id="mpp"></div>
@@ -1771,13 +1772,13 @@ function startGame(){cdL.fill(0);cdC.fill(0);PV=null;{const mn=$('menu');mn.styl
  找不到的檔案就不發聲（hit／catch／out 會暫用內建電子音）。
  ※ 要用網站（http／https）開啟；直接雙擊開本機檔案時，瀏覽器會擋住音檔。 */
 const SND=(()=>{
- const VOL={hit1:1,hit2:.9,song:.85,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1,crowd:.4},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
+ const VOL={hit1:1,hit2:.9,song:.85,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1.1,crowd:.4},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
   EXT=['mp3','wav','ogg','m4a'],
   NT=[-16,-22],/* 自動音量平衡的目標：[短音效, 長音檔（群眾、歡呼、應援曲）] dBFS；程式會把每個檔案都調到這個響度，再乘上下面 VOL */
   SWEET=.7,/* 擊球品質 ≥ 此值（0~1）播 hit1，否則播 hit2 */
   SONG=[25,60],/* 平常隔多少秒（隨機範圍）才會放一次應援曲 */
   REF=9,ROLL=.9,/* 距離衰減：REF 公尺內不衰減；ROLL 越大，遠處越小聲 */
-  DLY=1,/* 音速延遲倍率：1＝真實（遠處的聲音會慢到），0＝關閉 */
+  DLY=.5,/* 音速延遲倍率：1＝真實（遠處的聲音會慢到），0＝關閉 */
   HRTF=true,REV=.35,/* HRTF：耳機環繞定位；REV：球場回音量（0＝關） */
   CP=[[0,9,24],[-46,8,-12],[46,8,-12],[-92,9,-104],[92,9,-104],[0,10,-160]];/* 看台人群聲源：本壘後、三壘側、一壘側、左外野、右外野、中外野 */
  let ctx=null,mix=null,rev=null,amb=null,buf={},miss={},lastP={},nextSong=0,ambV=[],ambT=-1,cheers=[],ph0='',lastK={};
@@ -1792,6 +1793,7 @@ const SND=(()=>{
   if(lg){const w=Math.max(1,sr*.05|0),th=Math.pow(10,-45/20);let e=0,cnt=0;for(let i=0;i+w<=n;i+=w){let q=0;for(let j=0;j<w;j+=2){const v=at(i+j);q+=v*v}q/=w/2;if(Math.sqrt(q)>th){e+=q;cnt++}}m=cnt?Math.sqrt(e/cnt):0}
   else{const w=Math.max(1,sr*.3|0),h=Math.max(1,w>>1);for(let i=0;i<n;i++){const v=Math.abs(at(i));if(v>pk)pk=v}
    for(let i=0;i+h<=n;i+=h){let q=0;const e=Math.min(n,i+w);for(let j=i;j<e;j++){const v=at(j);q+=v*v}q=Math.sqrt(q/(e-i));if(q>m)m=q}}
+  if(!lg&&pk>0){const th=pk*.01;let k=0;while(k<n&&Math.abs(at(k))<th)k++;b.off=Math.max(0,k/sr-.005)}/* 自動切掉檔案開頭的靜音，聲音才會對準畫面 */
   let gn=m>1e-5?Math.pow(10,NT[lg?1:0]/20)/m:1;gn=cl(gn,.25,4);if(!lg&&pk>0)gn=Math.min(gn,1.2/pk);b.nrm=gn;return b}
  let gx=0;
  function tryExt(nm,i,cb){if(i>=EXT.length)return cb(null);const e=EXT[(i+gx)%EXT.length];
@@ -1821,7 +1823,7 @@ const SND=(()=>{
   s.buffer=b;s.playbackRate.value=.97+.06*Math.random();lp.type='lowpass';lp.frequency.value=cl(22000/(1+d/30),2500,20000);gn.gain.value=(VOL[k]||1)*(v==null?1:v)*(b.nrm||1);
   s.connect(lp);lp.connect(gn);gn.connect(pn);pn.connect(mix);
   if(rev){const sd=ctx.createGain();sd.gain.value=gdist(d)*cl(d/80,.15,.9);gn.connect(sd);sd.connect(rev)}
-  s.start(t)}
+  s.start(t,b.off||0)}
  /* 歡呼聲：由六個看台聲源同時發出，越靠近球落點的看台越大聲 */
  function cheer(kind,tx,tz,v){const b=pick(kind);if(auto||!ctx||!b)return;const t0=ctx.currentTime+.05,o={k:kind,vs:[],done:0};tx=tx||0;tz=tz||0;
   CP.forEach((p,i)=>{const dx=p[0]-tx,dz=p[2]-tz,w=.4+.6*Math.exp(-(dx*dx+dz*dz)/(2*70*70)),s=ctx.createBufferSource(),gn=ctx.createGain(),pn=pan(p[0],p[1],p[2],40);
