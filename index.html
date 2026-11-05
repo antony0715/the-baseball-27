@@ -92,7 +92,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}
 #jp,#dv,#bmb,#pkb,#stl{position:absolute;width:52px;height:52px;min-width:0;padding:0;border-radius:50%;font-size:13px;font-weight:700;line-height:1;white-space:nowrap;box-shadow:0 4px 14px #000a}
 #jp{left:50%;margin-left:-26px;bottom:calc(100% + 18px)}#gow{position:relative;display:inline-block}#pkb{left:50%;margin-left:-26px;bottom:calc(100% + 12px);background:#d4d7de;color:#23262d;touch-action:none;display:none}#dv{right:calc(100% + 14px);bottom:-6px}#jp{background:#2a8f5a;color:#fff}
 @media (orientation:portrait){#thr{position:relative}}#dv{background:#3b82f6;color:#fff}
-.pkc{position:absolute;bottom:calc(100% + 16px);width:56px;height:56px;min-width:0;padding:0;border:0;border-radius:50%;background:#d4d7de;color:#23262d;font-size:13px;font-weight:800;line-height:1;box-shadow:0 4px 14px #000a;display:none;pointer-events:none;touch-action:none}#pk2{left:-6px}#pk3{right:-6px}#gow.pk .pkc{display:block}.pkc.lk{opacity:.3}.pkc.hv{background:#ffb703;transform:scale(1.18)}
+.pkc{position:absolute;bottom:calc(100% + 16px);width:56px;height:56px;min-width:0;padding:0;border:0;border-radius:50%;background:#d4d7de;color:#23262d;font-size:13px;font-weight:800;line-height:1;box-shadow:0 4px 14px #000a;display:none;pointer-events:none;touch-action:none}#pk1{left:-46px}#pk2{left:50%;margin-left:-28px;bottom:calc(100% + 66px)}#pk3{right:-46px}#gow.pk .pkc{display:block}.pkc.lk{opacity:.3}.pkc.hv{background:#ffb703;transform:scale(1.18)}
 @media (orientation:landscape){#bm .sm{height:34px;min-width:68px}}
 
 :root{--ct:64px}@media (orientation:landscape){:root{--ct:50px}}
@@ -227,9 +227,35 @@ body.lkon #hud,body.lkon #msg,body.lkon #call,body.lkon #fb,body.lkon #bfb,body.
 @media (max-width:760px){#mpR{grid-template-columns:1fr 1fr}.mr-i{grid-column:1/3}.mr-s{grid-column:1/3}.mr-go{grid-column:1/3;grid-row:auto}.mr-ping{margin-right:0}}
 /* 牽制鈕：直式畫面時往上移，避開球種鈕（#pwb）；橫式維持原位 */#pkb{bottom:calc(100% + 100px)}@media (orientation:landscape){#pkb{bottom:calc(100% + 12px)}}
 /* 投球區外框不攔截點擊（橫式時它整個蓋在球種鈕上），只有按鈕本身可按 */#pit2,#gow{pointer-events:none}#go,#pkb{pointer-events:auto}
-</style></head><body>
+</style><style>
+#gearb{position:fixed;left:calc(var(--sl,0px) + 6px);bottom:calc(var(--sb,0px) + 5px);width:26px;height:26px;padding:0;background:none;border:0;opacity:.35;z-index:6;display:flex;align-items:center;justify-content:center}
+#gearb svg{width:22px;height:22px;fill:#fff;filter:drop-shadow(0 0 2px #000a)}
+#gearb:active{opacity:.7}
+#setm{position:fixed;inset:0;z-index:30;background:#000a;display:none;align-items:center;justify-content:center;padding:10px}
+#setm.open{display:flex}
+#setm .box{width:min(360px,92vw);max-height:92vh;overflow:auto;background:#0e1b33;border:2px solid #ffffff30;border-radius:16px;padding:14px 18px 16px;box-shadow:0 10px 40px #000c}
+#setm h3{margin:0 0 10px;font-size:17px;display:flex;justify-content:space-between;align-items:center}
+#setm h3 button{background:#ffffff1f;width:30px;height:30px;border-radius:50%;font-size:15px}
+#setm .it{margin:10px 0}
+#setm .it label{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px}
+#setm .it small{display:block;opacity:.55;font-size:11px;margin-top:2px}
+#setm input[type=range]{width:100%;accent-color:#ffb703;height:28px;margin:0}
+#todb{display:flex;gap:6px}#todb button{flex:1;padding:9px 2px;border-radius:10px;border:1px solid #ffffff30;background:#ffffff14;color:#fff;font-size:14px;font-weight:700}#todb button.on{background:var(--amber,#ffb703);color:#1a1200;border-color:var(--amber,#ffb703)}
+#setm .tg{display:flex;justify-content:space-between;align-items:center;font-size:14px;margin-top:14px;padding-top:12px;border-top:1px solid #ffffff20}
+#setm .tg button{width:52px;height:30px;border-radius:15px;background:#ffffff30;position:relative;transition:background .15s}
+#setm .tg button::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s}
+#setm .tg button.on{background:#ffb703}#setm .tg button.on::after{left:25px}
+</style>
+</head><body>
 <div id="hud"></div><div id="call"></div><div id="fb"></div><div id="bfb"></div><div id="pfb"></div><div id="msg"></div><div id="hsb"></div><div id="zpip"><span>好球帶</span></div>
-<div id="camc"><button id="fldb"><svg viewBox="0 0 24 24"><path d="M12 22L2 11A14 14 0 0 1 22 11Z" fill="#2f8a43"/><path d="M12 19L6.5 12.5 12 7l5.5 5.5Z" fill="#c29a66"/><path d="M12 17.5L9 13.5 12 10.5l3 3Z" fill="#2f8a43"/></svg><span id="fln">投手</span></button><button id="pcb" title="投球視角">投1</button><button id="fpb" title="第一人稱">👁</button><button id="cmb" title="視角：人／球">🧍</button><button id="mpi" title="玩家資訊" style="display:none">👥</button><button id="fsb" title="全螢幕">⛶</button></div><div id="mpp"></div>
+<div id="camc"><button id="fldb"><svg viewBox="0 0 24 24"><path d="M12 22L2 11A14 14 0 0 1 22 11Z" fill="#2f8a43"/><path d="M12 19L6.5 12.5 12 7l5.5 5.5Z" fill="#c29a66"/><path d="M12 17.5L9 13.5 12 10.5l3 3Z" fill="#2f8a43"/></svg><span id="fln">投手</span></button><button id="pcb" title="投球視角">投1</button><button id="fpb" title="第一人稱">👁</button><button id="cmb" title="視角：人／球">🧍</button><button id="mpi" title="玩家資訊" style="display:none">👥</button><button id="fsb" title="全螢幕">⛶</button></div><button id="gearb" title="設定"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6c-.6.3-1.2.6-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.3.4.5.4h4c.3 0 .5-.2.5-.4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg></button>
+<div id="setm"><div class="box"><h3>設定<button id="setx">✕</button></h3>
+<div class="it"><label>音樂（應援曲・觀眾環境聲）<b id="vmv"></b></label><input type="range" id="vm" min="0" max="100"></div>
+<div class="it"><label>音效（擊球・喊聲・歡呼）<b id="vsv"></b></label><input type="range" id="vs" min="0" max="100"></div>
+<div class="it"><label>時間<b id="todv"></b></label><div id="todb"><button data-t="day">☀️ 白天</button><button data-t="dusk">🌇 傍晚</button><button data-t="night">🌙 夜晚</button></div></div>
+<div class="tg"><span>顯示場外景物<small style="display:block;opacity:.55;font-size:11px">樹木、遠方房屋</small></span><button id="vfar"></button></div>
+</div></div>
+<div id="mpp"></div>
 <div id="joy"><i id="jk"></i></div>
 <div id="fmap"><svg viewBox="0 0 1000 1000"><defs><clipPath id="fcl"><path d="M500 975L-158 317A930 930 0 0 1 1158 317Z"/></clipPath><pattern id="fst" width="130" height="130" patternUnits="userSpaceOnUse" patternTransform="rotate(-40)"><rect width="130" height="130" fill="#2f8a43"/><rect width="65" height="130" fill="#27733a"/></pattern></defs>
 <rect width="1000" height="1000" fill="#07101d"/>
@@ -242,7 +268,7 @@ body.lkon #hud,body.lkon #msg,body.lkon #call,body.lkon #fb,body.lkon #bfb,body.
 <div class="fcap" style="left:4%;bottom:3%">點選球員<br>即可操控</div><div class="fcap" style="right:4%;bottom:3%;text-align:right">操控中<br><b id="fcur">投手</b></div></div>
 <div id="ctl">
   <div id="pit" class="row"><div id="types"><button id="pwb"></button></div><button id="pback" class="sm" style="display:none"></button></div>
- <div id="pit2" class="row"><div id="meter"><b id="mf"></b><i id="mi"></i></div><span id="gow"><button id="go">按住投球</button><button id="pkb" class="sm">牽制</button><button id="pk2" class="pkc">二壘</button><button id="pk3" class="pkc">三壘</button></span></div>
+ <div id="pit2" class="row"><div id="meter"><b id="mf"></b><i id="mi"></i></div><span id="gow"><button id="go">按住投球</button><button id="pkb" class="sm">牽制</button><button id="pk1" class="pkc">一壘</button><button id="pk2" class="pkc">二壘</button><button id="pk3" class="pkc">三壘</button></span></div>
  <div id="bat" class="row"><div id="swc"><button id="sw" class="big">揮棒</button><button id="bmb" class="sm">普通</button><button id="stl" class="sm">盜壘</button></div></div>
  <div id="run" class="row"><button id="rR" class="sm">換跑者</button><button id="rS" class="big">滑壘</button></div>
  <div id="thr" class="row"></div>
@@ -454,13 +480,15 @@ const ball={x:0,y:1,z:0,vx:0,vy:0,vz:0,mode:'held',drag:0,bs:0,ss:0,bounced:0,la
 const userBats=()=>{const M=window.MP;if(!(M&&M.pvp))return g.top===1;return M.fv!=null?!!M.fv:!M.fld()},batIdx=()=>g.top?0:1,toast=(m,d)=>{g.msg=m;g.msgT=T+d};
 
 /* ================= 場景 ================= */
+const SET=(()=>{const d={mus:1,sfx:1,far:1,tod:'day'};try{Object.assign(d,JSON.parse(localStorage.getItem('nbSet')||'{}'))}catch(e){}return d})(),FARS=[];
 const R=new THREE.WebGLRenderer({antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;document.body.prepend(R.domElement);R.localClippingEnabled=true;
+let SKYM=null,SKYD=null,HILLM=null;const POLEG=[];
 const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(55,1,.1,1000);
 function cv2(w,h,f){const c=document.createElement('canvas');c.width=w;c.height=h;f(c.getContext('2d'),w,h);return c}
 const tex=(c,rx,ry)=>{const t=new THREE.CanvasTexture(c);if(rx){t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry)}return t};
 sc.background=new THREE.Color(0xd3e4f4);
 sc.fog=new THREE.Fog(0xd3e4f4,170*K0,800*K0);
-sc.add(new THREE.HemisphereLight(0xe3eeff,0x5a8a4a,1.05));
+const hl=new THREE.HemisphereLight(0xe3eeff,0x5a8a4a,1.05);sc.add(hl);
 const dl=new THREE.DirectionalLight(0xfff4de,1.0);dl.position.set(-30,80,50);dl.target.position.set(0,0,-25);sc.add(dl,dl.target);
 dl.castShadow=true;dl.shadow.mapSize.set(2048,2048);Object.assign(dl.shadow.camera,{left:-62,right:62,top:62,bottom:-62,near:10,far:220});
 const mat=(c,o)=>new THREE.MeshLambertMaterial(Object.assign({color:c},o||{}));
@@ -473,12 +501,12 @@ const dugY=(x,z)=>{for(const s of[1,-1]){const a=(s*x-DOFF[0])/S2,b=(z-DOFF[1])/
 const DH=[1,-1].map(s=>[[0,0],[DL,0],[DL,DD],[0,DD]].map(q=>dugW(s,q[0],q[1])));
 function HG(r,cz,holes){const sh=new THREE.Shape();sh.absarc(0,0,r,0,Math.PI*2,false);holes.forEach(h=>{const p=new THREE.Path();h.forEach((q,i)=>i?p.lineTo(q[0],cz-q[1]):p.moveTo(q[0],cz-q[1]));sh.holes.push(p)});const g=new THREE.ShapeGeometry(sh,64),u=g.attributes.uv,P=g.attributes.position;for(let i=0;i<u.count;i++)u.setXY(i,(P.getX(i)/r+1)/2,(P.getY(i)/r+1)/2);return g}
 const dpl=s=>{const C=DH[s],m=[0,1].map(k=>C.reduce((a,q)=>a+q[k],0)/4);return C.map((a,i)=>{const b=C[(i+1)%4];let nx=b[1]-a[1],nz=a[0]-b[0];const l=Math.hypot(nx,nz);nx/=l;nz/=l;if(nx*(a[0]-m[0])+nz*(a[1]-m[1])<0){nx=-nx;nz=-nz}return new THREE.Plane(new THREE.Vector3(nx,0,nz),-(nx*a[0]+nz*a[1]))})};
-const half=(r,cz,y,col)=>[0,1].forEach(s=>{const sh=new THREE.Shape();s?sh.absarc(0,0,r,Math.PI/2,Math.PI*1.5,false):sh.absarc(0,0,r,-Math.PI/2,Math.PI/2,false);mk(new THREE.ShapeGeometry(sh,48),new THREE.MeshLambertMaterial({color:col,clippingPlanes:dpl(s),clipIntersection:true}),0,y,cz,-Math.PI/2)});
+const half=(r,cz,y,col)=>[0,1].forEach(s=>{const sh=new THREE.Shape();s?sh.absarc(0,0,r,Math.PI/2,Math.PI*1.5,false):sh.absarc(0,0,r,-Math.PI/2,Math.PI/2,false);mk(new THREE.ShapeGeometry(sh,48),new THREE.MeshLambertMaterial({color:col,clippingPlanes:dpl(s),clipIntersection:true,polygonOffset:true,polygonOffsetFactor:-y*100,polygonOffsetUnits:-y*100}),0,y,cz,-Math.PI/2)});
 const gt=tex(cv2(256,256,(x,w,h)=>{for(let i=0;i<8;i++){x.fillStyle=i%2?'#3a9644':'#49a94f';x.fillRect(i*w/8,0,w/8,h)}}),7,7),dirt=mat(0xc5764a);
 mk(HG(175*K0,-30,DH),new THREE.MeshLambertMaterial({map:gt}),0,0,-30,-Math.PI/2);
 half(29*K0,-18.44*K0,.02,0xc5764a);half(24,6,.012,0xcaa56d);
 const dsh=new THREE.Shape();dsh.moveTo(0,4);dsh.lineTo(15.5*K0,19.4*K0);dsh.lineTo(0,34.8*K0);dsh.lineTo(-15.5*K0,19.4*K0);dsh.closePath();
-mk(new THREE.ShapeGeometry(dsh),new THREE.MeshLambertMaterial({map:gt}),0,.03,0,-Math.PI/2);
+mk(new THREE.ShapeGeometry(dsh),new THREE.MeshLambertMaterial({map:gt,polygonOffset:true,polygonOffsetFactor:-3,polygonOffsetUnits:-3}),0,.03,0,-Math.PI/2);
 const MH=.45/* 投手丘高度(m)：真實約0.25 */,MZ=-18.44*K0,MR0=1.2,MR1=2.5/* 平台半徑 / 坡腳半徑(原本約2.74~3.3) */,moundY=(x,z)=>{const d=Math.hypot(x,z-MZ);if(d<=MR0)return MH;if(d>=MR1)return 0;const u=(d-MR0)/(MR1-MR0);return MH*(1-u*u*(3-2*u))};
 {const lp=[];for(let i=0;i<=28;i++){const r=MR1*i/28;lp.push(new THREE.Vector2(r,.03+moundY(r,MZ)))}lp.reverse();const mg=new THREE.LatheGeometry(lp,56);mk(mg,new THREE.MeshLambertMaterial({color:0xc5764a,side:THREE.DoubleSide}),0,0,MZ,0,0,0,1)}mk(new THREE.CircleGeometry(3.8,24),dirt,0,.04,.3,-Math.PI/2);
 mk(new THREE.BoxGeometry(.61,.05,.15),mat(0xffffff),0,MH+.06,MZ);
@@ -529,7 +557,7 @@ strip(IN,OU,U0,U1,new THREE.MeshBasicMaterial({map:seatT,color:0xf4f7ff,side:THR
 strip(BK,BB2,Z,Z,new THREE.MeshBasicMaterial({color:0x8d95a8,side:THREE.DoubleSide}));
 
 strip(BA,BC,Z,Z,new THREE.MeshLambertMaterial({vertexColors:true,side:THREE.DoubleSide}),VV.map(p=>p.z>8?[.79,.65,.43]:[.71,.27,.17]));
-for(let s0=0;s0<VV.length-1;){let e=s0+1;while(e<VV.length-1&&cum[e]-cum[s0]<115)e++;const len=cum[e]-cum[s0],tx=new THREE.CanvasTexture(adC(len));tx.anisotropy=AN;const MM=new THREE.MeshBasicMaterial({map:tx,color:0xffffff,side:THREE.DoubleSide});let A=[],B=[],UA=[],UB=[];const fl=()=>{if(A.length>1)strip(A,B,UA,UB,MM);A=[];B=[];UA=[];UB=[]};
+for(let s0=0;s0<VV.length-1;){let e=s0+1;while(e<VV.length-1&&cum[e]-cum[s0]<70)e++;const len=cum[e]-cum[s0],lo=(()=>{const q=VV[(s0+e)>>1];return q.z<-50})(),c0=adC(len);let tc=c0;if(lo){tc=document.createElement('canvas');tc.width=Math.max(64,Math.ceil(c0.width*.3));tc.height=Math.max(16,Math.ceil(c0.height*.3));tc.getContext('2d').drawImage(c0,0,0,tc.width,tc.height)}const tx=new THREE.CanvasTexture(tc);tx.anisotropy=lo?1:AN;const MM=new THREE.MeshBasicMaterial({map:tx,color:0xffffff,side:THREE.DoubleSide});let A=[],B=[],UA=[],UB=[];const fl=()=>{if(A.length>1)strip(A,B,UA,UB,MM);A=[];B=[];UA=[];UB=[]};
  for(let j=s0;j<=e;j++){const p=VV[j],u=(cum[j]-cum[s0])/len;A.push([p.x,0,p.z]);B.push([p.x,p.h,p.z]);UA.push([u,0]);UB.push([u,p.h/4.6]);if(j<e&&dugIn(p)&&dugIn(VV[j+1]))fl()}fl();s0=e}
 /* ---- 半地下球員休息區（一壘側/三壘側）：下沉地板、階梯、護網、木長椅、藍牆、天花板風扇與燈 ---- */
 {const WD=tex(cv2(256,64,(x,w,h)=>{x.fillStyle='#b98a57';x.fillRect(0,0,w,h);for(let i=0;i<60;i++){x.strokeStyle=i%2?'#8d6238':'#d2a56d';x.lineWidth=1+rnd()*2;x.beginPath();const y0=rnd()*h;x.moveTo(0,y0);x.bezierCurveTo(w*.3,y0+8,w*.6,y0-8,w,y0+3);x.stroke()}}),1,1);
@@ -601,21 +629,21 @@ function pclkUpd(){const ph=g.ph,occ=sbOcc()==='000'?PCLK.lo:PCLK.hi,act=ph==='r
 mk(HG(650,-30,DH),mat(0x6d9a5c),0,-.08,-30,-Math.PI/2);
 {const sk=cv2(1024,512,(x,w,h)=>{const q=x.createLinearGradient(0,0,0,h);q.addColorStop(0,'#2f78cf');q.addColorStop(.28,'#5fa3e6');q.addColorStop(.46,'#b9d9f5');q.addColorStop(.5,'#d3e4f4');q.addColorStop(1,'#d3e4f4');x.fillStyle=q;x.fillRect(0,0,w,h);
   for(let i=0;i<70;i++){const cx=rnd()*w,cy=140+rnd()*105,s=.6+rnd()*1.1;for(let k=0;k<7;k++){const px=cx+(rnd()-.5)*110*s,py=cy+(rnd()-.5)*14*s,r=(26+rnd()*28)*s;[0,-w,w].forEach(o=>{const rg=x.createRadialGradient(px+o,py,0,px+o,py,r);rg.addColorStop(0,'rgba(255,255,255,.85)');rg.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=rg;x.save();x.translate(0,py);x.scale(1,.4);x.translate(0,-py);x.beginPath();x.arc(px+o,py,r,0,7);x.fill();x.restore()})}}});
- const sm=new THREE.Mesh(new THREE.SphereGeometry(800,40,24),new THREE.MeshBasicMaterial({map:tex(sk),side:THREE.BackSide,fog:false,depthWrite:false}));sm.renderOrder=-1;sc.add(sm)}
+ const sm=new THREE.Mesh(new THREE.SphereGeometry(800,40,24),new THREE.MeshBasicMaterial({map:tex(sk),side:THREE.BackSide,fog:false,depthWrite:false}));sm.renderOrder=-1;sc.add(sm);SKYM=sm;SKYD=sm.material.map}
 {const hc=cv2(2048,256,(x,w,h)=>{const q=x.createLinearGradient(0,0,0,h);q.addColorStop(0,'#86ab95');q.addColorStop(1,'#4d7a62');x.fillStyle=q;x.beginPath();x.moveTo(0,h);for(let i=0;i<=w;i+=8){const u=i/w*Math.PI*2;x.lineTo(i,h-70-(Math.sin(u*3+1)*26+Math.sin(u*7+2)*16+Math.sin(u*13)*8+Math.sin(u*29+1)*3))}x.lineTo(w,h);x.fill()});
- const m=new THREE.Mesh(new THREE.CylinderGeometry(560*K0,560*K0,130,48,1,true),new THREE.MeshBasicMaterial({map:tex(hc),transparent:true,side:THREE.BackSide,depthWrite:false}));m.position.set(0,60,-30);sc.add(m)}
+ const m=new THREE.Mesh(new THREE.CylinderGeometry(560*K0,560*K0,130,48,1,true),new THREE.MeshBasicMaterial({map:tex(hc),transparent:true,side:THREE.BackSide,depthWrite:false}));m.position.set(0,60,-30);sc.add(m);HILLM=m.material}
 {const wt=tex(cv2(64,128,(x,w,h)=>{x.fillStyle='#d8dde6';x.fillRect(0,0,w,h);x.fillStyle='#5b7da8';for(let r=0;r<8;r++)for(let c=0;c<4;c++)x.fillRect(4+c*15,5+r*15.5,9,9)}),1,1),cs=[0xe8e4dc,0xcfd6e2,0xd9cfc2,0xbfc9d6,0xe2e2e8,0xc9c0b6],ms=cs.map(c=>new THREE.MeshLambertMaterial({color:c,map:wt}));
  for(let i=0;i<70;i++){const a=.2+rnd()*(Math.PI*2-.4),r=(230+rnd()*120)*K0,w=14+rnd()*22,d=14+rnd()*18,h=22+rnd()*70*(rnd()<.2?1.5:1),G2=new THREE.BoxGeometry(w,h,d),uv=G2.attributes.uv;for(let k=0;k<uv.count;k++)uv.setXY(k,uv.getX(k)*w/10,uv.getY(k)*h/12);
-  const b=new THREE.Mesh(G2,ms[i%ms.length]);b.position.set(r*Math.sin(a),h/2-.5,-r*Math.cos(a)-30);b.rotation.y=rnd()*3;sc.add(b)}}
+  const b=new THREE.Mesh(G2,ms[i%ms.length]);b.position.set(r*Math.sin(a),h/2-.5,-r*Math.cos(a)-30);b.rotation.y=rnd()*3;sc.add(b);FARS.push(b)}}
 {const N=55,fm=new THREE.InstancedMesh(new THREE.SphereGeometry(1,8,6),new THREE.MeshLambertMaterial({color:0xffffff}),N*2),tm=new THREE.InstancedMesh(new THREE.CylinderGeometry(.3,.45,1,6),mat(0x5a3d26),N),o=new THREE.Object3D(),col=new THREE.Color();let fi=0,ti=0;
  for(let i=0;i<N;i++){const a=(rnd()*166-83)*Math.PI/180,aa=Math.abs(a)*180/Math.PI,r=FW(aa)+(aa<36?14+rnd()*40:34+rnd()*34),x=r*Math.sin(a),z=-r*Math.cos(a);if(Math.abs(x)<26&&z>-140)continue;
   const h=7+rnd()*8;o.position.set(x,h*.3,z);o.scale.set(1,h*.6,1);o.updateMatrix();tm.setMatrixAt(ti++,o.matrix);
   for(let k=0;k<2;k++){const s=h*(.35+rnd()*.2);o.position.set(x+(rnd()-.5)*2,h*.6+k*s*.6,z+(rnd()-.5)*2);o.scale.set(s,s*.9,s);o.updateMatrix();fm.setMatrixAt(fi,o.matrix);col.setHSL(.27+rnd()*.07,.45,.22+rnd()*.12);fm.setColorAt(fi++,col)}}
- fm.count=fi;tm.count=ti;fm.frustumCulled=tm.frustumCulled=false;fm.instanceMatrix.needsUpdate=tm.instanceMatrix.needsUpdate=true;if(fm.instanceColor)fm.instanceColor.needsUpdate=true;sc.add(fm,tm)}
+ fm.count=fi;tm.count=ti;fm.frustumCulled=tm.frustumCulled=false;fm.instanceMatrix.needsUpdate=tm.instanceMatrix.needsUpdate=true;if(fm.instanceColor)fm.instanceColor.needsUpdate=true;sc.add(fm,tm);FARS.push(fm,tm)}
 const lightPole=(x,z,h)=>{const P=new THREE.Group(),sm=new THREE.MeshBasicMaterial({color:0xfff3c8}),c=new THREE.Mesh(new THREE.CylinderGeometry(.5,.85,h,10),new THREE.MeshLambertMaterial({color:0xe9ecf2}));c.position.y=h/2;P.add(c);
  const hd=new THREE.Mesh(new THREE.BoxGeometry(10,5.4,.7),new THREE.MeshLambertMaterial({color:0xc9ced8}));hd.position.y=h+1.2;P.add(hd);
  for(let r=0;r<3;r++)for(let k=0;k<6;k++){const l=new THREE.Mesh(new THREE.BoxGeometry(1.2,1.1,.25),sm);l.position.set(-4.1+k*1.64,h-.1+r*1.35,.48);P.add(l)}
- P.position.set(x,0,z);P.lookAt(0,0,-30);sc.add(P)};
+ P.position.set(x,0,z);P.lookAt(0,0,-30);sc.add(P);{const gw=document.createElement('canvas');gw.width=gw.height=64;const gx=gw.getContext('2d'),gr=gx.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,244,210,.95)');gr.addColorStop(.25,'rgba(255,236,180,.45)');gr.addColorStop(1,'rgba(255,230,170,0)');gx.fillStyle=gr;gx.fillRect(0,0,64,64);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(gw),blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,fog:false}));s.scale.set(h*.8,h*.8,1);s.position.set(0,h+1.2,3);s.visible=false;P.add(s);POLEG.push(s)}};
 [[-80,-128,50],[80,-128,50],[-118,-96,50],[118,-96,50],[-40,-114,40],[40,-114,40],[-66,-108,44],[66,-108,44]].forEach(a=>lightPole(a[0]*1.32*K0,a[1]*1.32*K0,a[2]*1.1));
 /* ---- 中外野大型電子看板（影像螢幕＋綠色記分板＋兩側廣告）與下方打者背景牆 ---- */
 const sbc=document.createElement('canvas');sbc.width=2112;sbc.height=512;const sbt=new THREE.CanvasTexture(sbc);sbt.anisotropy=AN;
@@ -1326,6 +1354,8 @@ const R0=.72,gxp=(s,th)=>s.mode==='b'?s.bx-R0*Math.cos(th):s.bx-R0,/* 揮棒：�
 const swTh=(s,t)=>s.mode==='b'?s.thb:-Math.asin(cl((s.tc-t)*s.vb/R0,-.96,.96));
 function mkSwing(mode,ts,bx,by,cpu,side){const m=MD[mode],s={t:ts,tc:ts+m.dl,mode,bx,by,vb:m.vb,thb:cl(-bx*1.1-(mode==='b'?(cpu?(rnd()<.5?-1:1):(side||0))*(.4+(rnd()-.5)*.16):0),-.5,.5),cpu,res:null,shown:0,te:0,fb:''};pc.sw=s;lastSw=s;evalSwing(pc,s);return s}
 const BRP=[[0,.034],[.07,.02],[.3,.019],[.55,.03],[.78,.05],[.93,.062],[1.05,.06]],brad=u=>{for(let i=1;i<7;i++)if(u<=BRP[i][0]){const a=BRP[i-1],b=BRP[i];return a[1]+(b[1]-a[1])*(u-a[0])/(b[0]-a[0])}return .06};
+/* 短打球速：依力道決定落點距離約 8.5~18.5m（本壘到投手板約22m），中等力道就能滾到投手左前／右前，最強也不會直衝投手 */
+const buntV=(Q,bf)=>{const s=cl(((bf-.4)/.95)*.65+Q*.35,0,1),Dt=8.5+10*s;return Math.min(Dt<=12?Dt*.9:10.8+(Dt-12)*.62,15.2)};
 function evalSwing(p,s){if(p.hbp){s.res={hit:0};s.te=s.tc+.1;s.fb='';return}const UB=s.cpu?.8*(p.q==null?1:.94+.55*(1-p.q)):1.4,m=MD[s.mode],bunt=s.mode==='b',tf=m.r/.2*D.r*UB,ry=m.r*D.r*1.1*UB,ps=1/p.dur,w0=bunt?s.t+.05:s.tc-.1*UB,w1=bunt?s.t+.5:s.tc+.1*UB;s.te=w1;
  const rc=.13*D.r*UB;let cx=null,bd=9,bb=null;
  for(let t=w0;t<=w1;t+=.001){const u=(t-p.t0)/p.dur;if(u<0)continue;const b=bp(p,u),th=swTh(s,t),cs=Math.cos(th),sn=Math.sin(th),wx=b.x-gxp(s,th),sd0=wx*cs-b.z*sn,sd=cl(sd0,0,1.05),ey=b.y-s.by,ex=wx-sd*cs,ez=b.z+sd*sn,dd=Math.sqrt(ex*ex+ey*ey+ez*ez);
@@ -1335,7 +1365,7 @@ function evalSwing(p,s){if(p.hbp){s.res={hit:0};s.te=s.tc+.1;s.fb='';return}cons
  const th=cx.th,ds=cx.sd-R0-(bunt?0:R0*Math.cos(th)*(1-Math.cos(th))),dy=cx.b.y-s.by;
  if(cx.sd>=1.1||cx.sd<=.1||ds>.33*tf||ds<-.5*tf){s.fb=ds>0?'球偏外側':'球偏內側';return}
  const tol=.85*(m.z/1.1)*D.z*UB/Math.sqrt(ps),qt=bunt?1:cl(1-Math.abs(th)/tol,0,1),xx=ds/tf,qd=cl(1-Math.pow(Math.abs(xx)/(xx<0?.5:.33),1.6),0,1),qy=cl(1-Math.pow(Math.abs(dy)/ry,1.6),0,1),Q=cl(.3*qt+.4*qd+.3*qy+(s.cpu&&p.q!=null?(1-p.q)*.25:0),0,1);
- let bf=.4+.95*rnd(),v=bunt?m.v*(.3+.7*Q)*bf:m.v*(.38+.62*Q)*(.9+.1*cx.sd/R0)*(.88+.12*ps)*(s.cpu?.88:1);
+ let bf=.4+.95*rnd(),v=bunt?buntV(Q,bf):m.v*(.38+.62*Q)*(.9+.1*cx.sd/R0)*(.88+.12*ps)*(s.cpu?.88:1);
  let la=(bunt?-3:s.mode==='p'?13:10)+dy/ry*(bunt?10:24)+PLA[p.type]+(bunt?gs()*2.5:gs()*6+(1-Q)*gs()*8+(rnd()<.12?(rnd()-.5)*30:0));la=bunt?cl(la,-20,40):cl(la,-30,58);let kx=0;if(!bunt){const r=rnd(),lo=1-Q,hi=dy>ry*.4,low=dy<-ry*.4,A=.07+.14*lo+(low?.2:0);
  if(r<A){la=-28+rnd()*24;v*=.72+.3*rnd();kx=1}
  else if(r<A+.03+.05*lo+(hi?.22:0)){la=46+rnd()*18;v*=.5+.25*rnd();kx=2}
@@ -1505,7 +1535,7 @@ function decide(h){if(thrCap())return -1;let best=null;for(const r of RN){if(r.s
 function throwTo(h,tb){if(!h.pt){if(tb>=10&&(F[tb-10]===h||!F[tb-10])){ball.nextDec=T+.2;return}
  const isF=tb>=10;let ft=isF?[F[tb-10].x,F[tb-10].z]:tb===9?[F[0].hx,F[0].hz]:BS[tb%4],rec=null,M=null;
  if(isF){rec=F[tb-10];rec.rl={x:rec.x,z:rec.z,u:T+4};M=[rec.x,rec.z]}
- else if(((tb>=1&&tb<=4)||tb===9)&&h!==userF()){/* 電腦外野手遠距離傳球 → 找內野手當中繼（轉傳） */const p=tb===9?[F[0].hx,F[0].hz]:BS[tb%4],d=hyp(h.x-p[0],h.z-p[1]);
+ else if(((tb>=1&&tb<=4)||tb===9)&&h!==userF()&&h.i!==1){/* 捕手傳任何一壘都直接傳（本壘→二壘約46.6m，不再被當成長傳找中繼）；電腦外野手遠距離傳球 → 找內野手當中繼（轉傳） */const p=tb===9?[F[0].hx,F[0].hz]:BS[tb%4],d=hyp(h.x-p[0],h.z-p[1]);
   const OFh=h.i>=6;if(d>(OFh?26:45)){const L=Math.min(d*.5,30),m=[p[0]+(h.x-p[0])/d*L,p[1]+(h.z-p[1])/d*L],uf=userF();
    const c=F.filter(q=>q!==h&&q!==uf&&(OFh?(q.i===3||q.i===4):(q.i>=2&&q.i<=5))&&!q.hold&&(tb===9||q!==cv[tb%4])&&!(q.rl&&q.rl.u>T)).sort((a,b)=>hyp(a.x-m[0],a.z-m[1])-hyp(b.x-m[0],b.z-m[1]))[0];
    if(c){rec=c;M=m;c.rl={x:m[0],z:m[1],u:T+4};ft=m}}}
@@ -1517,10 +1547,10 @@ function throwTo(h,tb){if(!h.pt){if(tb>=10&&(F[tb-10]===h||!F[tb-10])){ball.next
  if(rcv&&rcv!==h&&hyp(rcv.x-p[0],rcv.z-p[1])<2.5)p=[rcv.x+rcv.vx*.2,rcv.z+rcv.vz*.2];
  const x0=h.x,z0=h.z,d=hyp(p[0]-x0,p[1]-z0),Tt=Math.max(.25,d/(play&&play.steal?D.ts:30));
  /* 距離越遠越容易丟歪（超過約40公尺誤差明顯增加，直接長傳有機會大幅偏離） */
- let er=d<=36?gs()*(.03+d*.0025):gs()*(.25+d*.008+Math.max(0,d-40)*.045);if(d>36&&rnd()<.02+d*.0004+Math.max(0,d-55)*.004)er*=4;const an=rnd()*6.28,tx=p[0]+Math.cos(an)*er,tz=p[1]+Math.sin(an)*er;
+ const cth=h.i===1&&d<=60;let er=cth?gs()*(.05+d*.003):d<=36?gs()*(.03+d*.0025):gs()*(.25+d*.008+Math.max(0,d-40)*.045);if(!cth&&d>36&&rnd()<.02+d*.0004+Math.max(0,d-55)*.004)er*=4;const an=rnd()*6.28,tx=p[0]+Math.cos(an)*er,tz=p[1]+Math.sin(an)*er;
  Object.assign(ball,{x:x0,y:1.7,z:z0,vx:(tx-x0)/Tt,vz:(tz-z0)/Tt,vy:-.5/Tt+G*Tt/2,mode:'throw',drag:0,bounced:0,holder:null,tgt});if(play){let kb=-1;for(let q=0;q<4;q++)if(hyp(x0-BS[q][0],z0-BS[q][1])<4)kb=q;play.nth=(play.nth||0)+1;play.lst={k:kb,t:T}}h.hold=0;h.cool=T+.7}
 function pick(f,fly){const b=ball,bt=RN.find(r=>r.isB);f.hold=1;f.pt=null;b.mode='held';b.holder=f;b.heldAt=T;b.nextDec=T;b.drag=0;sfx('catch',f.x,1.3,f.z);SND.caught(fly);
- if(fly){play.caught=1;play.cf=f;call(0,'out','接殺出局！');if(bt&&bt.st==='go'){bt.st='out';bt.t=T;g.outs++;play.outs++;play.bout=1}
+ if(fly){play.caught=1;play.cf=f;call(0,'out','接殺出局！');if(bt&&bt.st!=='out'&&bt.st!=='score'&&!play.hr){/* 不論打者還在跑(go)或已經踩上壘包(on)，空中接殺一律出局 */bt.st='out';bt.t=T;g.outs++;play.outs++;play.bout=1;bt.target=bt.base}
   for(const r of RN){if(r.isB)continue;if(r.st==='go'||r.st==='on'){r.target=r.base;r.man=0;r.st='go'}}}}
 function pickT(f){const b=ball;if(f.rl){f.rb=1;f.rl=null}f.hold=1;f.pt=null;b.mode='held';b.holder=f;b.heldAt=T;b.nextDec=T+.15;b.drag=0;sfx('catch',f.x,1.3,f.z,.8);SND.caught(0,1.2);
  for(let k=0;k<4;k++){const p=BS[k];if(hyp(f.x-p[0],f.z-p[1])<1.6)for(const r of RN)if(alive(r)&&r.base<4&&(r.base+1)%4===k&&forced(r)){outR(r);play.how=f.n;call(k,'out','出局！')}}}
@@ -1618,7 +1648,7 @@ function updTypes(){const b=$('pwb');b.innerHTML='<small>球種</small><br>'+PT[
 function updPit(){$('pit').classList.toggle('sel',!!pstg);$('types').style.display=pstg?'none':'';$('pback').style.display=pstg?'':'none';$('pback').textContent='重選';updTypes();[...$('types').children].forEach(b=>b.classList.remove('on'))}
 function canCharge(){return !auto&&!userBats()&&selF===0&&g.ph==='ready'&&pstg===1&&T>=RDY()}
 /* 牽制（可選）：按住「投球」判定時，上方出現兩顆小圓鈕（左＝二壘、右＝三壘）；手指移到其一上放開＝立刻牽制，否則照常投球 */
-const pkB=()=>[[$('pk2'),2],[$('pk3'),3]];
+const pkB=()=>[[$('pk1'),1],[$('pk2'),2],[$('pk3'),3]];
 const pkAv=()=>!auto&&!userBats()&&(selF===0||MP.rem||(MP.on&&MP.isAP&&MP.isAP()&&MP.pitH&&MP.pitH()))&&g.ph==='ready'&&(g.pkn||0)<2&&!RN.some(r=>r.st==='go')&&RN.some(pickable);
 function pkShow(on){$('pit').style.visibility=on?'hidden':'';$('gow').classList.toggle('pk',!!on);pkB().forEach(([b,k])=>{b.classList.toggle('lk',!RN.some(r=>pickable(r)&&r.base===k));b.classList.remove('hv')})}
 function pkAt(x,y){for(const[b,k]of pkB()){if(b.classList.contains('lk'))continue;const r=b.getBoundingClientRect();if(x>=r.left-12&&x<=r.right+12&&y>=r.top-12&&y<=r.bottom+12)return k}return 0}
@@ -1772,7 +1802,7 @@ function startGame(){cdL.fill(0);cdC.fill(0);PV=null;{const mn=$('menu');mn.styl
  找不到的檔案就不發聲（hit／catch／out 會暫用內建電子音）。
  ※ 要用網站（http／https）開啟；直接雙擊開本機檔案時，瀏覽器會擋住音檔。 */
 const SND=(()=>{
- const VOL={hit1:1,hit2:.9,song:.85,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1.1,crowd:.4},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
+ const VOL={hit1:1.3,hit2:.9,song:.85,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1,crowd:.45},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
   EXT=['mp3','wav','ogg','m4a'],
   NT=[-16,-22],/* 自動音量平衡的目標：[短音效, 長音檔（群眾、歡呼、應援曲）] dBFS；程式會把每個檔案都調到這個響度，再乘上下面 VOL */
   SWEET=.7,/* 擊球品質 ≥ 此值（0~1）播 hit1，否則播 hit2 */
@@ -1781,7 +1811,7 @@ const SND=(()=>{
   DLY=.5,/* 音速延遲倍率：1＝真實（遠處的聲音會慢到），0＝關閉 */
   HRTF=true,REV=.35,/* HRTF：耳機環繞定位；REV：球場回音量（0＝關） */
   CP=[[0,9,24],[-46,8,-12],[46,8,-12],[-92,9,-104],[92,9,-104],[0,10,-160]];/* 看台人群聲源：本壘後、三壘側、一壘側、左外野、右外野、中外野 */
- let ctx=null,mix=null,rev=null,amb=null,buf={},miss={},lastP={},nextSong=0,ambV=[],ambT=-1,cheers=[],ph0='',lastK={};
+ let ctx=null,mix=null,mixS=null,mixM=null,rev=null,amb=null,buf={},miss={},lastP={},nextSong=0,ambV=[],ambT=-1,cheers=[],ph0='',lastK={};
  const fw=new THREE.Vector3(),upv=new THREE.Vector3(),
   dist=(x,y,z)=>hyp(cam.position.x-x,cam.position.y-y,cam.position.z-z),
   gdist=d=>REF/(REF+ROLL*(Math.max(d,REF)-REF));
@@ -1804,10 +1834,10 @@ const SND=(()=>{
  function pick(k){const a=buf[k];if(!a||!a.length)return null;let i=(Math.random()*a.length)|0;if(a.length>1&&i===lastP[k])i=(i+1)%a.length;lastP[k]=i;return a[i]}
  function init(){if(ctx)return;const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
   try{ctx=new AC();const cp=ctx.createDynamicsCompressor();cp.threshold.value=-14;cp.ratio.value=4;cp.connect(ctx.destination);
-   mix=ctx.createGain();mix.gain.value=.9;mix.connect(cp);
+   mix=ctx.createGain();mix.gain.value=.9;mix.connect(cp);mixS=ctx.createGain();mixM=ctx.createGain();mixS.gain.value=SET.sfx;mixM.gain.value=SET.mus;mixS.connect(mix);mixM.connect(mix);
    if(REV>0){const n=ctx.sampleRate*1.8|0,ib=ctx.createBuffer(2,n,ctx.sampleRate);for(let c=0;c<2;c++){const d=ib.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,2.6)}
-    rev=ctx.createConvolver();rev.buffer=ib;const w=ctx.createGain();w.gain.value=REV;rev.connect(w);w.connect(mix)}
-   amb=ctx.createGain();amb.gain.value=0;amb.connect(mix);
+    rev=ctx.createConvolver();rev.buffer=ib;const w=ctx.createGain();w.gain.value=REV;rev.connect(w);w.connect(mixS)}
+   amb=ctx.createGain();amb.gain.value=0;amb.connect(mixM);
    Object.keys(VOL).forEach(k=>load(k))}catch(e){ctx=null}}
  function unlock(){init();if(ctx&&ctx.state!=='running'){try{ctx.resume()}catch(e){}}}
  ['pointerdown','touchend','keydown','click'].forEach(e=>addEventListener(e,unlock,{passive:true}));
@@ -1815,20 +1845,20 @@ const SND=(()=>{
  function startAmb(){if(ambV.length)return;const b=pick('crowd');if(!b)return;
   CP.forEach((p,i)=>{const s=ctx.createBufferSource(),gn=ctx.createGain(),pn=pan(p[0],p[1],p[2],40);s.buffer=b;s.loop=true;s.playbackRate.value=.96+.08*Math.random();gn.gain.value=VOL.crowd*.55*(b.nrm||1);
    s.connect(gn);gn.connect(pn);pn.connect(amb);s.start(0,Math.random()*b.duration);ambV.push({gn,i,base:VOL.crowd*.55*(b.nrm||1)})})}
- function beep(k){const P={hit:[240,60,.18],catch:[150,90,.12],out:[300,140,.14]}[k.replace(/\d/g,'')];if(!P)return;const n=ctx.currentTime,o=ctx.createOscillator(),q=ctx.createGain();o.type='square';o.frequency.setValueAtTime(P[0],n);o.frequency.exponentialRampToValueAtTime(P[1],n+P[2]);q.gain.setValueAtTime(.1,n);q.gain.exponentialRampToValueAtTime(.001,n+P[2]);o.connect(q);q.connect(mix);o.start(n);o.stop(n+P[2])}
+ function beep(k){const P={hit:[240,60,.18],catch:[150,90,.12],out:[300,140,.14]}[k.replace(/\d/g,'')];if(!P)return;const n=ctx.currentTime,o=ctx.createOscillator(),q=ctx.createGain();o.type='square';o.frequency.setValueAtTime(P[0],n);o.frequency.exponentialRampToValueAtTime(P[1],n+P[2]);q.gain.setValueAtTime(.1,n);q.gain.exponentialRampToValueAtTime(.001,n+P[2]);o.connect(q);q.connect(mixS);o.start(n);o.stop(n+P[2])}
  /* 單發音效：依與鏡頭的距離決定大小聲、左右前後定位、遠處悶掉＋延遲＋回音 */
  function shot(k,x,y,z,v,dly){if(auto||!ctx)return;let b=pick(k);if(!b&&/^hit\d$/.test(k))b=pick(k==='hit1'?'hit2':'hit1');if(!b&&/^strike\d$/.test(k))b=pick('strike');if(!b){if(miss[k])beep(k);return}
   x=x||0;y=y==null?1.2:y;z=z||0;
   const d=dist(x,y,z),t=ctx.currentTime+Math.min(d/343*DLY,.45)+(dly||0),s=ctx.createBufferSource(),lp=ctx.createBiquadFilter(),gn=ctx.createGain(),pn=pan(x,y,z);
   s.buffer=b;s.playbackRate.value=.97+.06*Math.random();lp.type='lowpass';lp.frequency.value=cl(22000/(1+d/30),2500,20000);gn.gain.value=(VOL[k]||1)*(v==null?1:v)*(b.nrm||1);
-  s.connect(lp);lp.connect(gn);gn.connect(pn);pn.connect(mix);
+  s.connect(lp);lp.connect(gn);gn.connect(pn);pn.connect(mixS);
   if(rev){const sd=ctx.createGain();sd.gain.value=gdist(d)*cl(d/80,.15,.9);gn.connect(sd);sd.connect(rev)}
   s.start(t,b.off||0)}
  /* 歡呼聲：由六個看台聲源同時發出，越靠近球落點的看台越大聲 */
  function cheer(kind,tx,tz,v){const b=pick(kind);if(auto||!ctx||!b)return;const t0=ctx.currentTime+.05,o={k:kind,vs:[],done:0};tx=tx||0;tz=tz||0;
   CP.forEach((p,i)=>{const dx=p[0]-tx,dz=p[2]-tz,w=.4+.6*Math.exp(-(dx*dx+dz*dz)/(2*70*70)),s=ctx.createBufferSource(),gn=ctx.createGain(),pn=pan(p[0],p[1],p[2],40);
    s.buffer=b;s.playbackRate.value=.97+.06*Math.random();gn.gain.setValueAtTime(0,t0);gn.gain.linearRampToValueAtTime(VOL[kind]*(v==null?1:v)*w*.55*(b.nrm||1),t0+.35+Math.random()*.15);
-   s.connect(gn);gn.connect(pn);pn.connect(mix);s.start(t0+Math.random()*.15);if(i===0)s.onended=()=>{o.done=1};o.vs.push({s,gn})});
+   s.connect(gn);gn.connect(pn);pn.connect(kind==='song'?mixM:mixS);s.start(t0+Math.random()*.15);if(i===0)s.onended=()=>{o.done=1};o.vs.push({s,gn})});
   cheers.push(o)}
  function fade(kind,sec){if(!ctx)return;const n=ctx.currentTime;cheers.forEach(c=>{if((kind&&c.k!==kind)||c.f)return;c.f=1;c.vs.forEach(o=>{const p=o.gn.gain;p.cancelScheduledValues(n);p.setValueAtTime(p.value,n);p.linearRampToValueAtTime(0,n+sec);try{o.s.stop(n+sec+.05)}catch(e){}})});cheers=cheers.filter(c=>!c.f)}
  function hit(c){shot((c.q||0)>=SWEET?'hit1':'hit2',c.x,c.y,c.z,.6+.4*(c.q||0));if(auto||!ctx||!(buf.crowd_hit&&buf.crowd_hit.length))return;
@@ -1854,7 +1884,7 @@ const SND=(()=>{
   if(amb&&a!==ambT){ambT=a;amb.gain.setTargetAtTime(a,ctx.currentTime,a<amb.gain.value?.25:.9)}
   ambV.forEach(o=>{o.gn.gain.value=o.base*(1+.18*Math.sin(T*.37+o.i*2.1))});/* 人群聲緩慢起伏 */
   if(cheers.length)cheers=cheers.filter(c=>!c.done)}
- return{levels:()=>Object.keys(buf).map(k=>k+':'+buf[k].map(b=>(20*Math.log10(b.nrm)).toFixed(1)+'dB').join(',')).join(' | '),unlock,sfx:shot,hit,cheer,call:sCall,tick,
+ return{setVol:()=>{if(mixM){mixM.gain.value=SET.mus;mixS.gain.value=SET.sfx}},levels:()=>Object.keys(buf).map(k=>k+':'+buf[k].map(b=>(20*Math.log10(b.nrm)).toFixed(1)+'dB').join(',')).join(' | '),unlock,sfx:shot,hit,cheer,call:sCall,tick,
   caught:(fly,sec)=>fade('crowd_hit',fly?.7:sec||1.4),/* 球被接到：一般擊球歡呼淡出 */
   fadeHit:s=>fade('crowd_hit',s),
   hr:()=>{fade('crowd_hit',.8);cheer('crowd_hr',ball.x,ball.z,1)}}
@@ -2008,13 +2038,13 @@ for(let i=0;i<TRN;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(BALLR,8,6
 function trailUpd(){const b=bmesh;if(!b.visible||g.ph==='menu'||g.ph==='over'){trH.length=0;trM.forEach(m=>m.visible=false);return}
  const l=trH[0],P=b.position;if(!l||T-l.t>=.01){if(l&&hyp(P.x-l.x,P.y-l.y,P.z-l.z)>3)trH.length=0;trH.unshift({x:P.x,y:P.y,z:P.z,t:T});if(trH.length>TRN+1)trH.pop()}
  trM.forEach((m,i)=>{const h=trH[i+1];if(h&&hyp(P.x-h.x,P.y-h.y,P.z-h.z)>BALLR*1.6){m.visible=true;m.position.set(h.x,h.y,h.z)}else m.visible=false})}
-function camUpd(){trailUpd();hsbUpd();{/* 玩家操控投手防守時，預設鏡頭跟隨球（仍可用 ⚾／🧍 鈕手動切換） */const pd=!userBats()&&!auto&&selF===0&&!(MP.wme&&MP.wme());if(view._pd!==pd){view._pd=pd;view.tg=pd?1:0;$('cmb').textContent=view.tg?'⚾':'🧍';$('cmb').classList.toggle('on',!!view.tg)}}if(g.hsp&&hsDressed!==g.hsp&&T>=g.hsp&&g.ph!=='menu'&&g.ph!=='over'){hsDressed=g.hsp;dressAll()}const ph=g.ph,rp=ph==='ready'||ph==='pitch',ub=userBats(),fR=fRP(),mrc=!!(MP.on&&!(MP.isAP&&MP.isAP())&&ub&&(ph==='ready'||ph==='pitch'||(ph==='play'&&!(play&&play.hr)))&&RN.some(r=>r.own===MP.id&&alive(r))),kk=(ph==='play'||fR||mrc||(MP.wme&&MP.wme()))?'play':ph;let p,l,k=.22,fv=1,snp=0;view.fl=0;const wo=!!(MP.wme&&MP.wme()&&view.tg!==1&&!(play&&play.hr)),hc=(ph==='play'&&play&&play.hr&&T-play.hrT>1.6)?hrCam():null,fpo=(fpOn()&&!(view.tg===1&&ph==='play')&&!LKON&&!hc&&!bra&&!(g.hs1>T&&T>=g.hsc)&&!(ph==='ready'&&g.nb1>T&&T>=g.nb0-.3&&nbF())&&!(PV&&(ph==='menu'||ph==='over')))?fpSubj():null;
+function camUpd(){window._tv=0;trailUpd();hsbUpd();{/* 玩家操控投手防守時，預設鏡頭跟隨球（仍可用 ⚾／🧍 鈕手動切換） */const pd=!userBats()&&!auto&&selF===0&&!(MP.wme&&MP.wme());if(view._pd!==pd){view._pd=pd;view.tg=pd?1:0;$('cmb').textContent=view.tg?'⚾':'🧍';$('cmb').classList.toggle('on',!!view.tg)}}if(g.hsp&&hsDressed!==g.hsp&&T>=g.hsp&&g.ph!=='menu'&&g.ph!=='over'){hsDressed=g.hsp;dressAll()}const ph=g.ph,rp=ph==='ready'||ph==='pitch',ub=userBats(),fR=fRP(),mrc=!!(MP.on&&!(MP.isAP&&MP.isAP())&&ub&&(ph==='ready'||ph==='pitch'||(ph==='play'&&!(play&&play.hr)))&&RN.some(r=>r.own===MP.id&&alive(r))),kk=(ph==='play'||fR||mrc||(MP.wme&&MP.wme()))?'play':ph;let p,l,k=.22,fv=1,snp=0;view.fl=0;const wo=!!(MP.wme&&MP.wme()&&view.tg!==1&&!(play&&play.hr)),hc=(ph==='play'&&play&&play.hr&&T-play.hrT>1.6)?hrCam():null,fpo=(fpOn()&&!(view.tg===1&&ph==='play')&&!LKON&&!hc&&!bra&&!(g.hs1>T&&T>=g.hsc)&&!(ph==='ready'&&g.nb1>T&&T>=g.nb0-.3&&nbF())&&!(PV&&(ph==='menu'||ph==='over')))?fpSubj():null;
  if(LKON){const pt=innerWidth<innerHeight;p=[LX,1.1+lky,LZ+(pt?2.55:2.95)*lkz];l=[LX,.97+lky,LZ];fv=pt?.84:.86;k=1;view.yaw=0}
   else if(PV&&(ph==='menu'||ph==='over')){const u=T-PV.t;p=[1.3+.9*Math.sin(u*.5),1.3,-3.2-.3*u];l=[0,1.2,-8];fv=.5;k=.25;view.yaw=0}
  else if(ph==='menu'||ph==='over'){p=[Math.sin(T*.25)*14*K0,5,14*K0];l=[0,2,-18*K0];k=.05;view.yaw=0}
  else if(hc){p=hc.p;l=hc.l;fv=hc.fv;k=hc.k;snp=hc.snp?1:0;view.yaw=0}
  else if(bra){const c=brCam();p=c.p;l=c.l;fv=c.fv;k=c.k;view.yaw=0}
- else if(g.hs1>T&&T>=g.hsc){const u=T-g.hsc;p=[14*Math.sin(u*.35),112,6];l=[0,0,-58];fv=1.15;k=.04;view.yaw=0}/* 半局之間：拉遠俯瞰球場 */
+ else if(g.hs1>T&&T>=g.hsc){const u=T-g.hsc;p=[14*Math.sin(u*.35),112,6];l=[0,0,-58];fv=1.15;k=.04;view.yaw=0;window._tv=1}/* 半局之間：拉遠俯瞰球場 */
   else if(ph==='ready'&&g.nb1>T&&T>=g.nb0-.3&&nbF()){const bp=BM.position;p=[bp.x+2.7,1.55,bp.z-3.3];l=[bp.x,1.3,bp.z];fv=.9;k=.16;view.yaw=0}/* 新打者上場鏡頭 */
   else if(fpo){if(fpo.key!==fpKey){fpKey=fpo.key;fpY0=fpTy=fpo.y0;fpTp=0;view.yo=0;view.fpp=fpo.key==='b'?0:-.2;snp=1}fpo.m.updateMatrixWorld(true);fpo.m.hd.getWorldPosition(_fv);let ty0=fpY0,tp0=0;/* 打者：球投出後視線跟著球走 */if(fpo.key==='b'&&g.ph==='pitch'&&pc&&!pc.end&&T>=pc.t0&&bmesh.visible){const dx=bmesh.position.x-_fv.x,dy=bmesh.position.y-_fv.y,dz=bmesh.position.z-_fv.z;ty0=Math.atan2(dx,dz);tp0=Math.atan2(dy,Math.hypot(dx,dz))}fpTy+=angD(ty0,fpTy)*.3;fpTp+=(tp0-fpTp)*.3;const yw=fpTy+view.yo,fpt=cl(fpTp+view.fpp,-1.45,1.45),cp_=Math.cos(fpt),sx=Math.sin(yw),cz=Math.cos(yw);p=[_fv.x+sx*.1,_fv.y+.02,_fv.z+cz*.1];l=[p[0]+sx*cp_*6,p[1]+Math.sin(fpt)*6,p[2]+cz*cp_*6];fv=1.25;k=.75;view.yaw=yw+Math.PI;
   if(fpo.key==='b'){/* 打者：鏡頭在頭部略後、略右，看向本壘板前方；球出手後視線稍微跟球；拖曳畫面可轉頭看捕手／主審 */
@@ -2033,7 +2063,7 @@ function camUpd(){trailUpd();hsbUpd();{/* 玩家操控投手防守時，預設�
  view.pp=kk;if(snp){cp.x=p[0];cp.y=p[1];cp.z=p[2];cL.x=l[0];cL.y=l[1];cL.z=l[2]}
  cp.x+=(p[0]-cp.x)*k;cp.y+=(p[1]-cp.y)*k;cp.z+=(p[2]-cp.z)*k;cL.x+=(l[0]-cL.x)*k;cL.y+=(l[1]-cL.y)*k;cL.z+=(l[2]-cL.z)*k;
  fvm+=(fv-fvm)*.15;const nf=bFov*fvm;if(Math.abs(cam.fov-nf)>.01){cam.fov=nf;cam.updateProjectionMatrix()}
- cam.position.set(cp.x,cp.y,cp.z);cam.lookAt(cL.x,cL.y,cL.z);if(!fpo)fpKey='';fpVis(fpo?fpo.m:null);{const nn=fpo?.05:.1;if(cam.near!==nn){cam.near=nn;cam.updateProjectionMatrix()}}}
+ cam.position.set(cp.x,cp.y,cp.z);cam.lookAt(cL.x,cL.y,cL.z);if(!fpo)fpKey='';fpVis(fpo?fpo.m:null);{const nn=fpo?.05:window._tv?40:.1;if(cam.near!==nn){cam.near=nn;cam.updateProjectionMatrix()}}}
 const dots=(n,m)=>'●'.repeat(n)+'○'.repeat(m-n);
 function ui(){{const cs=cdL.join();if(pstg!==_ps||cs!==_cs){_ps=pstg;_cs=cs;updPit()}}boardUpd();joy.classList.toggle('pad',!auto&&aiming());$('camc').style.display=(g.ph==='menu'||g.ph==='over')?'none':'flex';$('mpi').style.display=MP.on?'flex':'none';fieldUI();if(g.ph==='menu')return;$('joy').style.display=((MP.waiting&&MP.waiting())||(MP.xo&&MP.xo())||!auto&&(aiming()||(g.ph==='play'&&play&&(!userBats()||selR()))||fRP()))?'block':'none';if($('joy').style.display==='none'){JY.x=JY.y=0;jk.style.transform=''}const live=RN.filter(r=>r.st!=='out'&&r.st!=='score'),oc=n=>live.some(r=>r.st==='on'&&r.base===n),AP=[[27,24.5,-45],[27,16.5,-135],[17,16.5,135],[17,24.5,45]],ar=live.filter(r=>r.st==='go'&&r.target!==r.base).map(r=>r.target>r.base?[r.base,0]:[r.base-1,180]).filter(a=>AP[a[0]]).map(a=>`<b class="ar" style="left:${AP[a[0]][0]-5}px;top:${AP[a[0]][1]-5}px;transform:rotate(${AP[a[0]][2]+a[1]}deg)">▶</b>`).join('');
 $('hud').innerHTML=`<div id="sbd"><div class="ib"><i class="${g.top===g.uf?'on':''}">▲</i><span>${g.inn}</span><i class="${g.top===g.uf?'':'on'}">▼</i></div><div class="tms">${(()=>{const A=`<div class="tm a${g.top?' bat':''}"><b class="tn" style="${lkc()}">${tmName(0)}</b><b class="sc">${g.sc[0]}</b></div>`,H=`<div class="tm h${g.top?'':' bat'}"><b class="tn">${tmName(1)}</b><b class="sc">${g.sc[1]}</b></div>`;return g.uf?A+H:H+A})()}</div><div class="bso">${[['B',g.b,3,'#2fbf5a'],['S',g.s,2,'#f2b705'],['O',g.outs,2,'#e0383e']].map(a=>`<div><em>${a[0]}</em>${Array.from({length:a[2]},(_,k)=>`<u${k<a[1]?` style="background:${a[3]}"`:''}></u>`).join('')}</div>`).join('')}</div><div class="bs"><i class="${oc(2)?'on':''}" style="left:14px;top:8px"></i><i class="${oc(3)?'on':''}" style="left:4px;top:16px"></i><i class="${oc(1)?'on':''}" style="left:24px;top:16px"></i>${ar}<div class="spd"><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.2" fill="none" stroke="#2a3040" stroke-width="1"/><path d="M3 1.6Q4.6 5 3 8.4M7 1.6Q5.4 5 7 8.4" fill="none" stroke="#2a3040" stroke-width=".8"/></svg><b>${g.spd||'--'}</b></div></div></div>`;
@@ -2051,6 +2081,44 @@ function zpipDraw(){const on=(!!chg||(jid!==null&&joy.classList.contains('pad'))
  const r=el.getBoundingClientRect();if(r.width<10)return;cam2.position.set(-.3,.9,-5.2);cam2.lookAt(-.3,.9,0);
  R.setScissorTest(true);R.setViewport(r.left,innerHeight-r.bottom,r.width,r.height);R.setScissor(r.left,innerHeight-r.bottom,r.width,r.height);R.render(sc,cam2);R.setScissorTest(false);R.setViewport(0,0,innerWidth,innerHeight)}
 function resize(){R.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;bFov=innerWidth<innerHeight?68:50;cam.fov=bFov*fvm;cam.updateProjectionMatrix();lkOff()}
+
+
+/* ===== 時間：白天／傍晚／夜晚（天空、光線、陰影方向、遠景色調） ===== */
+const TODN={day:'白天',dusk:'傍晚',night:'夜晚'};
+const sunDir=(()=>{const az=40*Math.PI/180,el=12*Math.PI/180;return new THREE.Vector3(-Math.sin(az)*Math.cos(el),Math.sin(el),-Math.cos(az)*Math.cos(el))})();
+const TODS={
+ day:{bg:0xd3e4f4,hs:0xe3eeff,hg:0x5a8a4a,hi:1.05,dc:0xfff4de,di:1.0,dp:[-30,80,50],hill:0xffffff,bias:0,nb:0},
+ /* 傍晚：夕陽很低（仰角12°）→ 影子又長又斜，打在側面的光偏橘紅 */
+ dusk:{bg:0xf2b184,hs:0xffc9a0,hg:0x6a5560,hi:.95,dc:0xff9d52,di:2.3,dp:[sunDir.x*110,sunDir.y*110,sunDir.z*110-25],hill:0xe09a86,bias:-.0004,nb:.06},
+ night:{bg:0x101a38,hs:0x8aa0e0,hg:0x1c2a22,hi:.55,dc:0xfff1d6,di:.95,dp:[-24,95,38],hill:0x3a4a7a,bias:-.0003,nb:.03}};
+const skyTex={};
+function skyCanvas(k){return cv2(1024,512,(x,w,h)=>{const q=x.createLinearGradient(0,0,0,h);
+ if(k==='dusk'){[[0,'#1f2f66'],[.16,'#3f4a92'],[.30,'#8f5a9a'],[.40,'#e07a72'],[.455,'#f6a374'],[.5,'#f2b184'],[1,'#f2b184']].forEach(a=>q.addColorStop(a[0],a[1]))}
+ else{[[0,'#02040c'],[.3,'#08122b'],[.47,'#14224a'],[.5,'#101a38'],[1,'#101a38']].forEach(a=>q.addColorStop(a[0],a[1]))}
+ x.fillStyle=q;x.fillRect(0,0,w,h);
+ if(k==='dusk'){for(let i=0;i<60;i++){const cx=rnd()*w,cy=110+rnd()*125,s=.6+rnd()*1.1,hi=cy<175,c=hi?'rgba(150,95,150,.55)':'rgba(255,150,100,.75)';for(let j=0;j<7;j++){const px=cx+(rnd()-.5)*110*s,py=cy+(rnd()-.5)*14*s,r=(26+rnd()*28)*s;[0,-w,w].forEach(o=>{const rg=x.createRadialGradient(px+o,py,0,px+o,py,r);rg.addColorStop(0,c);rg.addColorStop(1,c.replace(/[\d.]+\)$/,'0)'));x.fillStyle=rg;x.save();x.translate(0,py);x.scale(1,.4);x.translate(0,-py);x.beginPath();x.arc(px+o,py,r,0,7);x.fill();x.restore()})}}}
+ else{for(let i=0;i<520;i++){const sx=rnd()*w,sy=Math.pow(rnd(),.8)*h*.47,r=.4+rnd()*1.0;x.fillStyle='rgba(255,255,255,'+(.35+rnd()*.65)+')';x.beginPath();x.arc(sx,sy,r,0,7);x.fill()}}})}
+const glowTex=(a,b,c)=>{const cn=document.createElement('canvas');cn.width=cn.height=128;const x=cn.getContext('2d'),g2=x.createRadialGradient(64,64,0,64,64,64);g2.addColorStop(0,a);g2.addColorStop(.18,b);g2.addColorStop(1,c);x.fillStyle=g2;x.fillRect(0,0,128,128);return new THREE.CanvasTexture(cn)};
+const mkSpr=(map,sc2,add)=>{const s=new THREE.Sprite(new THREE.SpriteMaterial({map,blending:add?THREE.AdditiveBlending:THREE.NormalBlending,depthWrite:false,transparent:true,fog:false}));s.scale.set(sc2,sc2,1);s.visible=false;sc.add(s);return s};
+const SUNG=mkSpr(glowTex('rgba(255,236,190,.9)','rgba(255,180,100,.45)','rgba(255,120,60,0)'),520,1),SUND=mkSpr(glowTex('rgba(255,255,240,1)','rgba(255,248,215,1)','rgba(255,215,140,0)'),90,1);
+SUNG.position.copy(sunDir).multiplyScalar(740);SUND.position.copy(sunDir).multiplyScalar(738);
+const MOON=mkSpr(glowTex('rgba(255,255,255,1)','rgba(235,240,255,.95)','rgba(190,210,255,0)'),70,0);MOON.position.set(.35,.5,-.8).normalize().multiplyScalar(740);
+function applyTOD(){const k=TODS[SET.tod]?SET.tod:'day',P=TODS[k];
+ sc.background.setHex(P.bg);sc.fog.color.setHex(P.bg);
+ hl.color.setHex(P.hs);hl.groundColor.setHex(P.hg);hl.intensity=P.hi;
+ dl.color.setHex(P.dc);dl.intensity=P.di;dl.position.set(P.dp[0],P.dp[1],P.dp[2]);dl.shadow.bias=P.bias;dl.shadow.normalBias=P.nb;
+ if(SKYM){if(k!=='day'&&!skyTex[k])skyTex[k]=tex(skyCanvas(k));SKYM.material.map=k==='day'?SKYD:skyTex[k];SKYM.material.needsUpdate=true}
+ if(HILLM)HILLM.color.setHex(P.hill);
+ SUNG.visible=SUND.visible=k==='dusk';MOON.visible=k==='night';POLEG.forEach(o=>o.visible=k==='night');
+ document.querySelectorAll('#todb button').forEach(b=>b.classList.toggle('on',b.dataset.t===k));$('todv').textContent=TODN[k]}
+/* ===== 設定視窗：音樂／音效音量、場外景物 ===== */
+{const sv=()=>{try{localStorage.setItem('nbSet',JSON.stringify(SET))}catch(e){}},ap=()=>{FARS.forEach(o=>o.visible=!!SET.far);$('vfar').classList.toggle('on',!!SET.far)},
+ sl=(id,k)=>{const e=$(id),v=$(id+'v');e.value=Math.round(SET[k]*100);v.textContent=e.value+'%';e.oninput=()=>{SET[k]=e.value/100;v.textContent=e.value+'%';SND.setVol();sv()}};
+ sl('vm','mus');sl('vs','sfx');ap();applyTOD();document.querySelectorAll('#todb button').forEach(b=>b.onclick=()=>{SET.tod=b.dataset.t;applyTOD();sv()});
+ $('gearb').onclick=()=>$('setm').classList.add('open');
+ $('setx').onclick=()=>$('setm').classList.remove('open');
+ $('setm').onclick=e=>{if(e.target.id==='setm')$('setm').classList.remove('open')};
+ $('vfar').onclick=()=>{SET.far=SET.far?0:1;ap();sv()}}
 addEventListener('resize',resize);resize();dressAll();drawSB();drawBB();requestAnimationFrame(frame);MPinit();
 </script><script>
 if('serviceWorker' in navigator){
