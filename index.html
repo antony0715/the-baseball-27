@@ -435,6 +435,7 @@ body.uied .uie.uis{outline-color:#4ade80}body.uied .uie.uis:not(#joy){background
 #upd .tk span{margin-right:60px}
 @keyframes updm{to{transform:translateX(-100%)}}
 #menu:has(#pgHome.on) #upd{display:block}
+body.hudoff #hud,body.hudoff #camc,body.hudoff #mpp{display:none!important}/* 重播／ABS 挑戰期間隱藏計分板與右上角按鈕列 */
 #menu{padding-top:calc(var(--st,0px) + 40px)}
 #updEd{position:absolute;right:4px;top:3px;height:24px;line-height:20px;padding:0 10px;font-size:12px;font-weight:800;border-radius:12px;border:2px solid #1a1200;background:#fff3c4;color:#1a1200;cursor:pointer;z-index:2}
 #updM{position:fixed;inset:0;z-index:40;background:#000b;display:none;align-items:center;justify-content:center;padding:10px}
@@ -445,6 +446,11 @@ body.uied .uie.uis{outline-color:#4ade80}body.uied .uie.uis:not(#joy){background
 #updM .rw{display:flex;gap:8px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap}
 #updM .rw button{padding:8px 14px;border-radius:10px;border:0;font-weight:800;font-size:14px;cursor:pointer;background:#ffffff1f;color:#f4f1ea}
 #updM .rw button.ok{background:#ffb703;color:#1a1200}
+#setm .sg h4{cursor:pointer;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+#setm .sg h4::after{content:'▾';font-size:15px;opacity:.8;transition:transform .2s}
+#setm .sg.cl h4{margin-bottom:0}
+#setm .sg.cl h4::after{transform:rotate(-90deg)}
+#setm .sg.cl>*:not(h4){display:none!important}
 </style>
 </head><body>
 <div id="hud"></div><div id="rcall"></div><button id="ccb" title="呼叫電腦傳球">呼叫</button><div id="dbh"></div><div id="call"></div><div id="fb"></div><div id="bfb"></div><div id="pfb"></div><div id="msg"></div><div id="hsb"></div><div id="zpip"><span>好球帶</span></div>
@@ -455,7 +461,8 @@ body.uied .uie.uis{outline-color:#4ade80}body.uied .uie.uis:not(#joy){background
 <div class="sh"><h3>⚙ 設定</h3><button id="setx" aria-label="關閉">✕</button></div>
 <div class="sb">
 <section class="sg"><h4>🔊 聲音</h4>
-<div class="it"><label>音樂<small>應援曲・觀眾環境聲</small><b id="vmv"></b></label><input type="range" id="vm" min="0" max="100"></div>
+<div class="it"><label>音樂<small>主題曲・觀眾環境聲・應援曲（整體）</small><b id="vmv"></b></label><input type="range" id="vm" min="0" max="100"></div>
+ <div class="it"><label>應援曲<small>比賽中的應援曲（主題曲不受影響）</small><b id="vcv"></b></label><input type="range" id="vc" min="0" max="100"></div>
 <div class="it"><label>音效<small>擊球・喊聲・歡呼</small><b id="vsv"></b></label><input type="range" id="vs" min="0" max="100"></div>
 </section>
 <section class="sg"><h4>🎨 畫面</h4>
@@ -823,7 +830,7 @@ const ball={x:0,y:1,z:0,vx:0,vy:0,vz:0,mode:'held',drag:0,bs:0,ss:0,bounced:0,la
 const userBats=()=>{const M=window.MP;if(!(M&&M.pvp))return g.top===1;return M.fv!=null?!!M.fv:!M.fld()},batIdx=()=>g.top?0:1,toast=(m,d)=>{g.msg=m;g.msgT=T+d};
 
 /* ================= 場景 ================= */
-const SET=(()=>{const d={mus:1,sfx:1,far:1,tod:'dusk',shd:0,low:0,vib:1,fq:'h'};window.SETD=Object.assign({},d);/* 新玩家＝沒有存檔：預設全部最高（場地精細度高、陰影標準、不降解析度、場外景物開）；玩家在設定改過才會存起來，下次沿用 */
+const SET=(()=>{const d={mus:1,sfx:1,cheer:1,far:1,tod:'dusk',shd:0,low:0,vib:1,fq:'h'};window.SETD=Object.assign({},d);/* 新玩家＝沒有存檔：預設全部最高（場地精細度高、陰影標準、不降解析度、場外景物開）；玩家在設定改過才會存起來，下次沿用 */
  try{Object.assign(d,JSON.parse(localStorage.getItem('nbSet')||'{}'))}catch(e){}if(!['h','m','l'].includes(d.fq))d.fq='h';if(![0,1,2].includes(d.shd|0))d.shd=0;return d})(),FARS=[];window.nbSv=()=>{try{let old={};try{old=JSON.parse(localStorage.getItem('nbSet')||'{}')||{}}catch(e){}const o={};for(const k in SET)if(SET[k]!==window.SETD[k]||k in old)o[k]=SET[k];localStorage.setItem('nbSet',JSON.stringify(o))}catch(e){}};
 const R=new THREE.WebGLRenderer({antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;document.body.prepend(R.domElement);R.localClippingEnabled=true;
 let SKYM=null,SKYD=null,HILLM=null;const POLEG=[];
@@ -3136,11 +3143,12 @@ function startGame(){ABS.u=ABS.c=ABS.t0=ABS.t1=2;ABS.w=null;absBtn();svId=0;SNAP
  找不到的檔案就不發聲（hit／catch／out 會暫用內建電子音）。
  ※ 要用網站（http／https）開啟；直接雙擊開本機檔案時，瀏覽器會擋住音檔。 */
 const SND=(()=>{
- const VOL={hit3:1,hitmetal:.8,hit2:.9,slide:.7,song:.85,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1,crowd:.45},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
+ const VOL={hit3:1,hitmetal:.8,hit2:.9,slide:.45,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1,crowd:.36},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
   EXT=['mp3','wav','ogg','m4a'],
   THV=.7,/* 主題曲（選單／介面播放，檔名 song1）音量 */
+  SV={song:.85,song1:2},/* 應援曲各檔案的個別音量（用檔名當 key，song 跟 song1 都在這一列管理；沒列的檔案，如 song2，用 song 的值）。主題曲音量改上面的 THV */
   NT=[-16,-22],/* 自動音量平衡的目標：[短音效, 長音檔（群眾、歡呼、應援曲）] dBFS；程式會把每個檔案都調到這個響度，再乘上下面 VOL */
-  SWEET=.7,/* 擊球品質 ≥ 此值（0~1）播 hit3，否則播 hit2；鋁合金球棒一律播 hitmetal */
+  SWEET=.6,/* 擊球品質 ≥ 此值（0~1）播 hit3，否則播 hit2；鋁合金球棒一律播 hitmetal */
   METAL=[2],/* 算金屬球棒的材質編號（0原木 1深色木 2鋁合金 3碳纖維 4亮面烤漆） */
   SONG=[25,60],/* 平常隔多少秒（隨機範圍）才會放一次應援曲 */
   REF=9,ROLL=.9,/* 距離衰減：REF 公尺內不衰減；ROLL 越大，遠處越小聲 */
@@ -3148,7 +3156,7 @@ const SND=(()=>{
   HRTF=true,REV=.35,/* HRTF：耳機環繞定位；REV：球場回音量（0＝關） */
   CP=[[0,9,24],[-46,8,-12],[46,8,-12],[-92,9,-104],[92,9,-104],[0,10,-160]];/* 看台人群聲源：本壘後、三壘側、一壘側、左外野、右外野、中外野 */
  const AU=()=>auto&&!MP.on;/* 多人模式：觀戰／打擊方的客人 auto 也是 true，但仍要聽得到聲音 */
- let ctx=null,mix=null,mixS=null,mixM=null,rev=null,amb=null,buf={},miss={},lastP={},nextSong=0,ambV=[],ambT=-1,cheers=[],ph0='',lastK={},lastSO={},th=null,thOff=0;
+ let ctx=null,mix=null,mixS=null,mixM=null,mixC=null,rev=null,amb=null,buf={},miss={},lastP={},nextSong=0,ambV=[],ambT=-1,cheers=[],ph0='',lastK={},lastSO={},th=null,thOff=0;
  const fw=new THREE.Vector3(),upv=new THREE.Vector3(),
   dist=(x,y,z)=>hyp(cam.position.x-x,cam.position.y-y,cam.position.z-z),
   gdist=d=>REF/(REF+ROLL*(Math.max(d,REF)-REF));
@@ -3171,11 +3179,11 @@ const SND=(()=>{
  function pick(k){const a=buf[k];if(!a||!a.length)return null;let i=(Math.random()*a.length)|0;if(a.length>1&&i===lastP[k])i=(i+1)%a.length;lastP[k]=i;return a[i]}
  function init(){if(ctx)return;const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
   try{ctx=new AC();const cp=ctx.createDynamicsCompressor();cp.threshold.value=-14;cp.ratio.value=4;cp.connect(ctx.destination);
-   mix=ctx.createGain();mix.gain.value=.9;mix.connect(cp);mixS=ctx.createGain();mixM=ctx.createGain();mixS.gain.value=SET.sfx;mixM.gain.value=SET.mus;mixS.connect(mix);mixM.connect(mix);
+   mix=ctx.createGain();mix.gain.value=.9;mix.connect(cp);mixS=ctx.createGain();mixM=ctx.createGain();mixC=ctx.createGain();mixS.gain.value=SET.sfx;mixM.gain.value=SET.mus;mixC.gain.value=SET.cheer;mixS.connect(mix);mixM.connect(mix);mixC.connect(mixM);/* mixC＝應援曲專用音量（設定裡的「應援曲」滑桿） */
    if(REV>0){const n=ctx.sampleRate*1.8|0,ib=ctx.createBuffer(2,n,ctx.sampleRate);for(let c=0;c<2;c++){const d=ib.getChannelData(c);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,2.6)}
     rev=ctx.createConvolver();rev.buffer=ib;const w=ctx.createGain();w.gain.value=REV;rev.connect(w);w.connect(mixS)}
    amb=ctx.createGain();amb.gain.value=0;amb.connect(mixM);
-   Object.keys(VOL).forEach(k=>load(k))}catch(e){ctx=null}}
+   Object.keys(VOL).concat('song').forEach(k=>load(k))}catch(e){ctx=null}}
  function unlock(){init();if(ctx&&ctx.state!=='running'){try{ctx.resume()}catch(e){}}}
  ['pointerdown','touchend','keydown','click'].forEach(e=>addEventListener(e,unlock,{passive:true}));
  document.addEventListener('visibilitychange',()=>{if(!ctx)return;try{document.hidden?ctx.suspend():ctx.resume()}catch(e){}});
@@ -3195,10 +3203,10 @@ const SND=(()=>{
  function cheer(kind,tx,tz,v){const b=pick(kind);if(AU()||!ctx||!b)return;const t0=ctx.currentTime+.05,o={k:kind,vs:[],done:0};tx=tx||0;tz=tz||0;
   /* 應援曲：每次從歌曲裡隨機挑一段來播（長度約 12~28 秒，起點每次都不同，結尾自動淡出）；六個看台聲源播同一段 */
   let so=0,sl=0;if(kind==='song'&&b.duration>8){sl=Math.min(b.duration,12+Math.random()*16);const mx=Math.max(0,b.duration-sl);let tr=0;do{so=Math.random()*mx}while(++tr<6&&Math.abs(so-(lastSO[b.src||'']||-99))<sl*.8);lastSO[b.src||'']=so}
-  CP.forEach((p,i)=>{const dx=p[0]-tx,dz=p[2]-tz,w=.4+.6*Math.exp(-(dx*dx+dz*dz)/(2*70*70)),s=ctx.createBufferSource(),gn=ctx.createGain(),pn=pan(p[0],p[1],p[2],40),lv=VOL[kind]*(v==null?1:v)*w*.55*(b.nrm||1),j=Math.random()*.15;
+  CP.forEach((p,i)=>{const dx=p[0]-tx,dz=p[2]-tz,w=.4+.6*Math.exp(-(dx*dx+dz*dz)/(2*70*70)),s=ctx.createBufferSource(),gn=ctx.createGain(),pn=pan(p[0],p[1],p[2],40),lv=(kind==='song'?(SV[b.src]!=null?SV[b.src]:SV.song):VOL[kind])*(v==null?1:v)*w*.55*(b.nrm||1),j=Math.random()*.15;
    s.buffer=b;s.playbackRate.value=kind==='song'?1:.97+.06*Math.random();gn.gain.setValueAtTime(0,t0);gn.gain.linearRampToValueAtTime(lv,t0+.35+j);
    if(sl){gn.gain.setValueAtTime(lv,t0+sl-1.8);gn.gain.linearRampToValueAtTime(0,t0+sl)}
-   s.connect(gn);gn.connect(pn);pn.connect(kind==='song'?mixM:mixS);if(sl)s.start(t0+j,so,sl);else s.start(t0+j);if(i===0)s.onended=()=>{o.done=1};o.vs.push({s,gn})});
+   s.connect(gn);gn.connect(pn);pn.connect(kind==='song'?mixC:mixS);if(sl)s.start(t0+j,so,sl);else s.start(t0+j);if(i===0)s.onended=()=>{o.done=1};o.vs.push({s,gn})});
   cheers.push(o)}
  function fade(kind,sec){if(!ctx)return;const n=ctx.currentTime;cheers.forEach(c=>{if((kind&&c.k!==kind)||c.f)return;c.f=1;c.vs.forEach(o=>{const p=o.gn.gain;p.cancelScheduledValues(n);p.setValueAtTime(p.value,n);p.linearRampToValueAtTime(0,n+sec);try{o.s.stop(n+sec+.05)}catch(e){}})});cheers=cheers.filter(c=>!c.f)}
  const batMetal=()=>{try{return METAL.includes((BM._LKo||LK).bm|0)}catch(e){return false}};
@@ -3230,7 +3238,7 @@ const SND=(()=>{
   if(amb&&a!==ambT){ambT=a;amb.gain.setTargetAtTime(a,ctx.currentTime,a<amb.gain.value?.25:.9)}
   ambV.forEach(o=>{o.gn.gain.value=o.base*(1+.18*Math.sin(T*.37+o.i*2.1))});/* 人群聲緩慢起伏 */
   if(cheers.length)cheers=cheers.filter(c=>!c.done)}
- return{bm:batMetal,setVol:()=>{if(mixM){mixM.gain.value=SET.mus;mixS.gain.value=SET.sfx}},levels:()=>Object.keys(buf).map(k=>k+':'+buf[k].map(b=>(20*Math.log10(b.nrm)).toFixed(1)+'dB').join(',')).join(' | '),unlock,sfx:shot,hit,cheer,call:sCall,tick,
+ return{bm:batMetal,setVol:()=>{if(mixM){mixM.gain.value=SET.mus;mixS.gain.value=SET.sfx;mixC.gain.value=SET.cheer}},levels:()=>Object.keys(buf).map(k=>k+':'+buf[k].map(b=>(20*Math.log10(b.nrm)).toFixed(1)+'dB').join(',')).join(' | '),unlock,sfx:shot,hit,cheer,call:sCall,tick,
   caught:(fly,sec)=>fade('crowd_hit',fly?.7:sec||1.4),/* 球被接到：一般擊球歡呼淡出 */
   fadeHit:s=>fade('crowd_hit',s),
   hr:()=>{fade('crowd_hit',.8);cheer('crowd_hr',ball.x,ball.z,1)}}
@@ -3628,7 +3636,7 @@ function repTrig(sp){if(!sp||g.ph!=='ready'||(MP.on&&!MP.host))return;repStart(s
 $('rpk').onclick=()=>repEnd();
 $('rep').addEventListener('click',e=>{if(e.target.id!=='rep'||!REP.on||MP.on)return;REP.pz=REP.pz?0:1;repCamUI()});/* 單機：點背景暫停／繼續；多人由房主統一播放，不開放暫停 */
 function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-last)/1000||0);last=now;if(PZ){R.render(sc,cam);return}if(!mqP.matches){acc+=dt;while(acc>=1/60){if(!REP.on){tick(1/60);wallFix()}acc-=1/60}}
- if(REP.on)repUpd(dt);else{sync(dt);lkUpd(dt);camUpd()}SND.tick(dt);if(!REP.on){HM.all.forEach(spineUpd);repRec(dt)}if(shdCur===1)R.shadowMap.needsUpdate=!(shdN++&1);R.render(sc,cam);zpipDraw();if(chg){if(g.ph!=='ready'||pstg!==1){chg=0;$('go').classList.remove('hold');mtrOff()}else drawMtr()}if((hT+=dt)>.12){hT=0;ui()}}
+ if(REP.on)repUpd(dt);else{sync(dt);lkUpd(dt);camUpd()}SND.tick(dt);{const h=!!(REP.on||ABS.w);if(h!==window._hoff){window._hoff=h;document.body.classList.toggle('hudoff',h)}}if(!REP.on){HM.all.forEach(spineUpd);repRec(dt)}if(shdCur===1)R.shadowMap.needsUpdate=!(shdN++&1);R.render(sc,cam);zpipDraw();if(chg){if(g.ph!=='ready'||pstg!==1){chg=0;$('go').classList.remove('hold');mtrOff()}else drawMtr()}if((hT+=dt)>.12){hT=0;ui()}}
 /* 投手按住瞄準時：左上角小畫面放大好球帶附近（落點圈、目標點都在裡面） */
 const cam2=new THREE.PerspectiveCamera(26,1,.1,1000);let zpipOn=0;
 function zpipDraw(){const on=(!!chg||(jid!==null&&joy.classList.contains('pad')))&&g.ph==='ready'&&!auto&&!userBats()&&selF===0&&pstg===1&&pv<2,el=$('zpip');/* 按住搖桿瞄準（或按住投球蓄力）時顯示 */if(on!==zpipOn){zpipOn=on;el.style.display=on?'block':'none'}if(!on)return;
@@ -3713,7 +3721,7 @@ function applyTOD(){const k=TODS[SET.tod]?SET.tod:'day',P=TODS[k];
 /* ===== 設定視窗：音樂／音效音量、場外景物 ===== */
 {const sv=()=>window.nbSv(),ap=()=>{FARS.forEach(o=>o.visible=!!SET.far);$('vfar').classList.toggle('on',!!SET.far);$('vlow').classList.toggle('on',!!SET.low);setLowRes(!!SET.low)},
  sl=(id,k)=>{const e=$(id),v=$(id+'v');e.value=Math.round(SET[k]*100);v.textContent=e.value+'%';e.oninput=()=>{SET[k]=e.value/100;v.textContent=e.value+'%';SND.setVol();sv()}};
- sl('vm','mus');sl('vs','sfx');ap();applyTOD();applyShd();applyFq();document.querySelectorAll('#fqb button').forEach(b=>b.onclick=()=>{SET.fq=b.dataset.q;applyFq();sv()});document.querySelectorAll('#shdb button').forEach(b=>b.onclick=()=>{SET.shd=+b.dataset.s;applyShd();sv()});document.querySelectorAll('#todb button').forEach(b=>b.onclick=()=>{SET.tod=b.dataset.t;applyTOD();sv()});
+ sl('vm','mus');sl('vc','cheer');sl('vs','sfx');ap();applyTOD();applyShd();applyFq();document.querySelectorAll('#fqb button').forEach(b=>b.onclick=()=>{SET.fq=b.dataset.q;applyFq();sv()});document.querySelectorAll('#shdb button').forEach(b=>b.onclick=()=>{SET.shd=+b.dataset.s;applyShd();sv()});document.querySelectorAll('#todb button').forEach(b=>b.onclick=()=>{SET.tod=b.dataset.t;applyTOD();sv()});
  $('gearb').onclick=()=>$('setm').classList.add('open');
  $('setx').onclick=()=>$('setm').classList.remove('open');
  $('setm').onclick=e=>{if(e.target.id==='setm')$('setm').classList.remove('open')};
@@ -3834,6 +3842,13 @@ M.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'&&e.targe
 $('admGo').onclick=()=>{PW=$('admPw').value;if(!PW)return;$('admL').style.display='none';$('admE').style.display='';$('updTa').value=msgs.join('\n');st('')};
 $('admSend').onclick=async()=>{const a=$('updTa').value.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,20);if(!a.length)return st('至少要有一則訊息');st('發送中…',1);
  try{const x=await fb();await x.set(x.ref(x.db,'announce'),{msgs:a,v:Date.now(),k:PW});st('✅ 已發送，所有玩家即時更新',1)}catch(e){st(/PERMISSION/i.test(String(e&&(e.code||e.message)))?'❌ 密碼錯誤或沒有權限':'❌ 發送失敗：'+(e&&e.message||e))}};
+})();
+</script>
+<script>
+(function(){/* 設定頁每個大項可點標題收合／展開（狀態會記住） */
+const K='nbSetCl';let st={};try{st=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){}
+document.querySelectorAll('#setm .sg').forEach(sg=>{const h=sg.querySelector('h4');if(!h)return;const id=h.textContent.trim();if(st[id])sg.classList.add('cl');
+ h.setAttribute('role','button');h.onclick=()=>{const c=sg.classList.toggle('cl');st[id]=c?1:0;try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}}});
 })();
 </script>
 </body></html>
