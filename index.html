@@ -380,9 +380,11 @@ details.dd{background:#0000002e;border-radius:14px}
 </style>
 <style>
 /* 重播鏡頭列 */
-#rep #rpc{position:absolute;left:0;right:0;top:calc(var(--st,0px) + 56px);display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:0 96px}
-#rep #rpc button{position:static;height:30px;padding:0 11px;border-radius:15px;font-size:12.5px;opacity:.85}
-#rep #rpc button.on{border-color:var(--amber);color:var(--amber);opacity:1}
+#rep #rpc{position:absolute;left:auto;right:calc(env(safe-area-inset-right,0px) + 14px);top:calc(var(--st,0px) + 58px);display:flex;flex-direction:column;align-items:stretch;gap:6px;flex-wrap:nowrap;padding:0}
+#rep #rpc button{position:static;height:30px;padding:0 11px;border-radius:15px;font-size:12.5px;opacity:.38}
+#rep #rpc button.on{border-color:var(--amber);color:var(--amber);opacity:.65}
+/* 重播時：除了鏡頭控制與「略過」，其餘按鈕／操作區全部隱藏 */
+body.inrep :is(button,#joy,#fmap,#ctl,#pit,#pit2,#bat,#run,#thr,#wheel,#uibar,#mpb,#mpt,#mpp,#camc,#zpip,#rcall):not(#rep *){display:none!important}
 /* 暫停選單／繼續比賽 */
 #pzm{position:fixed;inset:0;z-index:28;background:#000b;display:none;align-items:center;justify-content:center;padding:10px}
 #pzm.open{display:flex}
@@ -398,7 +400,7 @@ details.dd{background:#0000002e;border-radius:14px}
 </style>
 <style>
 /* 呼叫電腦傳球：畫面中央的小紅圓鈕＋紅色訊息 */
-#ccb{position:fixed;left:50%;top:64%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:#e0252add;border:2px solid #ffffffa0;color:#fff;font-size:12px;font-weight:800;padding:0;display:none;align-items:center;justify-content:center;z-index:5;box-shadow:0 0 12px #e0252a99;touch-action:none}
+#ccb{position:fixed;left:calc(50% + 72px);top:64%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:#e0252add;border:2px solid #ffffffa0;color:#fff;font-size:12px;font-weight:800;padding:0;display:none;align-items:center;justify-content:center;z-index:5;box-shadow:0 0 12px #e0252a99;touch-action:none}
 #ccb:active{background:#ff3b3b}
 #rcall{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 124px);text-align:center;font-size:17px;font-weight:800;color:#ff3b3b;text-shadow:0 2px 8px #000,0 0 3px #000;pointer-events:none;z-index:4}
 body.lkon #ccb,body.lkon #rcall{display:none!important}
@@ -1800,7 +1802,7 @@ function nameTag(m,t){let sp=m._tag;if(!t){if(sp)sp.visible=false;return}
 /* dress(h,t,i)：t=0 我方(套用更衣室設定)、1 對手、>1 純色；i=守備位置(0 投手…8)，無則用自訂背號 */
 /* dress(h,t,i)：t=0 我方(套用更衣室設定)、1 對手、>1 純色；i=守備位置(0 投手…8)，無則用自訂背號 */
 const _LIP=new THREE.Color(0xb04a50);
-function dress(h,t,i,L){if(h._yon)yelPaint(h,0);{const _Q=L||(t===0?LK:DEFLK);h._th=_Q.th|0;h._bt=_Q.bt|0}const u=t===0||!!L,c=L?L.jc:(t<2?TC[t]:t),P=L||(u?LK:DEFLK),_lo=(h._LKo=P),M=h.M,ac=P.ac,js=_ix(P.js,14),st=h._st||(h._st={}),fb=HM.fab(),hat=_ix(P.hat,13),hs=_ix(P.hs,16),eye=_ix(P.eye,11),mo=_ix(P.mo,9),bd=_ix(P.bd,8),eb=_ix(P.eb,4),bw=_ix(P.bw,5),ec=_ix(P.ec,6),fw=_ix(P.fw,4);
+function dress(h,t,i,L){stnClear(h);if(h._yon)yelPaint(h,0);{const _Q=L||(t===0?LK:DEFLK);h._th=_Q.th|0;h._bt=_Q.bt|0}const u=t===0||!!L,c=L?L.jc:(t<2?TC[t]:t),P=L||(u?LK:DEFLK),_lo=(h._LKo=P),M=h.M,ac=P.ac,js=_ix(P.js,14),st=h._st||(h._st={}),fb=HM.fab(),hat=_ix(P.hat,13),hs=_ix(P.hs,16),eye=_ix(P.eye,11),mo=_ix(P.mo,9),bd=_ix(P.bd,8),eb=_ix(P.eb,4),bw=_ix(P.bw,5),ec=_ix(P.ec,6),fw=_ix(P.fw,4);
  const cs=(m,k,v,d)=>{if(u&&v!=null){m.color.setHex(v);st[k]=1}else if(st[k]){m.color.setHex(d);st[k]=0}};
  M.k.color.setHex(P.sk);M.f.color.setHex(P.sk);M.k.emissive.setHex(P.sk).multiplyScalar(.1);M.f.emissive.copy(M.k.emissive);
  M.lip.color.setHex(P.sk).lerp(_LIP,.55);
@@ -2169,7 +2171,8 @@ const BENR=[[6.8,17.2,2.4,4.3],[17.5,19.8,2.9,4.3],[4.5,6.3,3.7,4.6]];
 const inBen=(x,z)=>{for(const s of[1,-1]){const a=(s*x-DOFF[0])/S2,b=(z-DOFF[1])/S2,lx=(a-b)/2,lz=(a+b)/2;for(const r of BENR)if(lx>r[0]&&lx<r[1]&&lz>r[2]&&lz<r[3])return true}return false};
 const CWM=.6,polyD=(x,z)=>{let bd=1e9;for(let i=0,j=VV.length-1;i<VV.length;j=i++){const a=VV[j],b=VV[i],ex=b.x-a.x,ez=b.z-a.z,l2=ex*ex+ez*ez||1,u=cl(((x-a.x)*ex+(z-a.z)*ez)/l2,0,1),qx=a.x+ex*u-x,qz=a.z+ez*u-z,d=qx*qx+qz*qz;if(d<bd)bd=d}return Math.sqrt(bd)},
 inDugM=(x,z)=>{for(const sg of[1,-1]){const a=(sg*x-DOFF[0])/S2,b=(z-DOFF[1])/S2,lz=(a+b)/2,lx=(a-b)/2;if(lx>=.5&&lx<=DL-.5&&lz>-1.2&&lz<=DD-.5)return true}return false},
-okChar=(x,z)=>(inDugM(x,z)&&!inBen(x,z))||(inPoly(x,z)&&polyD(x,z)>=CWM);
+inRail=(x,z)=>{for(const sg of[1,-1]){const u=(sg*x-DOFF[0])/S2,v=(z-DOFF[1])/S2,lz=(u+v)/2,lx=(u-v)/2;if(lx>5.7&&lx<DL+.3&&lz>-.3&&lz<.4)return true}return false},/* 休息室前緣的欄杆（入口缺口之外 lx 6~20）：人物不能穿過 */
+okChar=(x,z)=>!inRail(x,z)&&((inDugM(x,z)&&!inBen(x,z))||(inPoly(x,z)&&polyD(x,z)>=CWM));
 const WPV=new WeakMap();
 function wallFix(){const fix=o=>{if(okChar(o.x,o.z)){WPV.set(o,[o.x,o.z]);return}const q=WPV.get(o);if(!q)return;if(okChar(o.x,q[1])){o.z=q[1]}else if(okChar(q[0],o.z)){o.x=q[0]}else{o.x=q[0];o.z=q[1]}o.vx=o.vz=0};for(const f of F)fix(f);for(const r of RN)if(r.st==='go'||r.st==='on')fix(r)}
 function ballWall(b){if(b.hr||b.mode==='hit'||b.mode==='dead'||b.mode==='held'||b.mode==='pitch')return false;if(okPos(b.x,b.z))return false;let bd=1e9,bn=null;for(let i=0;i<VV.length-1;i++){const a=VV[i],c=VV[i+1],dx=c.x-a.x,dz=c.z-a.z,L2=dx*dx+dz*dz||1,t=cl(((b.x-a.x)*dx+(b.z-a.z)*dz)/L2,0,1),px=a.x+dx*t,pz=a.z+dz*t,d=hyp(b.x-px,b.z-pz);if(d<bd){bd=d;let nx=dz,nz=-dx;const L=hyp(nx,nz)||1;nx/=L;nz/=L;if(nx*(px-0)+nz*(pz+30)<0){nx=-nx;nz=-nz}bn={nx,nz,px,pz}}}if(!bn)return false;const vn=b.vx*bn.nx+b.vz*bn.nz;if(vn>0){b.vx-=1.45*vn*bn.nx;b.vz-=1.45*vn*bn.nz}b.x=bn.px-bn.nx*.35;b.z=bn.pz-bn.nz*.35;return true}
@@ -2249,8 +2252,9 @@ function absBtn(){const b=$('absb');if(!b)return;const on=absElig();b.style.disp
 function called(k){
  if(k!=='swing'&&(MP.on||!auto)&&!(window.DB&&DB.on)&&pc&&!pc.hbp){
   const c=F[1],q=bp(pc,1),d=absD(q.x,q.y);
-  if(c&&hyp(c.x-ball.x,c.z-ball.z)<1.2&&Math.abs(d)<.06){
-   const tr=d<=0?'strike':'ball',wr=rnd()<.55*(1-Math.abs(d)/.06),uc=wr?(tr==='ball'?'strike':'ball'):tr,
+  const dec=(k==='strike'&&g.s>=2)||(k==='ball'&&g.b>=3);/* 決勝球：三振／四壞那一球 */
+  if(c&&hyp(c.x-ball.x,c.z-ball.z)<(dec?2.5:1.2)&&Math.abs(d)<(dec?.1:.06)){
+   const tr=d<=0?'strike':'ball',wr=rnd()<.55*(1-Math.abs(d)/(dec?.1:.06)),uc=wr?(tr==='ball'?'strike':'ball'):tr,
     cs=MP.pvp?'':(g.top===1?'f':'b'),/* 電腦那一方：你打擊時電腦投捕挑戰，你防守時電腦打者挑戰 */
     cpuCh=!!cs&&ABS.c>0&&(cs==='b'?(uc==='strike'&&((tr==='ball'&&rnd()<.8)||(tr==='strike'&&rnd()<.1))):(uc==='ball'&&((tr==='strike'&&rnd()<.8)||(tr==='ball'&&rnd()<.1)))),
     hc=MP.pvp?ABS.t0+ABS.t1:ABS.u;
@@ -2412,7 +2416,26 @@ function walk(M){M=M||'四壞球保送';psBB(/觸身/.test(M));g.b=g.s=0;const a
  mkRunner(0,1,false);if(g.outs<3&&hCat())return stealPlay(M,1.8,{pk:1});finishAB(M,1.8,3.8,1)}
 function finishAB(m,d,wait,keep){if(window.DB&&DB.on){RN.forEach(freeRunner);RN=[];g.outs=0}RN.forEach(r=>{r.stl=0;r.rcl=0});const t0=g.top,i0=g.inn;toast(m,d);if(g.outs>=3)endHalf();if(g.ph==='over')return;const rn=retNext&&g.top===t0&&g.inn===i0;retNext=0;const kp=(keep&&!auto&&!userBats()&&g.top===t0&&g.inn===i0&&selF!==0)?selF:-1;pc=null;play=null;g.ph='ready';g.rdy=T+((window.DB&&DB.on)?(wait||.5):(wait||Math.max(1.3,d*.9)));const hch=!(g.top===t0&&g.inn===i0),sv=F.map(f=>[f.x,f.z]);resetField(kp,!hch);if(hch){F.forEach((f,i)=>{f.x=sv[i][0];f.z=sv[i][1]});g.rdy=Math.max(g.rdy,g.nb1+.15)}if(rn)startRet();drawSB()}
 function resetField(k,soft){const _uf=(!auto&&!userBats()&&selF>1)?F[selF]:null;F.forEach(f=>{if(f.i!==k&&!(soft&&f.i>1&&(f===_uf||isXF(f)))){if(f.i===0){let dz=f.z-f.hz;if(Math.abs(dz)>2.5)dz=0;f.m.dc=cl(Math.max(0,f.m.dc+dz),0,2.5);f.m.dB=0}f.x=f.hx;f.z=f.hz}f.vx=f.vz=0;f.pt=null;f.rl=null;f.rb=0;f.hold=0;f.busy=0;f.cool=0});ball.mode='held';ball.holder=F[0];ball.heldAt=T;ball.drag=0;ball.bounced=0;ball.hr=0;ut=null}
-function endHalf(){psOut3();RPch=0;RN.forEach(freeRunner);RN=[];g.outs=0;g.b=g.s=0;const i=g.inn,oldF=g.top;
+/* ===== 髒污：滑壘／撲壘／撲接過的球員，接觸地面的部位（屁股、大腿後側、小腿、鞋；撲接＝胸腹、膝蓋、前臂手套）沾上紅土與一點草，半局結束換衣服時清掉 ===== */
+const STG=new THREE.SphereGeometry(1,10,8),STM=[0x9c4a2b,0x86391f,0xb5603a].map(c=>new THREE.MeshLambertMaterial({color:c,transparent:true,opacity:.86,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2})),STGR=[0x4d7a2e,0x5f8f3a].map(c=>new THREE.MeshLambertMaterial({color:c,transparent:true,opacity:.8,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
+function stnClear(m){if(!m||!m._stn)return;m._stn.forEach(q=>{if(q.parent)q.parent.remove(q)});m._stn=null;m._stk=0}
+function stnAll(){try{F.forEach(f=>stnClear(f.m));RM.forEach(e=>stnClear(e.m));WM.forEach(e=>stnClear(e.m));ACT.forEach(a=>a.forEach(e=>stnClear(e.m)));stnClear(BM)}catch(e){}}
+function stnMark(m,kind){if(!m||!m.pel)return;const k=m._stk||0,lv=(k>>2)&3;if(k&kind&3&&lv>=2)return;/* 同一種動作最多加深兩次 */m._stk=(k&3)|kind|(Math.min(3,lv+((k&kind&3)?1:0))<<2);
+ const L=m._stn||(m._stn=[]),R=Math.random,add=(part,x,y,z,sx,sy,sz,gr)=>{if(!part)return;const q=new THREE.Mesh(STG,gr?STGR[(R()*2)|0]:STM[(R()*3)|0]);const j=.85+R()*.3;q.scale.set(sx*j,sy*j,sz);q.position.set(x+(R()-.5)*.012,y+(R()-.5)*.02,z);q.rotation.z=(R()-.5)*.6;part.add(q);L.push(q)};
+ const gr=()=>R()<(kind===1?.15:.4);
+ if(kind===1){/* 腳先滑：屁股、大腿外後側、小腿、鞋 */
+  [-1,1].forEach(sd=>{add(m.pel,sd*.09,-.06,-.125,.085,.08,.03,gr());add(m.pel,sd*.17,-.07,-.03,.03,.08,.09,gr())});
+  [m.L1,m.L2].forEach((l,i)=>{const sd=i?1:-1;add(l,sd*.1,-.2,-.03,.03,.13,.08,gr());add(l,0,-.22,-.108,.07,.12,.03,gr())});
+  [m.K1,m.K2].forEach((kn,i)=>{const sd=i?1:-1;add(kn,sd*.075,-.2,-.01,.03,.12,.06,gr());add(kn,0,-.2,-.085,.055,.1,.03,gr())});
+  [m.F1,m.F2].forEach(f=>{add(f,0,-.03,.07,.05,.04,.1,gr())})
+ }else{/* 撲壘／撲接：胸腹、大腿前側、膝蓋、前臂與手套 */
+  add(m.ch,0,.2,.125,.15,.14,.03,gr());add(m.ch,0,.04,.115,.13,.1,.03,gr());add(m.ch,-.08,.3,.12,.07,.06,.03,gr());
+  add(m.pel,0,-.04,.11,.14,.09,.03,gr());
+  [m.L1,m.L2].forEach(l=>add(l,0,-.22,.118,.075,.14,.03,gr()));
+  [m.K1,m.K2].forEach(kn=>{add(kn,0,-.03,.09,.06,.07,.03,gr());add(kn,0,-.2,.075,.05,.1,.03,gr())});
+  [m.E1,m.E2].forEach(e=>add(e,0,-.1,0,.058,.11,.058,gr()))
+ }}
+function endHalf(){stnAll();psOut3();RPch=0;RN.forEach(freeRunner);RN=[];g.outs=0;g.b=g.s=0;const i=g.inn,oldF=g.top;
  const fh=g.top===g.uf,hm=g.uf?1:0;/* fh＝剛結束的是先攻半局；hm＝後攻(主場)隊伍編號 */if(fh){g.top=1-g.top;if(i>=g.max&&g.sc[hm]>g.sc[1-hm])return fin()}else{if(i>=g.max&&g.sc[0]!==g.sc[1])return fin();g.inn++;g.top=1-g.top}
  /* 半局之間：鏡頭拉遠俯瞰、舊守備球員跑回休息區，換裝後新守備球員從另一側休息區跑上場；球衣延到交換時才換 */g.hsc=T;g.hs0=T+1.3;g.hsp=g.hs0+3.2;g.hs1=g.hsp+3.2;g.hsa=oldF===0?1:-1;g.nb0=g.hs1+.05;g.nb1=g.nb0+1.9;
  setTimeout(()=>toast(`${g.inn} 局${g.top===g.uf?'上':'下'}　攻守交換`,2),0)}
@@ -2459,14 +2482,14 @@ function showRes(){const o=$('res');if(!o)return;const mine=MP.on?MP.id:'me',dr=
 function fin(){svDone();try{window.profFin&&profFin()}catch(e){}g.ph='over';if(MP.on&&MP.host)MP.over=14;/* 終場快照立刻送出，讓所有人同時看到結算 */const w=g.sc[0]>g.sc[1],pv=window.MP&&MP.pvp;toast('比賽結束',99);$('sum').classList.add('res');$('sum').textContent=pv?`終場 ${g.sc[0]} : ${g.sc[1]}　${g.sc[0]===g.sc[1]?'平手':tmName(w?0:1)+' 獲勝！'}`:`終場 ${g.sc[0]} : ${g.sc[1]}　${w?'你贏了！':'你輸了'}`;$('menu').style.display='flex';const se=window.SEA&&SEA.cur&&(!MP.on||(MP.host&&!MP.pvp));if(se)sDone(w,g.sc[0],g.sc[1]);if(window.showPage)showPage(MP.on?'mp':(se?'season':'solo'));if(w)SND.cheer('crowd_hr',0,-60,.9);showRes()}
 const dressAll=()=>{CPM._t=-1;ACT.forEach((a,t)=>a.forEach((o,k)=>dress(o.m,t,2+k)));if(MP.on&&MP.dressAll){MP.dressAll();return}F.forEach(f=>dress(f.m,1-batIdx(),f.i));dress(BM,batIdx());RM.forEach(e=>dress(e.m,batIdx()))};
 function mkRunner(base,target,isB){const e=RM.find(q=>!q.used);if(!e)return null;e.used=1;e.m.visible=true;if(!MP.on)dress(e.m,batIdx());const p=BB(base),r={own:(MP.on&&base===0&&(g.top===1||MP.pvp))?MP.ap:undefined,lid:(MP.on&&base===0&&(g.top===1||MP.pvp))?MP.ap:'',x:p[0],z:p[1],base,target,st:target===base?'on':'go',isB,rm:e,spd:(9+rnd()*.9)*(userBats()?1:D.rs*.93),vx:0,vz:0,man:0,t:0,ld:1+rnd()*2.1,sl:0,slB:-1,slP:null/* 本壘也算壘包：一建立（打者離開本壘跑向一壘）就有一次滑壘，踩到下一個壘包再刷新 */};RN.push(r);return r}
-function freeRunner(r){r.rm.used=0;r.rm.m.visible=false;resetPose(r.rm.m);r.cel=null}
+function freeRunner(r){stnClear(r.rm.m);r.rm.used=0;r.rm.m.visible=false;resetPose(r.rm.m);r.cel=null}
 
 /* ================= 擊球後：野手、傳球、跑壘 ================= */
 function startPlay(c){if(window.DB&&DB.on)return dbHit(c);bxOut=1;pc.end=1;g.spd=Math.round(pc.spd?pc.spd/MPH:PT[pc.type][1]);g.pfb=PT[pc.type][7]+'　'+g.spd+' mph　'+Math.round(pc.rpm||0)+' rpm';g.pfbT=T+3;g.ph='play';{const pm=F[0].m;F[0].z+=pm.dc;pm.dB+=pm.dc;pm.dc=0}const a=c.th*Math.PI/180,l=c.la*Math.PI/180;
  Object.assign(ball,{x:c.x,y:c.y,z:c.z,vx:c.v*Math.cos(l)*Math.sin(a),vy:c.v*Math.sin(l),vz:-c.v*Math.cos(l)*Math.cos(a),mode:'hit',drag:1,bs:c.bs,ss:c.ss,bounced:0,landed:0,holder:null,hr:0});
  play={t0:T,cvT:0,outs:0,runs:0,hr:0,caught:0,la:c.la,mode:pc.sw.mode,ch:null,ai:T+.4,deep:0,how:'',bout:0,cf:null,dead:0,foul:0};
  const occ=n=>RN.some(r=>r.base===n);for(const r of [...RN].sort((x,y)=>y.base-x.base)){let f=true;for(let j=1;j<r.base;j++)if(!occ(j))f=false;if(f){r.target=r.base+1;r.st='go'}}
- {const br=mkRunner(0,1,true);if(br){br.x=BM.position.x;br.z=BM.position.z;br.sx=br.x;br.sz=br.z;if(!auto&&userBats()){br.ctl=1;br.man=1;selRun=br}}}F.forEach(f=>{f.hold=0;f.cool=0;f.dv=null});assignChase();const l1=predict().find(s=>s.bn);if(l1&&hyp(l1.x,l1.z)>62&&l1.t>2.4)play.deep=1;
+ {const br=mkRunner(0,1,true);if(br){br.x=BM.position.x;br.z=BM.position.z;br.sx=br.x;br.sz=br.z;if(!auto&&userBats()){br.ctl=1;br.man=1;selRun=br}}}F.forEach(f=>{f.hold=0;f.cool=0;if(!(f.dv&&T-f.dv.t<f.dv.dur+.7))f.dv=null});assignChase();const l1=predict().find(s=>s.bn);if(l1&&hyp(l1.x,l1.z)>62&&l1.t>2.4)play.deep=1;
   /* 內野高飛：一二壘有人（含滿壘）、未滿兩出局、非短打的高飛球落在內野 → 打者自動出局，球仍是活球 */
   if(!MP.on&&g.outs<2&&c.la>=32&&play.mode!=='b'&&l1&&hyp(l1.x,l1.z)<44*KB&&-l1.z>=Math.abs(l1.x)&&RN.some(r=>!r.isB&&r.base===1&&alive(r))&&RN.some(r=>!r.isB&&r.base===2&&alive(r))){const bb=RN.find(r=>r.isB);if(bb){play.iff=1;bb.st='out';bb.t=T;bb.target=bb.base;bb.ctl=0;bb.man=0;g.outs++;play.outs++;play.bout=1;play.l3={b:1,f:0};RN.forEach(r=>{if(!r.isB){r.target=r.base;r.st='on'}});selRun=(!auto&&userBats())?(RN.find(r=>alive(r)&&!r.isB)||null):null;call(0,'play','Infield Fly！');toast('內野高飛　打者自動出局',2.2)}}
   SND.hit(c)}
@@ -2474,6 +2497,7 @@ function assignChase(){const pr=predict(),lk=userF();let ch=null;
  for(const s of pr){if(s.y>2.6)continue;let bd=1e9,bf=null;for(const f of F){if(f.hold||f.cool>T||f===lk||isXF(f))continue;const d=hyp(f.x-s.x,f.z-s.z);if(d<=FS*Math.max(0,s.t-f.rt)+.5&&d<bd){bd=d;bf=f}}if(bf){ch={f:bf,x:s.x,z:s.z,t:s.t};break}}
  if(!ch){const e=pr[pr.length-1];let bd=1e9,bf=null;for(const f of F){if(f===lk||isXF(f))continue;const d=hyp(f.x-e.x,f.z-e.z);if(d<bd){bd=d;bf=f}}ch={f:bf,x:e.x,z:e.z,t:9}}play.ch=ch}
 function assignLoose(){if(play&&play.pb){const c=F[1];play.ch=(c!==userF()&&!isXF(c)&&!c.hold&&c.cool<=T)?{f:c,x:ball.x,z:ball.z,t:0}:null;return}let bd=1e9,bf=null;for(const f of F){if(f.cool>T||f.hold||f===userF()||isXF(f))continue;const d=hyp(f.x-ball.x,f.z-ball.z);if(d<bd){bd=d;bf=f}}if(bf)play.ch={f:bf,x:ball.x,z:ball.z,t:0}}
+function gbIcpt(f){if(!play)return null;if(play.gbF!==f||T>=(play.gbT||0)){play.gbF=f;play.gbT=T+.1;const sp=FS*fsm(),pr=predict();let best=null;for(const s of pr){if(s.y>1.8)continue;if(hyp(f.x-s.x,f.z-s.z)<=sp*s.t+.25){best=s;break}}play.gbQ=best}return play.gbQ}
 function covers(){cv=[null,null,null,null];const want=[0,0,0,0];for(const r of RN){if(!alive(r)||r.st!=='go'||(r.target<=r.base&&isSafe(r)))continue;const wp=r.target>r.base?r.base+1:r.target;want[wp%4]=1}if(ball.mode==='throw'&&ball.tgt>=0&&ball.tgt<4)want[ball.tgt]=1;for(const f of F){if(f.pt&&f.pt.tb>=1&&f.pt.tb<=4)want[f.pt.tb%4]=1}const used=new Set(),busy=f=>f.hold||f===userF()||isXF(f)||(play.ch&&play.ch.f===f&&(ball.mode==='hit'||ball.mode==='loose'));
  /* 玩家操控的野手已經站在該壘包附近 → 他就是補位的人，電腦不要再跑過來補 */for(let b=0;b<4;b++)if(want[b]){const hf=F.find(f=>(f===userF()||isXF(f))&&!used.has(f.i)&&hyp(f.x-BS[b][0],f.z-BS[b][1])<3.2);if(hf){cv[b]=hf;used.add(hf.i)}}
  for(const [b,l] of [[1,[2,0,3]],[2,[3,4,7]],[3,[5,4,0]],[0,F[1]===userF()?[1]:[1,0,4]]])if(want[b]&&!cv[b])for(const i of l){const f=F[i];if(!used.has(i)&&!busy(f)){cv[b]=f;used.add(i);break}}}
@@ -2497,31 +2521,32 @@ function forced(r){if(r.base===0)return !!r.isB;return RN.some(q=>q!==r&&alive(q
 function userRun(dt,r0,S0){if(!r0&&(auto||!userBats()||!play||play.hr||play.grd))return;const r=r0||selR();if(!r)return;if(play.caught&&!r.isB&&!r.tu&&r.base>=1&&r.base<=3){const p0=BB(r.base);if(hyp(r.x-p0[0],r.z-p0[1])<1.15)r.tu=1}const[mx,mz,mg]=S0||stk();let mv=0;
  const sd0=r.sl?T-r.sl:9,gl=sd0<.5&&r.sg;let gx=mx,gz=mz,gm=mg,gs=0;if(gl){if(gm<.12){gx=r.sg[0];gz=r.sg[1];gm=1;gs=1}else gm=Math.max(gm,.9)}/* 滑壘中：就算搖桿沒推也會往前滑出去 */
  if(gm>=.12){const sp=RS*cl(gm*1.1,.4,1)*slf(r)*(gs?cl(1-sd0/.5*.75,.25,1):1);r.vx=gx/gm*sp;r.vz=gz/gm*sp;r.x+=r.vx*dt;r.z+=r.vz*dt;mv=1;const rr=hyp(r.x,r.z),fr=fRad(r.x,r.z);if(rr>fr-1){r.x*=(fr-1)/rr;r.z*=(fr-1)/rr}if(gs&&r.sgb>=0&&r.sgb<=4){const pb=BB(r.sgb);if((pb[0]-r.x)*r.sg[0]+(pb[1]-r.z)*r.sg[1]<=.3){r.x=pb[0];r.z=pb[1];r.vx=r.vz=0;r.sg=null}}}else{r.vx=r.vz=0}
- if(r.base<4&&!(play.caught&&!r.isB&&!r.tu)){const p=BB(r.base+1);if(hyp(r.x-p[0],r.z-p[1])<1.45)manReach(r,r.base+1)}
+ if(r.base<4&&!(play.caught&&!r.isB&&!r.tu)){const p=BB(r.base+1);const dq=hyp(r.x-p[0],r.z-p[1]);if(airB()&&dq<.9){const ux=dq>.01?(r.x-p[0])/dq:0,uz=dq>.01?(r.z-p[1])/dq:1;r.x=p[0]+ux*.9;r.z=p[1]+uz*.9;r.vx=r.vz=0}else if(dq<1.45)manReach(r,r.base+1)}
  if(!alive(r))return;
  if(isSafe(r)&&!mv){r.st='on';r.target=r.base}else{r.st='go';const nb=Math.min(4,r.base+1),pn=BB(nb),pc0=BB(r.base);r.target=(r.base===0||hyp(r.x-pn[0],r.z-pn[1])<hyp(r.x-pc0[0],r.z-pc0[1]))?nb:r.base;if(play.caught&&!r.isB&&!r.tu)r.target=r.base}
  r.man=1}
-function manReach(r,nb){if(nb>=4){if(r.base===3){r.base=4;r.st='score';r.t=T;psRun(r);scoreRun();call(0,'safe','')}return}
+const airB=()=>!!play&&!play.hr&&!play.grd&&!play.caught&&ball.mode==='hit'&&!ball.bounced;/* 擊出的球還在空中、尚未落地或被接殺：跑者不能完成進壘（避免球還在飛、人已得分） */
+function manReach(r,nb){if(nb>r.base&&airB())return;if(nb>=4){if(r.base===3){r.base=4;r.st='score';r.t=T;psRun(r);scoreRun();call(0,'safe','')}return}
  const h=holdAt(nb%4),fo=forced(r);if(h&&fo){outR(r);play.how=h.n;call(nb%4,'out','出局！');return}
  r.base=nb;r.sf=1;call(nb%4,'safe','SAFE')}
 function tagCheck(){const b=ball;if(b.mode!=='held'||!b.holder)return;const h=b.holder;
  for(const r of RN){if(!alive(r)||(r.base===0&&!r.isB))continue;if(play&&play.pkF&&r===play.pr)continue;if(hyp(h.x-r.x,h.z-r.z)<1&&!isSafe(r)){outR(r,1);play.how=h.n;call(0,'out','觸殺出局！')}}}
 function switchRun(){if(MP.hk("sr",[]))return;if(MP.on)return;if(auto||!userBats()||g.ph!=='play'||!play||play.hr)return;const a=RN.filter(alive);if(!a.length)return;const i=a.indexOf(selR()),n=a[(i+1)%a.length];if(selRun)selRun.ctl=0;selRun=n;n.ctl=1;n.man=1;n.vx=n.vz=0}
 const dvb=f=>f.dv&&T-f.dv.t<f.dv.dur+.7,dva=f=>f.dv&&T-f.dv.t<f.dv.dur+.1;
-function startDive(f,dx,dz){if(!f||f.hold||dvb(f)||!play||T<play.t0+.1)return;const L=hyp(dx,dz)||1;f.dv={t:T,dur:.55,dx:dx/L,dz:dz/L};repPin()}
+function startDive(f,dx,dz){if(!f||f.hold||dvb(f))return;{const pre=g.ph==='ready'||g.ph==='pitch',lv=g.ph==='play'&&play;if(!pre&&!lv)return;if(lv&&T<play.t0+.1)return}const L=hyp(dx,dz)||1;f.dv={t:T,dur:.55,dx:dx/L,dz:dz/L};repPin()}
 function diveMove(f,dt){const d=f.dv,t=T-d.t;if(t<.5){const sp=20*Math.pow(1-t/.5,1.2)+1;/* 撲接：整個飛撲動作都會往前滑出去（約 4~5 公尺），再慢慢減速 */f.x+=d.dx*sp*dt;f.z+=d.dz*sp*dt;f.vx=d.dx*sp;f.vz=d.dz*sp;const rr=hyp(f.x,f.z),fr=fRad(f.x,f.z);if(rr>fr-1){f.x*=(fr-1)/rr;f.z*=(fr-1)/rr}}}
 const jpa=f=>f.jp&&T-f.jp.t<f.jp.dur;
-function startJump(f){if(!f||f.hold||jpa(f)||dvb(f)||!play||T<play.t0+.05)return;f.jp={t:T,dur:.75};repPin()}
-function userJump(){if(MP.hk("jp",[]))return;if(auto||userBats()||g.ph!=='play'||!play)return;if(ball.mode==='held')return;startJump(userF())}
-function userDive(){if(MP.hk("dv",[]))return;if(auto||userBats()||g.ph!=='play'||!play)return;const b=ball;if(b.mode==='held')return;const f=userF();if(!f)return;const[mx,mz,mg]=stk();let dx,dz;if(mg>.25){dx=mx;dz=mz}else{dx=b.x+b.vx*.3-f.x;dz=b.z+b.vz*.3-f.z}startDive(f,dx,dz)}
+function startJump(f){if(!f||f.hold||jpa(f)||dvb(f))return;{const pre=g.ph==='ready'||g.ph==='pitch',lv=g.ph==='play'&&play;if(!pre&&!lv)return;if(lv&&T<play.t0+.05)return}f.jp={t:T,dur:.75};repPin()}
+function userJump(){if(MP.hk("jp",[]))return;if(fRP()){startJump(F[selF]);return}if(auto||userBats()||g.ph!=='play'||!play)return;if(ball.mode==='held')return;startJump(userF())}
+function userDive(){if(MP.hk("dv",[]))return;const pre=fRP();if(!pre&&(auto||userBats()||g.ph!=='play'||!play))return;const b=ball;if(!pre&&b.mode==='held')return;const f=pre?F[selF]:userF();if(!f)return;const[mx,mz,mg]=stk();let dx,dz;if(mg>.25){dx=mx;dz=mz}else{dx=b.x+b.vx*.3-f.x;dz=b.z+b.vz*.3-f.z}startDive(f,dx,dz)}
 const holdAt=b=>F.find(f=>f.hold&&hyp(f.x-BS[b][0],f.z-BS[b][1])<1.5);
 /* 防止電腦野手來回傳球：①離跑者太近就改用觸殺不傳球 ②不回傳給剛傳出球的那個壘 ③同一個打擊最多自動傳 6 次 */
 function thrGuard(h,r,tb){if(!MP.on||!play)return false;if(hyp(h.x-r.x,h.z-r.z)<5.5)return true;const l=play.lst;return !!(l&&l.k===tb%4&&T-l.t<4)}
 /* 同一個打擊裡，同一對野手之間互傳超過 3 次就不再傳（防止二壘手／游擊手無限互傳），改由持球者自己去觸殺或回傳投手 */
 function ppBlock(h,tb){if(!play||!play.pp||tb<1||tb>4)return false;const k=tb%4,p=BS[k];let rc=cv[k];if(!rc||rc===h)rc=F.filter(f=>f!==h).sort((a,c)=>hyp(a.x-p[0],a.z-p[1])-hyp(c.x-p[0],c.z-p[1]))[0];return !!rc&&(play.pp[Math.min(h.i,rc.i)+'-'+Math.max(h.i,rc.i)]||0)>=3}
 const thrCap=()=>!!(MP.on&&play&&(play.nth||0)>=6);
-function decide(h){if(thrCap())return -1;let best=null;for(const r of RN){if(r.st!=='go'||r.target<=r.base||(r.still||0)>.5)continue;const tb=r.target,p=BB(tb),dd=hyp(h.x-p[0],h.z-p[1]);if(dd<1.65)continue;if(h.i===1&&hyp(h.x-r.x,h.z-r.z)<3)continue;if(thrGuard(h,r,tb)||sfOn(r)||ppBlock(h,tb))continue;
- const mg=hyp(r.x-p[0],r.z-p[1])/(r.spd*(r.k||1))-(dd/thS()+.35);if(!best||mg>best.mg+.08||(Math.abs(mg-best.mg)<=.08&&tb>best.tb))best={tb,mg}}return best&&(best.mg>-.4||h.i>=6||h.i===1)?best.tb:-1}/* 外野手不受距離／時間差限制：有跑者要進壘就直接傳（遠距離走轉傳），不再先往前跑一段 */
+function decide(h){if(thrCap())return -1;let best=null;const dpOn=g.outs<2&&h.i<6&&!(play&&play.steal),bAl=RN.some(q=>q.isB&&alive(q)&&q.st==='go'&&q.target>q.base);for(const r of RN){if(r.st!=='go'||r.target<=r.base||(r.still||0)>.5)continue;const tb=r.target,p=BB(tb),dd=hyp(h.x-p[0],h.z-p[1]);if(dd<1.65)continue;if(h.i===1&&hyp(h.x-r.x,h.z-r.z)<3)continue;if(thrGuard(h,r,tb)||sfOn(r)||ppBlock(h,tb))continue;
+ let mg=hyp(r.x-p[0],r.z-p[1])/(r.spd*(r.k||1))-(dd/thS()+.35);if(dpOn&&bAl&&!r.isB&&forced(r)&&mg>-.3)mg+=.6;/* 有機會雙殺：優先封殺前面的強迫進壘跑者，再轉傳打者 */if(!best||mg>best.mg+.08||(Math.abs(mg-best.mg)<=.08&&tb>best.tb))best={tb,mg}}return best&&(best.mg>(h.dpq&&T-h.dpq<2?-1.2:-.4)||h.i>=6||h.i===1)?best.tb:-1}/* 外野手不受距離／時間差限制：有跑者要進壘就直接傳（遠距離走轉傳），不再先往前跑一段 */
 /* 傳給某位置球員時：他不在自己的壘包上、但有人補位 → 改傳給補位的球員 */
 function cvSwap(h,tb){const bi={11:0,12:1,13:2,15:3}[tb];if(bi==null)return tb;const t=F[tb-10];if(!t||t===h)return tb;const bx=BS[bi][0],bz=BS[bi][1],dt=hyp(t.x-bx,t.z-bz);if(dt<3.2)return tb;const ok=f=>f&&f!==h&&f!==t&&!f.fl&&!(f.stn>T)&&hyp(f.x-bx,f.z-bz)<dt;let c=cv[bi];if(ok(c))return 10+c.i;/* 沒有被指派補位時：壘包附近(3.2m內)已有其他野手站著 → 傳給他 */c=null;let bd=Math.min(dt,3.2);for(const f of F){if(!ok(f))continue;const d=hyp(f.x-bx,f.z-bz);if(d<bd){bd=d;c=f}}return c?10+c.i:tb}
 /* 指定傳球（傳球輪盤／呼叫電腦）：球飛行途中只有指定的接球者能接，路徑上的其他野手攔不到 */
@@ -2547,15 +2572,15 @@ function pick(f,fly){if(play&&play.cc&&(f===userF()||isXF(f)))ccClear();if(play&
  if(fly){play.caught=1;play.cf=f;call(0,'out','接殺出局！');if(bt&&bt.st!=='out'&&bt.st!=='score'&&!play.hr){/* 不論打者還在跑(go)或已經踩上壘包(on)，空中接殺一律出局 */bt.st='out';bt.t=T;g.outs++;play.outs++;play.bout=1;play.l3={b:1,f:0};bt.target=bt.base}
   for(const r of RN){if(r.isB)continue;if(r.st==='go'||r.st==='on'){r.target=r.base;r.man=0;r.st='go'}}}}
 function pickT(f){const b=ball;if(play&&play.po&&play.pkF===1&&play.pr&&alive(play.pr)){const _r=play.pr;play.pkF=0;outR(_r);play.how=f.n;call(_r.base%4,'out','牽制出局！')}if(f.rl){f.rb=1;f.rl=null}f.hold=1;f.pt=null;b.mode='held';b.holder=f;b.heldAt=T;b.nextDec=T+.15;b.drag=0;sfx('catch',f.x,1.3,f.z,.8);SND.caught(0,1.2);
- for(let k=0;k<4;k++){const p=BS[k];if(hyp(f.x-p[0],f.z-p[1])<1.6)for(const r of RN)if(alive(r)&&r.base<4&&(r.base+1)%4===k&&forced(r)){outR(r);play.how=f.n;call(k,'out','出局！')}}}
-function outR(r,tg){if(play)play.l3={b:(r.isB&&r.base<1)?1:0,f:(!tg&&forced(r))?1:0};r.st='out';r.t=T;g.outs++;if(play){play.outs++;if(r.isB)play.bout=1}}
+ for(let k=0;k<4;k++){const p=BS[k];if(hyp(f.x-p[0],f.z-p[1])<1.6)for(const r of RN)if(alive(r)&&r.base<4&&(r.base+1)%4===k&&forced(r)){outR(r);play.how=f.n;f.dpq=T;b.nextDec=T+.03;call(k,'out','出局！')}}}
+function outR(r,tg){if(play)play.l3={b:(r.isB&&r.base<1)?1:0,f:(!tg&&forced(r))?1:0};r.st='out';r.pko=0;r.t=T;g.outs++;if(play){play.outs++;if(r.isB)play.bout=1}}
 function scoreRun(){DUGC[batIdx()]=T+2.4;g.sc[batIdx()]++;{const q=LS[batIdx()],ii=g.inn-1;q[ii]=(q[ii]||0)+1}if(play)play.runs++;drawSB();if(g.top!==g.uf&&g.inn>=g.max&&g.sc[g.uf?1:0]>g.sc[g.uf?0:1])g.wo=1}
 function reach(r,wp){const live=g.ph==='play'&&!play.hr&&!play.grd;if(wp>r.base&&live){const h=holdAt(wp%4);
  /* 滑壘／撲壘重播條件：球到防守人員手上與跑者到壘相差 1 秒內才算驚險（play.slN） */
  if(r.sl&&T-r.sl<1){const _b=BS[wp%4];let nr=false;if(h)nr=T-(ball.heldAt||0)<1;else if(ball.mode!=='held'){const sp=hyp(ball.vx||0,ball.vz||0),d=hyp(ball.x-_b[0],ball.z-_b[1]);nr=d<1.5||(sp>1&&d/sp<1)}if(nr)play.slN=1}
  if(h){if(r.sl&&T-r.sl<1&&rnd()<.4){play.cls=1}else{play.how=h.n;outR(r);call(wp%4,'out','出局！');return}}else if(r.sl&&T-r.sl<1&&wp>=1&&wp<=3&&ball.mode!=='held'){const _q=BS[wp%4];if(hyp(ball.x-_q[0],ball.z-_q[1])<5&&ball.y<4)play.cls=1}}
  r.base=wp;if(play&&play.caught&&!r.isB&&wp>=1&&wp<=3&&wp===r.target)r.tu=1;if(wp>=4){r.st='score';r.t=T;psRun(r);scoreRun();if(play&&play.hr&&r.isB)startCel(r);if(live)call(0,'safe','');return}if(wp===r.target){r.st='on';r.sf=1;if(live&&wp>r.base-1)call(wp%4,'safe',r.isB||wp>0?'SAFE':'')}}
-function runnersMove(dt){runnerLead(dt);for(const r of RN)if(r.po&&r.pko&&T>=r.pko){r.pko=0;r.st='go';r.target=r.pn?r.base+1:r.base;r.pn=0;r.man=0;r.ctl=0;r.k=1.1;r.sl=T;window.slideSfx&&window.slideSfx(r)}for(const r of RN){if(r.st!=='go'||r.ctl)continue;const wp=r.target>r.base?r.base+1:r.target,d=BB(wp),dx=d[0]-r.x,dz=d[1]-r.z,L=hyp(dx,dz),st=r.spd*(r.k||1)*slf(r)*dt;
+function runnersMove(dt){runnerLead(dt);for(const r of RN)if(r.po&&r.pko&&(!alive(r)||T>=r.pko)){if(!alive(r)){r.pko=0;continue}r.pko=0;r.st='go';r.target=r.pn?r.base+1:r.base;r.pn=0;r.man=0;r.ctl=0;r.k=1.1;r.sl=T;window.slideSfx&&window.slideSfx(r)}for(const r of RN){if(r.st!=='go'||r.ctl)continue;const wp=r.target>r.base?r.base+1:r.target,d=BB(wp),dx=d[0]-r.x,dz=d[1]-r.z,L=hyp(dx,dz),st0=r.spd*(r.k||1)*slf(r)*dt;let st=st0;if(wp>r.base&&airB()){if(L<=.9){r.vx=r.vz=0;continue}st=Math.min(st0,L-.9)}
  if(L<=st){r.x=d[0];r.z=d[1];r.vx=r.vz=0;reach(r,wp)}else{r.x+=dx/L*st;r.z+=dz/L*st;r.vx=dx/L*st/dt;r.vz=dz/L*st/dt}}}
 const LEAD=1.1;function runnerLead(dt){for(const r of RN){if(r.st!=='on'||r.ctl||r.po||r.base<1||r.base>3)continue;const a=BB(r.base),b=BB(r.base+1),dx=b[0]-a[0],dz=b[1]-a[1],L=hyp(dx,dz)||1,ld=r.ld||LEAD,tx=a[0]+dx/L*ld,tz=a[1]+dz/L*ld,ex=tx-r.x,ez=tz-r.z,e=hyp(ex,ez),st=Math.min(e,2.2*dt);if(e>.01){r.x+=ex/e*st;r.z+=ez/e*st}}}
 function runnerAI(){if(T<play.ai||play.hr||play.grd||(play.po&&ball.mode!=='loose'))return;/* 高飛球打者被接殺：跑者不能進壘 */play.ai=T+.2;const b=ball;
@@ -2596,12 +2621,13 @@ function fielders(dt){if(play.pb&&!play.autoC&&ball.mode==='loose'&&T-play.t0>3.
  F.forEach(f=>{f.vx=f.vz=0});F.forEach(f=>{if(f.dv&&T-f.dv.t<f.dv.dur)diveMove(f,dt)});
  const ch=play.ch,chasing=ch&&(b.mode==='hit'||b.mode==='loose');
  if(chasing){const f=ch.f;if(!dvb(f)){let tx=ch.x,tz=ch.z;const air=b.mode==='hit'&&!b.bounced&&b.y>1.6;/* 空中球：到了落點就站著等球落下，不要追著球的前方跑過頭 */if(b.mode==='loose'||b.bounced||(!air&&hyp(f.x-tx,f.z-tz)<.6)){tx=b.x+b.vx*.25;tz=b.z+b.vz*.25}else if(air&&hyp(f.x-tx,f.z-tz)<.6&&b.y<4&&b.vy<0){tx=b.x+b.vx*.05;tz=b.z+b.vz*.05}
+   if(f!==uf&&!isXF(f)&&b.mode==='hit'&&b.bounced){const q=gbIcpt(f);if(q){tx=q.x;tz=q.z}}/* 滾地球：直接衝到球路上最早能到的點等球，不跟在球後面追 */
   if(f!==uf){const dd=hyp(f.x-b.x,f.z-b.z);if(dd>1.3&&dd<3.2&&b.y<2&&hyp(b.vx,b.vz)>6&&rnd()<.02)startDive(f,b.x+b.vx*.3-f.x,b.z+b.vz*.3-f.z);go(f,tx,tz,dt)}}}
  if(uf&&!dvb(uf))ctl(uf,dt);MP.xm&&MP.xm(dt,1);
  for(let k=0;k<4;k++){const f=cv[k];if(f&&f!==uf&&!isXF(f)&&!f.hold&&!dvb(f)&&!(f.rl&&f.rl.u>T)&&!(chasing&&f===ch.f)){go(f,BS[k][0],BS[k][1],dt)}}
  for(const f of F){const q=f.rl;if(q&&!f.hold&&f!==uf&&!isXF(f)&&!dvb(f)&&!(chasing&&f===ch.f)){if(T>q.u)f.rl=null;else go(f,q.x,q.z,dt)}}
- for(const f of F){if(f.cool>T||f.hold)continue;const d=hyp(f.x-b.x,f.z-b.z),dv=dva(f),jp=jpa(f),ar=!!ch&&ch.f===f&&f!==uf&&!isXF(f)&&b.mode==='hit'&&!b.bounced&&b.vy<=0&&hyp(f.x-ch.x,f.z-ch.z)<1.4;/* 電腦野手已跑到落點：接球範圍放寬，保證接得到 */if(!jp&&!dv&&f!==userF()&&!isXF(f)&&b.mode==='hit'&&b.y>2.3&&b.y<3.8&&d<1.7&&jumpRoll(f))startJump(f);
-  if(play.gc===f&&b.mode==='hit'&&!b.bounced&&b.y<2.5&&d<5){pick(f,1);break}   if(b.mode==='hit'&&d<(ar?1.9:dv?2.1:jp?(f.i<6?.9:1.25):(f.i>=6?.95:.85))&&b.y<(ar?3:dv?2.3:jp?(f.i<6?3.4:3.9):2.5)){pick(f,!b.bounced);break}
+ for(const f of F){if(f.cool>T||f.hold)continue;const d=hyp(f.x-b.x,f.z-b.z),dv=dva(f),jp=jpa(f),ar=!!ch&&ch.f===f&&f!==uf&&!isXF(f)&&b.mode==='hit'&&!b.bounced&&b.vy<=0&&hyp(f.x-ch.x,f.z-ch.z)<1.4,gb=!!ch&&ch.f===f&&f!==uf&&!isXF(f)&&b.mode==='hit'&&b.bounced&&b.y<1.2&&d<1.5;/* 電腦野手已跑到落點：接球範圍放寬，保證接得到 */if(!jp&&!dv&&f!==userF()&&!isXF(f)&&b.mode==='hit'&&b.y>2.3&&b.y<3.8&&d<1.7&&jumpRoll(f))startJump(f);
+  if(play.gc===f&&b.mode==='hit'&&!b.bounced&&b.y<2.5&&d<5){pick(f,1);break}   if(b.mode==='hit'&&d<(ar?1.9:gb?1.5:dv?2.1:jp?(f.i<6?.9:1.25):(f.i>=6?.95:.85))&&b.y<(ar?3:dv?2.3:jp?(f.i<6?3.4:3.9):2.5)){pick(f,!b.bounced);break}
   if(b.mode==='throw'&&(!b.des||!b.rcv||b.rcv===f)&&d<(dv?2.3:jp?1.7:1.3)&&b.y<(jp?4.2:3)&&b.y>.1){pickT(f);break}
   if(b.mode==='loose'&&d<(dv?1.9:.9)&&b.y<1.6){pick(f,0);break}}
  const h=b.mode==='held'?b.holder:null;if(h&&h!==uf)ut=null;if(h&&!isXF(h))MP.xut={};
@@ -2611,7 +2637,7 @@ if(h&&h!==uf&&!isXF(h)&&!dvb(h)&&!play.rtn&&fb1Home(h)&&ccTb(h)<0){const p=BS[1]
 else if(h&&h!==uf&&!isXF(h)&&!dvb(h)&&!play.rtn&&h.i<6&&ccTb(h)<0){let cr=null,bd=9;for(const r of RN){if(!alive(r)||isSafe(r)||(r.base===0&&!r.isB))continue;const d=hyp(r.x-h.x,r.z-h.z);if(d<bd){bd=d;cr=r}}if(cr){const tb=play.steal&&cr.st==='go'&&cr.target>cr.base?BB(cr.target):null;if(tb&&hyp(h.x-tb[0],h.z-tb[1])<2.6)go(h,tb[0],tb[1],dt);else go(h,cr.x,cr.z,dt)}else{const gr=RN.find(r=>r.st==='go'&&alive(r)&&!(r.base===0&&!r.isB));if(gr){const p=BB(gr.target);go(h,p[0],p[1],dt)}}}
  if(h&&h.pt){const q=h.pt,u=(T-(q.t-TW))/TW;if(u>.15&&u<.75){const p=h.ft||BS[q.tb%4],dx=p[0]-h.x,dz=p[1]-h.z,L=hyp(dx,dz)||1;h.x+=dx/L*1.5*dt;h.z+=dz/L*1.5*dt}}
  if(h&&T>=b.nextDec){const xh=isXF(h),xk=xh?MP.XM[h.i]:0,ud=h===uf||xh;let uu=xh?MP.xut[xk]:ut;if(uu!=null&&((uu>=10&&F[uu-10]===h)||(uu===9&&h===F[0])))uu=({12:1,13:2,15:3,11:4})[uu]||null;/* 預選的對象剛好是自己（中途換了操控的野手）→ 改傳壘包，不能傳給自己就維持預選 */let tb=-1,des=0;
-  if(ud&&uu!=null&&T>=b.heldAt){tb=uu;des=1;if(xh)delete MP.xut[xk];else ut=null}else if(T>=b.heldAt+(ud?2.2:(h.i>=6&&!play.steal?.12+(userBats()?D.dl*.4:0):.35+(userBats()?D.dl:0))+(play.steal?play.pop:0))&&!ud){ccD=0;tb=ccTb(h);des=(ccD&&tb>0)?1:0}/* 玩家（含多人模式其他玩家）操控的野手：一律不自動傳球，由玩家自己選 */
+  if(ud&&uu!=null&&T>=b.heldAt){tb=uu;des=1;if(xh)delete MP.xut[xk];else ut=null}else if(T>=b.heldAt+(ud?2.2:(h.i>=6&&!play.steal?.12+(userBats()?D.dl*.4:0):(h.dpq&&T-h.dpq<1.5?.06:.35+(userBats()?D.dl:0)))+(play.steal?play.pop:0))&&!ud){ccD=0;tb=ccTb(h);des=(ccD&&tb>0)?1:0}/* 玩家（含多人模式其他玩家）操控的野手：一律不自動傳球，由玩家自己選 */
   if(tb<=0&&h.pt)tb=h.pt.tb;if(tb<=0&&(play.pk||play.pb)&&h===F[1]&&!h.pt&&!ud&&T>=b.heldAt+.9)tb=9;/* 沒人要牽制→回傳投手 */if(tb<=0&&!ud&&T>=b.heldAt+(h.rb?.5:2.2))tb=fbBase(h);if(tb<=0&&!ud&&h!==F[0]&&play.rtn&&T>=b.heldAt+.4)tb=9;/* 跑者都停了：傳回投手 */if(tb>0){thrDes=des;throwTo(h,tb);thrDes=0;if(play.cc&&h.pt&&!ud)ccClear()}else b.nextDec=T+.2}}
 /* 動作收尾：撲接／跳接／滑壘還沒做完就遇到第三出局、再見分等「立即結算」時，先多撐一小段時間（只播動作、不跑規則），畫面與重播才錄得到完整動作 */
 function animLeft(){let m=0;for(const f of F){if(f.dv)m=Math.max(m,f.dv.t+f.dv.dur+.6-T);if(f.jp)m=Math.max(m,f.jp.t+f.jp.dur-T)}for(const r of RN){if(r.sl)m=Math.max(m,r.sl+.9-T)}return m}
@@ -2767,7 +2793,7 @@ function wHover(x,y){const dx=x-WX,dy=y-WY;let b=-1;if(hyp(dx,dy)>WRi*.8){const 
  if(b!==whv){whv=b;wheel.querySelectorAll('.ws').forEach(e=>e.classList.toggle('hov',+e.dataset.k===b));wCen(b)}}
 const pwb=$('pwb');
 function wBind(b,cf){b.oncontextmenu=e=>e.preventDefault();let cfg=null;b.onpointerdown=e=>{e.preventDefault();cfg=typeof cf==='function'?cf():cf;try{b.setPointerCapture(e.pointerId)}catch(x){}wOpen(cfg);wHover(e.clientX,e.clientY)};b.onpointermove=e=>{if(wOn)wHover(e.clientX,e.clientY)};b.onpointerup=e=>{if(!wOn||!cfg)return;const k=whv;wClose();if(k>=0&&!cfg.lk(k))cfg.cb(k);else if(k<0&&cfg.cz)cfg.cz()};b.onpointercancel=()=>{if(wOn)wClose()}}
-/* 傳球輪盤：所有球員相同＝右一壘、上二壘、左三壘、下捕手、左上投手、右上游擊手 */
+/* 傳球輪盤：所有球員相同＝右一壘、上二壘、左三壘、下捕手、左上游擊手、右上投手 */
 const PKL=['一壘','二壘','三壘'],wPick={el:'pkb',n:6,cnt:3,pos:[5,0,1],half:1,lab:k=>PKL[k],lk:k=>k<0||!RN.some(r=>pickable(r)&&r.base===k+1),idle:'牽制',ctr:k=>`<text y="4" font-size="16" font-weight="800" fill="#ffb703">${PKL[k]}</text>`,cb:k=>doPick(k+1)};/* 牽制：半圓輪盤，由左至右＝一壘／二壘／三壘（投手視角） */
 const SLL=['盜三壘','盜二壘'],wSteal={el:'stl',n:6,cnt:2,pos:[5,1],half:1,lab:k=>SLL[k],lk:k=>k<0||!stlOK()||!stealers().some(r=>r.base===(k===0?2:1)),get idle(){return stlPlan?'放中間＝取消':'預定盜壘'},ctr:k=>`<text y="4" font-size="16" font-weight="800" fill="#ffb703">${SLL[k]}</text>`,cb:k=>{stlPlan=k===0?3:2;toast('預定'+SLL[k]+'：投手出手時起跑',1.6)},cz:()=>{if(stlPlan){stlPlan=0;toast('取消盜壘',1.2)}}};/* 盜壘：半圓輪盤，左上＝盜三壘、右上＝盜二壘 */
 const BML=['左短打','右短打','普通','強力'],wBat={el:'bmb',n:8,cnt:4,pos:[6,7,0,1],half:1,lab:k=>BML[k],lk:()=>false,idle:'打擊方式',ctr:k=>`<text y="4" font-size="16" font-weight="800" fill="#ffb703">${BML[k]}</text>`,cb:k=>{if(k===0)setMode('b',-1);else if(k===1)setMode('b',1);else setMode(k===2?'c':'p')}};/* 打擊方式：半圓輪盤，由左至右＝短打／普通／強力 */
@@ -2775,9 +2801,9 @@ const BML=['左短打','右短打','普通','強力'],wBat={el:'bmb',n:8,cnt:4,p
 const T2F=[0,12,13,15,11],FIDX=v=>v>=10?v-10:(v>=1&&v<=4?T2F[v]-10:(v===9?0:-1));
 function setUt(v){const me=F[selF];if(me&&v>=1&&v<=4&&F[FIDX(v)]!==me)v=T2F[v];if(MP.thk&&MP.thk(v))return;ut=v}
 function wThrCfg(){const u=userF()||F[selF],i=u?u.i:4,gold=t=>`<text y="4" font-size="16" font-weight="800" fill="#ffb703">${t}</text>`;
- /* 所有球員一律相同：右＝一壘、上＝二壘、左＝三壘、下＝捕手、左上＝投手、右上＝游擊手 */
- const it=[['一壘手',1],['二壘手',2],['三壘手',3],['捕手',4],['投手',9],['游擊手',14]],pos=[2,0,6,4,7,1];
- return{el:'ps',n:8,cnt:it.length,pos,lab:k=>it[k][0],lk:k=>!!it[k]&&FIDX(it[k][1])===i,idle:'傳給誰',ctr:k=>gold(it[k][0]),cb:k=>{setUt(it[k][1])}}}
+ /* 所有球員一律相同：右＝一壘、上＝二壘、左＝三壘、下＝捕手、左上＝游擊手、右上＝投手 */
+ const it=[['一壘手',1],['二壘手',2],['三壘手',3],['捕手',4],['投手',9],['游擊手',14]],pos=[2,0,6,4,1,7];
+ return{el:'ps',n:8,cnt:it.length,pos,lab:k=>it[k][0],lk:k=>!!it[k]&&FIDX(it[k][1])===i,idle:ut!=null?'放中間＝取消預選':'傳給誰',ctr:k=>gold(it[k][0]),cb:k=>{setUt(it[k][1])},cz:()=>{if(ut!=null||MP.on){setUt(null);if(!MP.on)toast('已取消預選傳球',1.2)}}}}
 wBind(pwb,wPit);
 $('pback').onclick=()=>{if(chg)return;pstg=0;updPit()};let _ps=-1,_cs='';updPit();
 $('thr').innerHTML='<button id="ps" class="big"><small id="psl">按住選擇</small><br>傳球</button><button id="jp" class="sm">跳躍</button><button id="dv" class="sm">撲接</button>';wBind($('ps'),wThrCfg);
@@ -3234,7 +3260,7 @@ const SND=(()=>{
  const VOL={hit3:1,hitmetal:.8,hit2:.9,slide:.45,catch:.9,strike:1,strike1:1,strike2:1,strike3:1,ball:1,safe:1,out:1,crowd_hit:1,crowd_hr:1,crowd:.36},/* 各音效音量（1＝原檔音量），太大或太小改這裡 */
   EXT=['mp3','wav','ogg','m4a'],
   THV=.7,/* 主題曲（選單／介面播放，檔名 song1）音量 */
-  SV={song:.85,song1:2},/* 應援曲各檔案的個別音量（用檔名當 key，song 跟 song1 都在這一列管理；沒列的檔案，如 song2，用 song 的值）。主題曲音量改上面的 THV */
+  SV={song:.85,song1:1.7},/* 應援曲各檔案的個別音量（用檔名當 key，song 跟 song1 都在這一列管理；沒列的檔案，如 song2，用 song 的值）。主題曲音量改上面的 THV */
   NT=[-16,-22],/* 自動音量平衡的目標：[短音效, 長音檔（群眾、歡呼、應援曲）] dBFS；程式會把每個檔案都調到這個響度，再乘上下面 VOL */
   SWEET=.6,/* 擊球品質 ≥ 此值（0~1）播 hit3，否則播 hit2；鋁合金球棒一律播 hitmetal */
   METAL=[2],/* 算金屬球棒的材質編號（0原木 1深色木 2鋁合金 3碳纖維 4亮面烤漆） */
@@ -3348,7 +3374,7 @@ window.slideSfx=r=>{try{sfx('slide',r.x,.3,r.z,1)}catch(e){}};/* 滑壘音效 */
 
 /* ================= 主迴圈 ================= */
 function tick(dt){if(MP.pre(dt))return;T+=dt;dbTick();dbGhost();sane();window.kbPoll&&window.kbPoll(dt);window.absTick&&window.absTick();aimStick(dt);pbUpd();pclkUpd();if(g.ph==='menu'||g.ph==='over')return;if(g.wo&&g.ph!=='play'){fin();return}
- flyTick();if(fRP()&&!(g.hs1>T)){const f=F[selF];f.vx=f.vz=0;ctl(f,dt)}if((g.ph==='ready'||g.ph==='pitch')&&!(g.hs1>T))MP.xm&&MP.xm(dt,0);if(g.ph!=='play'){if(MP.fr)MP.fr(dt);runnersMove(dt)}
+ flyTick();if(fRP()&&!(g.hs1>T)){const f=F[selF];f.vx=f.vz=0;if(!dvb(f))ctl(f,dt)}if(g.ph==='ready'||g.ph==='pitch')F.forEach(f=>{if(f.dv&&T-f.dv.t<f.dv.dur)diveMove(f,dt)});if((g.ph==='ready'||g.ph==='pitch')&&!(g.hs1>T))MP.xm&&MP.xm(dt,0);if(g.ph!=='play'){if(MP.fr)MP.fr(dt);runnersMove(dt)}
  if(g.ph==='ready'){if(g.hs1&&T<g.hs1+.05)hsMove(dt);if(T>=RDY()&&(auto||(MP.pvp?!MP.hpit():(userBats()||(MP.on?!MP.pitH():selF!==0))))){if(!cpuPickTry())cpuPitch()}return}
  if(g.ph==='pitch')return pitchTick();if(g.ph==='play')playTick(dt)}
 let bmOn=false;
@@ -3518,7 +3544,7 @@ function sync(dt){CPM.visible=false;try{dugSignUpd()}catch(e){}psTick();batTrack
  {const rpp=g.ph==='ready'||g.ph==='pitch',fb=!auto&&userBats()&&rpp&&!(MP.on&&!MP.isAP()),fp=!auto&&!userBats()&&rpp&&selF===0&&pv===2;const hid=!!PV||(g.ph==='play'&&play&&play.hr&&T-play.hrT>1.4);F[1].m.visible=(!fb||!!bra)&&!hid;UM[0].m.visible=(!fb||!!bra)&&!hid;F[0].m.visible=!fp||!!bra;if(window.DB&&DB.on){F.forEach(f=>{if(f.i>=1)f.m.visible=false});RM.forEach(e=>{if(!e.used)e.m.visible=false});UM.forEach(u=>{u.m.visible=false})}else{UM[1].m.visible=UM[2].m.visible=UM[3].m.visible=true}}
  F.forEach(f=>{const m=f.m;m.rotation.order='YXZ';{/* 電腦防守球員頭上顯示守備位置（玩家操控的野手維持顯示玩家名稱） */const hum=(typeof m._lk==='string'&&m._lk[0]==='h')||(!MP.on&&f===userF()),wt=hum?'':NM[f.i];if(wt){if(m._pt!==wt||m._pk!==m._lk){m._pt=wt;m._pk=m._lk;nameTag(m,wt)}}else if(m._pt){m._pt=null;if(!MP.on)nameTag(m,'')}}if(m._mir){mirrorRig(m);m._mir=0;m.gl.visible=true;m.gl2.visible=false}if(f.i===0){pitState(f,m,dt)}m.dyc=(m.dyc||0)+(dugY(f.x,f.z)-(m.dyc||0))*.35;m.dy=m.dyc+moundY(f.x,f.z);m.position.set(f.x,m.dy,f.z+(f.i===0?m.dc:0));const sp=hyp(f.vx,f.vz);gait(m,sp,dt);
   if(f.ft&&(f.pt||T-m.thr<.6))face(m,f.ft[0],f.ft[1],.3);else if(sp>.8)face(m,f.x+f.vx,f.z+f.vz,.3);else if(f.i===1)face(m,0,-30,.2);else if(f.i===0&&g.ph!=='play')face(m,0,0,.2);else face(m,ball.x,ball.z,.1);m.scale.y=1;m.cr=f.i===1?1:0;
-  if(f.dv){const t=T-f.dv.t,k=t<0?0:t<.12?t/.12:t<f.dv.dur?1:Math.max(0,1-(t-f.dv.dur)/.6);if(k>0){face(m,f.x+f.dv.dx,f.z+f.dv.dz,.6);m.rotation.x=1.45*k;m.position.y=.38*k+(m.dy||0);m.A1.rotation.x=m.A2.rotation.x=-3*k;DFX.dive(f,m,t,dt)}else{m.rotation.x=0;f.dv=null}}else m.rotation.x=0;
+  if(f.dv){const t=T-f.dv.t,k=t<0?0:t<.12?t/.12:t<f.dv.dur?1:Math.max(0,1-(t-f.dv.dur)/.6);if(k>0){if(f._stT!==f.dv.t&&t>.15){f._stT=f.dv.t;stnMark(m,2)}face(m,f.x+f.dv.dx,f.z+f.dv.dz,.6);m.rotation.x=1.45*k;m.position.y=.03*k+.32*(t<.3?Math.sin(Math.PI*t/.3):0)+(m.dy||0);m.A1.rotation.x=m.A2.rotation.x=-3*k;DFX.dive(f,m,t,dt)}else{m.rotation.x=0;f.dv=null}}else m.rotation.x=0;
   if(f.i===0&&g.ph==='play'&&play&&ball.mode==='held'&&ball.holder===F[1]&&F[1]===userF()&&!f.dv&&!f.jp&&!f.hold&&sp<.8){m.A1.rotation.x=-1.7;m.E1.rotation.x=-.3}/* 玩家操控捕手持球：投手在投手丘舉手套要球 */
   if(f.jp){const u=(T-f.jp.t)/f.jp.dur;if(u>=0&&u<1&&!f.dv){const k=Math.sin(Math.PI*u);m.position.y=1.15*4*u*(1-u)+(m.dy||0);m.A1.rotation.x=m.A2.rotation.x=-2.9*k;m.E1.rotation.x=m.E2.rotation.x=-.12;legSet(m,1,-.55*k,1.1*k,.08);legSet(m,2,-.35*k,.8*k,.08);m.ch.rotation.x=-.12*k}else if(u>=1)f.jp=null}
   if(f.fl){const u=cl((T-f.fl.t)/f.fl.dur,0,1);m.position.y=(m.dy||0)+7*4*u*(1-u);m.rotation.x=-u*15.7;m.A1.rotation.x=m.A2.rotation.x=-2.6}else if(f.stn>T){m.rotation.x=1.45;m.position.y=(m.dy||0)+.25}if(m._th===1){mirrorRig(m);m._mir=1;m.gl.visible=false;m.gl2.visible=true}/* 右投：整套動作（投球姿勢、撲接、跳躍…）都算完才左右鏡像；下一幀開頭先還原 */});
@@ -3526,7 +3552,7 @@ function sync(dt){CPM.visible=false;try{dugSignUpd()}catch(e){}psTick();batTrack
  UM.forEach(u=>{const m=u.m;if(m.rotation.order!=='YXZ')m.rotation.order='YXZ';m.rotation.x=m.rotation.z=0;/* 重播還原後歐拉角會翻成 x=z=180°，導致主審背對投手；每幀歸正 */gait(m,0,dt);const d=T-u.t;if(u.i===0){face(m,0,-30,.2);m.cr=.9}else face(m,BS[u.i][0],BS[u.i][1],.1);
   if(d>=0&&d<1.2){const k=u.k;if(k==='strike'||k==='out'){m.A2.rotation.x=-3+Math.sin(d*18)*.12;m.A2.rotation.z=.15}else if(k==='safe'){m.A1.rotation.z=-1.45;m.A2.rotation.z=1.45}else if(k==='foul'){m.A1.rotation.x=m.A2.rotation.x=-3}else if(k==='play'){m.A2.rotation.x=-1.55+Math.sin(d*9)*.08;m.A2.rotation.z=.12}}
   else{m.A1.rotation.z=0;m.A2.rotation.z=0}});
-RN.forEach(r=>{const m=r.rm.m,mv=(r.st==='go'||r.ctl)?hyp(r.vx,r.vz):0;m.dyc=(m.dyc||0)+(dugY(r.x,r.z)-(m.dyc||0))*.35;m.dy=m.dyc+moundY(r.x,r.z);m.position.set(r.x,m.dy,r.z);gait(m,mv,dt);if(mv>.5)face(m,r.x+r.vx,r.z+r.vz,.3);m.rotation.order='YXZ';{const sd=r.sl?T-r.sl:9;m.rotation.x=0;m.position.y=m.dy||0;slidePose(r,m,r.hs?9:sd);if(r.hs&&sd>0&&sd<.9)divePose(r,m,sd);if(sd>0&&sd<.9){if(r.hs)DFX.hslide(r,m,sd,dt);else DFX.slide(r,m,sd,dt)}}m.visible=!((r.isB&&bmOn)||((r.st==='out'||r.st==='score')&&T-r.t>1.3&&!r.cel));if(r.cel){face(m,0,10,.2);celAnim(m,r.cel.id,T-r.cel.t);duoStep(m,r.cel.id,T-r.cel.t,dt,batIdx());if(confLast!==r.cel.t){confLast=r.cel.t;CONF.fire()}}});RM.forEach(e=>{if(!e.used)e.m.visible=false});/* 沒在場上的跑者一律不顯示 */
+RN.forEach(r=>{const m=r.rm.m,mv=(r.st==='go'||r.ctl)?hyp(r.vx,r.vz):0;m.dyc=(m.dyc||0)+(dugY(r.x,r.z)-(m.dyc||0))*.35;m.dy=m.dyc+moundY(r.x,r.z);m.position.set(r.x,m.dy,r.z);gait(m,mv,dt);if(mv>.5)face(m,r.x+r.vx,r.z+r.vz,.3);m.rotation.order='YXZ';{const sd=r.sl?T-r.sl:9;if(sd>.05&&sd<.9&&r._stT!==r.sl){r._stT=r.sl;stnMark(m,r.hs?2:1)}m.rotation.x=0;m.position.y=m.dy||0;slidePose(r,m,r.hs?9:sd);if(r.hs&&sd>0&&sd<.9)divePose(r,m,sd);if(sd>0&&sd<.9){if(r.hs)DFX.hslide(r,m,sd,dt);else DFX.slide(r,m,sd,dt)}}m.visible=!((r.isB&&bmOn)||((r.st==='out'||r.st==='score')&&T-r.t>1.3&&!r.cel));if(r.cel){face(m,0,10,.2);celAnim(m,r.cel.id,T-r.cel.t);duoStep(m,r.cel.id,T-r.cel.t,dt,batIdx());if(confLast!==r.cel.t){confLast=r.cel.t;CONF.fire()}}});RM.forEach(e=>{if(!e.used)e.m.visible=false});/* 沒在場上的跑者一律不顯示 */
 {const wl=MP.on&&MP.wlist?MP.wlist():[];WM.forEach((e,k)=>{const m=e.m,id=wl[k],o=id&&MP.WT[id];if(!o){m.visible=false;return}m.visible=true;m.dyc=(m.dyc||0)+(dugY(o.x,o.z)-(m.dyc||0))*.35;m.dy=m.dyc;m.position.set(o.x,m.dyc,o.z);const sp=hyp(o.vx,o.vz);gait(m,sp,dt);if(sp>.5)face(m,o.x+o.vx,o.z+o.vz,.3);else face(m,0,-18.44*K0,.1);emoDrive(m,o,dt)})}
  const vis=g.ph!=='menu'&&g.ph!=='ready'&&!(g.ph==='pitch'&&pc&&T<pc.t0&&!F[0].m.visible)&&!(g.ph==='pitch'&&pc&&!bra&&!auto&&userBats()&&T>=pc.t0+cgU()*pc.dur)&&!(ball.mode==='dead'&&play&&play.foul)&&!(ball.hr&&play&&T-play.hrT>2.4);bmesh.visible=bsh.visible=vis;
  bmesh.position.set(ball.x,ball.y,ball.z);if(ball.mode==='pitch'&&pc){const m=PM[pc.type],fl=Math.hypot(m[0],m[1])||1;_sa.set(-m[0]/fl,m[1]/fl,-m[2]*.8).normalize();bmesh.rotateOnWorldAxis(_sa,(pc.rpm?pc.rpm/75:m[3])*dt)}else{bmesh.rotation.x+=ball.vz*.8*dt;bmesh.rotation.z-=ball.vx*dt*.8}{const dd=ball.mode==='pitch'?1:cl(hyp(cam.position.x-ball.x,cam.position.y-ball.y,cam.position.z-ball.z)/16,1,4);bmesh.scale.setScalar(dd);bsh.position.set(ball.x,.06,ball.z);bsh.scale.setScalar(Math.max(.4,1.1-ball.y*.035)*Math.max(1,dd*.8))}
@@ -3895,7 +3921,7 @@ function ccClear(){if(play){play.cc=0;play.ccn=0;play.cv={}}}
 function CCSend(v){if(userBats())return;const t=v>=1&&v<=4?T2F[v]:v;g.rc=t?'📣 呼叫電腦：優先傳給'+CCN[t]:'取消呼叫';g.rcT=T+2.2;if(MP.on&&!MP.host)MP.pev({id:MP.id,k:'cc',a:[v],t:T});else CCS(v,MP.id)}
 function ccTb(h){const c=play&&play.cc&&(MP.pvp||!userBats())?play.cc:0;if(c&&h&&!h.pt&&FIDX(c)!==h.i){ccD=1;return c}const d=decide(h);if(d>=0||!h||h.i<6||play.rtn||thrCap())return d;
  /* 外野手：有跑者在跑就馬上傳（接著由中繼轉傳），不帶著球追跑者 */let bt=-1,bm=1e9;for(const r of RN){if(r.st!=='go'||r.target<=r.base||!alive(r)||(r.still||0)>.5)continue;const p=BB(r.target),m=hyp(r.x-p[0],r.z-p[1]);if(m<bm){bm=m;bt=r.target}}return bt}
-function wCallCfg(){const it=[['一壘手',1],['二壘手',2],['三壘手',3],['捕手',4],['投手',9],['游擊手',14]],pos=[2,0,6,4,7,1],red=t=>`<text y="4" font-size="16" font-weight="800" fill="#ff4d4d">${t}</text>`;
+function wCallCfg(){const it=[['一壘手',1],['二壘手',2],['三壘手',3],['捕手',4],['投手',9],['游擊手',14]],pos=[2,0,6,4,1,7],red=t=>`<text y="4" font-size="16" font-weight="800" fill="#ff4d4d">${t}</text>`;
  return{el:'ccb',n:8,cnt:it.length,pos,lab:k=>it[k][0],lk:()=>false,idle:play&&play.cv&&play.cv[MP.id]?'放中間＝取消我的呼叫':'呼叫電腦傳給誰',ctr:k=>red(it[k][0]),cb:k=>CCSend(it[k][1]),cz:()=>{if(play&&play.cv&&play.cv[MP.id])CCSend(0)}}}
 wBind($('ccb'),wCallCfg);
 setInterval(()=>{const el=$('rcall'),b=$('ccb');let t='';
@@ -4005,4 +4031,5 @@ $('prb').onclick=open;
 setInterval(()=>{const m=$('menu'),ok=m&&m.style.display!=='none'&&($('pgHome').classList.contains('on')||$('pgSolo').classList.contains('on'))&&!(typeof LKON!=='undefined'&&LKON)&&!(MP.on&&$('mpR').style.display==='grid');const d=ok?'block':'none';if($('prb').style.display!==d)$('prb').style.display=d},250);
 })();
 </script>
+<script>(function(){const r=document.getElementById('rep');if(!r)return;const f=()=>document.body.classList.toggle('inrep',r.classList.contains('on'));new MutationObserver(f).observe(r,{attributes:true,attributeFilter:['class']});f()})();</script>
 </body></html>
