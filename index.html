@@ -758,6 +758,7 @@ function wzOK(x,z){const r=Math.hypot(x,z);return okChar(x,z)&&Math.abs(x)+z>=1&
 const WZR=4.5;/* 本壘板附近待機區的禁入半徑（原本 9 公尺，縮小成 4.5） */
 function wzClamp(o){if(wzOK(o.x,o.z)){o.px=o.x;o.pz=o.z;return}
  if(o.px!=null){if(wzOK(o.x,o.pz)){o.z=o.pz}else if(wzOK(o.px,o.z)){o.x=o.px}else{o.x=o.px;o.z=o.pz;o.vx=o.vz=0}}else{o.x=OD.x;o.z=OD.z;o.vx=o.vz=0}}
+window.SIT=window.SIT||{k:null};/* 目前坐的休息室長椅座位（null＝沒坐）；多人模組與主程式是不同區塊，所以掛在 window 上共用 */
 /* 下一棒站在打擊準備圈；其他人出生在休息區（一壘側）的長椅前 */
 function wtInit(id){if(isPend(id)){/* 中途加入的玩家：不論攻守，一律出生在休息區長椅前 */const k=Math.max(0,list().filter(isPend).indexOf(id)),h=dugW(1,4+(k%8)*1.9,1.2+((k>>3)%2)*.6);return{x:h[0],z:h[1],vx:0,vz:0}}const L=bl(),n=L.length||1,r=((L.indexOf(id)-L.indexOf(MP.ap)-1)%n+n)%n;
  if(r===0){const q=WS[0];return{x:OD.x+q[0],z:OD.z+q[1],vx:0,vz:0}}
@@ -767,7 +768,7 @@ MP.wtHome=()=>{const o=MP.WT[MP.id];if(!o||!MP.waiting())return 0;const L=bl(),k
 function wtTick(dt){if(!(g.ph!=='menu'&&g.ph!=='over')||(!bOff()&&!list().some(isPend))){MP.WT={};return}
  for(const id of list()){if(!isW(id)){delete MP.WT[id];continue}
   const o=MP.WT[id]||(MP.WT[id]=wtInit(id));
-  if(id===MP.id){const S=lstk(),mg=S[2];if(chLock(o,mg)){}else if(mg>=.12){const sp=5.2*Math.min(1,Math.max(.4,mg*1.1));o.vx=S[0]/mg*sp;o.vz=S[1]/mg*sp;if(o.em)o.em=0}else o.vx=o.vz=0;o.x+=o.vx*dt;o.z+=o.vz*dt}
+  if(id===MP.id){const S=lstk(),mg=S[2];if(SIT.k&&mg>=.6&&window.sitSet)window.sitSet(null);if(SIT.k){o.vx=o.vz=0}else if(mg>=.12){const sp=5.2*Math.min(1,Math.max(.4,mg*1.1));o.vx=S[0]/mg*sp;o.vz=S[1]/mg*sp;if(o.em)o.em=0}else o.vx=o.vz=0;o.x+=o.vx*dt;o.z+=o.vz*dt}
   else if(MP.host){const v=MP.xi[id];if(v&&v.w){o.vx=v.w[2]||0;o.vz=v.w[3]||0;o.em=v.w[4]|0;o.en=v.w[5]|0;o.x+=(v.w[0]-o.x)*.5;o.z+=(v.w[1]-o.z)*.5}}
   else{o.x+=o.vx*dt;o.z+=o.vz*dt}
   wzClamp(o)}}
@@ -1039,7 +1040,6 @@ for(let s0=0;s0<VV.length-1;){let e=s0+1;while(e<VV.length-1&&cum[e]-cum[s0]<70)
   {bx(1.3,1.7,.06,dark,16.5,.55,DD-.08);const lt=new THREE.MeshBasicMaterial({map:tex(cv2(64,96,(x,w,h)=>{x.fillStyle='#f4f1e8';x.fillRect(0,0,w,h);x.fillStyle='#2a5cb8';x.fillRect(0,0,w,12);x.strokeStyle='#8a8f99';x.lineWidth=2;for(let i=0;i<8;i++){const y=22+i*9;x.beginPath();x.moveTo(8,y);x.lineTo(w-8,y);x.stroke();x.fillStyle='#333';x.fillRect(8,y-6,6,4)}}),1,1)}),lp=new THREE.Mesh(new THREE.PlaneGeometry(1.1,1.45),lt);lp.position.set(16.5,.55,DD-.14);lp.rotation.y=Math.PI;g.add(lp)}
   {const bk=new THREE.Mesh(new THREE.CylinderGeometry(.24,.2,.4,12),orange);bk.position.set(19.3,-1.0,1.7);g.add(bk);for(let i=0;i<5;i++){const bl=new THREE.Mesh(new THREE.SphereGeometry(.07,8,6),cream);bl.position.set(19.3+(i%3-1)*.1,-.78,1.65+(i>>1)*.06);g.add(bl)}}
   {bx(.08,.1,1.5,dark,.2,-.35,2.3);bx(.08,.1,1.5,dark,.2,-.85,2.3);for(let i=0;i<5;i++){const bt=new THREE.Mesh(new THREE.CylinderGeometry(.055,.03,.95,8),i%2?wood:dark);bt.position.set(.3,-.62,1.7+i*.25);bt.rotation.z=.1;g.add(bt)}}/* 靠牆球棒架：休息室入口側牆 */
-  {const stk=new THREE.Group();for(let i=0;i<4;i++){const c=mkChair();c.position.set(0,i*.095,-i*.05);stk.add(c)}stk.position.set(2.9,-1.2,3.7);stk.rotation.y=Math.PI;g.add(stk)}/* 紅色塑膠椅（疊在一起）：待機玩家可以拿來放在休息區／待機區 */
   {const TX=18.6,TZ=3.5,yel=new THREE.MeshLambertMaterial({color:0xffd400,emissive:0x3d3300});/* 香蕉桌 */
    bx(2.1,.08,1.0,wood,TX,-.5,TZ);[[-.9,-.4],[.9,-.4],[-.9,.4],[.9,.4]].forEach(p=>bx(.1,.7,.1,dark,TX+p[0],-.85,TZ+p[1]));bx(2.12,.02,.3,yel,TX,-.455,TZ);
    const bw=new THREE.Mesh(new THREE.CylinderGeometry(.34,.26,.16,14),cream);bw.position.set(TX-.3,-.38,TZ);g.add(bw);
@@ -2560,62 +2560,33 @@ function batHit(o){const cand=[];ACT.flat().forEach(a=>{if(a.m.visible)cand.push
  for(const c of cand){const dx=c.x-o.x,dz=c.z-o.z,d=hyp(dx,dz);if(d>2.1||d<.01)continue;const ux=dx/d,uz=dz/d;
   if(c.a){const a=c.a,s=a.sg,q=(s*(c.x+ux*3)-DOFF[0])/S2,r=((c.z+uz*3)-DOFF[1])/S2,lx=cl((q-r)/2,1,19.4),lz=cl((q+r)/2,.4,2.2),w=dugW(s,lx,lz);flyAdd(a.m,{ox:a.x-w[0],oz:a.z-w[1]});a.x=w[0];a.z=w[1];a.vx=a.vz=0;a.mode='back';a.path=[[a.hx,a.hz]];a.pi=0;a.sp=6.5;a.go=T+1.4}
   else{flyAdd(c.m,{dx:ux,dz:uz,d:3.2});if(!rec&&MP.on&&MP.x){rec=1;try{MP.x.update(MP.R('players/'+MP.id),{hit:{v:c.id,n:Date.now(),dx:ux,dz:uz}})}catch(e){}}}}}
-/* ===== 紅色塑膠椅（多人：待機區／休息室）=====
-   休息室牆邊有一疊紅椅；待機中的玩家按「拿椅子」→ 抱著走 → 在休息區或待機區的空地「放下椅子」（每人最多 2 張）；走近任何一張空椅按「坐下」，搖桿一推或按「起身」站起來。
-   同步：每位玩家把自己放的椅子 chr、是否抱著椅子 cry、坐的椅子 sit 寫在自己的 players 節點，其他人照著畫；坐著的人位置照原本的待機位置同步（人被固定在椅子上）。 */
-const CHR={mine:[],carry:0,sit:null,mesh:{}};var _chG,_chM;/* 用 var：休息室建置（上方）比這行更早呼叫 mkChair，用 let 會「初始化前存取」而讓整支程式中斷、按鈕全部失效 */
-function mkChair(){if(!_chG){_chG={seat:new THREE.BoxGeometry(.43,.035,.41),lip:new THREE.BoxGeometry(.43,.03,.05),rail:new THREE.BoxGeometry(.4,.022,.022),leg:new THREE.CylinderGeometry(.024,.017,.4,8),band:new THREE.CylinderGeometry(.34,.34,.065,18,1,true,Math.PI-.78,1.56),post:new THREE.BoxGeometry(.026,.27,.03)};
-  _chM={r:new THREE.MeshStandardMaterial({color:0xd62b2b,roughness:.32,metalness:0}),d:new THREE.MeshStandardMaterial({color:0xb01f1f,roughness:.42,metalness:0}),b:new THREE.MeshStandardMaterial({color:0xd62b2b,roughness:.32,metalness:0,side:THREE.DoubleSide})}}
- const G=new THREE.Group(),A=(geo,mat,x,y,z,rx,rz,P)=>{const q=new THREE.Mesh(geo,mat);q.position.set(x,y,z);if(rx)q.rotation.x=rx;if(rz)q.rotation.z=rz;q.castShadow=true;q.receiveShadow=true;(P||G).add(q);return q};
- A(_chG.seat,_chM.r,0,.4125,0);A(_chG.lip,_chM.d,0,.395,.19);A(_chG.rail,_chM.d,0,.37,.15);A(_chG.rail,_chM.d,0,.37,-.15);
- [[-.17,.16],[.17,.16],[-.17,-.16],[.17,-.16]].forEach(p=>A(_chG.leg,_chM.d,p[0],.2,p[1],-Math.sign(p[1])*.07,Math.sign(p[0])*.07));
- const B=new THREE.Group();B.position.set(0,.43,-.19);B.rotation.x=-.14;G.add(B);/* 椅背：三條弧形板＋兩根立柱，微微後仰 */
- [0,1,2].forEach(i=>A(_chG.band,_chM.b,0,.07+i*.085,.34,0,0,B));[-1,1].forEach(sx=>A(_chG.post,_chM.d,sx*.2386,.135,.1006,0,0,B));
- return G}
-const chFwd=m=>[Math.sin(m.rotation.y),Math.cos(m.rotation.y)],chKey=(id,j)=>id+':'+j;
-function chMe(){const o=MP.on&&MP.wme&&MP.wme();if(!o)return null;const wl=MP.wlist?MP.wlist():[],k=wl.indexOf(MP.id);return k>=0&&WM[k]?{o,m:WM[k].m,k}:null}
-function chRec(){if(MP.on&&MP.x)try{MP.x.update(MP.R('players/'+MP.id),{chr:CHR.mine.map(c=>[+c.x.toFixed(2),+c.z.toFixed(2),+c.ry.toFixed(2)]),cry:CHR.carry?1:0,sit:CHR.sit||0})}catch(e){}}
-const chOf=id=>{const p=(MP.players||{})[id];return p&&p.chr?Object.values(p.chr).filter(a=>a&&a.length>=3):[]};
-function chSync(){const want={};if(MP.on){CHR.mine.forEach((c,j)=>want[chKey(MP.id,j)]=c);for(const id in (MP.players||{})){if(id===MP.id)continue;chOf(id).forEach((a,j)=>want[chKey(id,j)]={x:+a[0],z:+a[1],ry:+a[2]})}}
- for(const k in want){const c=want[k];let m=CHR.mesh[k];if(!m){m=CHR.mesh[k]=mkChair();sc.add(m)}m.position.set(c.x,dugY(c.x,c.z),c.z);m.rotation.y=c.ry}
- for(const k in CHR.mesh)if(!want[k]){sc.remove(CHR.mesh[k]);delete CHR.mesh[k]}
- const wl=MP.on&&MP.wlist?MP.wlist():[];/* 抱著椅子走：椅子掛在人前面，雙手向前扶住 */
- WM.forEach((e,k)=>{const m=e.m,id=wl[k],p=id&&(MP.players||{})[id],cr=id?(id===MP.id?CHR.carry:(p&&p.cry)):0;
-  if(cr){if(!m._cch){m._cch=mkChair();m._cch.position.set(0,.55,.58);m.add(m._cch)}m._cch.visible=true;m.A1.rotation.x=m.A2.rotation.x=-1.3;m.E1.rotation.x=m.E2.rotation.x=-.45}else if(m._cch)m._cch.visible=false})}
-function chTaken(k){if(CHR.sit===k)return true;for(const id in (MP.players||{})){if(id!==MP.id&&(MP.players[id]||{}).sit===k)return true}return false}
-const chNearStack=o=>[1,-1].some(s=>{const t=dugW(s,2.9,3.4);return hyp(o.x-t[0],o.z-t[1])<2.4});
-function chNearOwn(o){let b=-1,bd=1.5;CHR.mine.forEach((c,j)=>{const d=hyp(o.x-c.x,o.z-c.z);if(d<bd){bd=d;b=j}});return b}
-function chNearAny(o){let bk=null,bd=1.6;for(const k in CHR.mesh){const m=CHR.mesh[k],d=hyp(o.x-m.position.x,o.z-m.position.z);if(d<bd&&!chTaken(k)){bd=d;bk=k}}return bk}
-function chSpot(o,m){const f=chFwd(m),x=o.x+f[0]*.85,z=o.z+f[1]*.85;if(!(bZone(x,z)&&hyp(x,z)>WZR+1.5)||!wzOK(x,z))return null;
- const y=dugY(x,z);for(const d of[[.3,.3],[.3,-.3],[-.3,.3],[-.3,-.3]])if(dugY(x+d[0],z+d[1])!==y)return null;/* 不放在階梯上 */
- for(const k in CHR.mesh){const c=CHR.mesh[k];if(hyp(c.position.x-x,c.position.z-z)<.6)return null}return{x,z,ry:m.rotation.y}}
-function chMain(){const me=chMe();if(!me||CHR.sit)return;const o=me.o,m=me.m;
- if(CHR.carry){const sp=chSpot(o,m);if(!sp){toast('這裡放不下椅子：要在休息區或待機區的空地',1.8);return}CHR.mine.push(sp);CHR.carry=0;chRec();toast('已放下椅子',1.2);return}
- if(chNearStack(o)){if(CHR.mine.length>=2){toast('每人最多放 2 張椅子，先收起一張吧',1.8);return}try{batDrop()}catch(e){}CHR.carry=1;chRec();return}
- const j=chNearOwn(o);if(j>=0){CHR.mine.splice(j,1);CHR.carry=1;chRec()}}
-function chSitToggle(){const me=chMe();if(!me)return;const o=me.o;
- if(CHR.sit){const c=CHR.mesh[CHR.sit];if(c){const f=[Math.sin(c.rotation.y),Math.cos(c.rotation.y)];o.x=c.position.x+f[0]*.75;o.z=c.position.z+f[1]*.75;o.px=o.x;o.pz=o.z}CHR.sit=null;chRec();return}
- if(CHR.carry)return;const k=chNearAny(o);if(!k)return;try{batDrop()}catch(e){}CHR.sit=k;chRec()}
-function chLock(o,mg){if(!CHR.sit)return false;const c=CHR.mesh[CHR.sit];if(!c){CHR.sit=null;chRec();return false}if(mg>.6){chSitToggle();return false}o.x=c.position.x;o.z=c.position.z;o.vx=o.vz=0;return true}
-function chSitPose(m,ry){m.rotation.y=ry;const g1=legSet(m,1,-1.5,1.55,.06),g2=legSet(m,2,-1.5,1.55,.06);m.pel.position.y=(g1+g2)/2+Math.hypot((g1-g2)/2,.008)-.008+.055;m.pel.rotation.y=0;m.ch.rotation.set(-.05,0,0);m.hd.rotation.set(.05,0,0);
+/* ===== 休息室木長椅可以坐：待機中的玩家走到長椅旁，按「坐下」就坐上去；搖桿一推或按「起身」站起來 =====
+   前排長椅 4 個座位、後排 5 個座位（兩側休息室各一組）。只改畫面上的姿勢與高度，玩家本身的位置不變，所以不影響碰撞與連線同步；
+   坐的座位寫在自己的 players 節點（sit），其他玩家照著畫。 */
+const SEATS=(()=>{const a=[];[1,-1].forEach(sg=>{[[2.72,-.68,[9.2,11.7,14,16]],[3.72,-.42,[8,10,12,14,16]]].forEach((r,ri)=>r[2].forEach((lx,i)=>{const w=dugW(sg,lx,r[0]);a.push({k:(sg>0?'a':'b')+ri+i,x:w[0],z:w[1],y:r[1]-.43,ry:Math.atan2(-sg*S2,-S2)})}))});return a})();
+const seatOf=k=>SEATS.find(q=>q.k===k)||null;
+function sitMe(){const o=MP.on&&MP.wme&&MP.wme();if(!o)return null;const wl=MP.wlist?MP.wlist():[],k=wl.indexOf(MP.id);return k>=0&&WM[k]?{o,m:WM[k].m,k}:null}
+function sitRec(){if(MP.on&&MP.x)try{MP.x.update(MP.R('players/'+MP.id),{sit:SIT.k||0})}catch(e){}}
+function sitSet(k){if(SIT.k===k)return;SIT.k=k;sitRec()}window.sitSet=sitSet;
+function sitTaken(k){const P=MP.players||{};for(const id in P){if(id!==MP.id&&P[id]&&P[id].sit===k)return true}return false}
+function sitNear(o){let b=null,bd=2;for(const q of SEATS){if(sitTaken(q.k))continue;const d=hyp(o.x-q.x,o.z-q.z);if(d<bd){bd=d;b=q.k}}return b}
+function sitToggle(){const me=sitMe();if(!me)return;if(SIT.k){sitSet(null);return}const k=sitNear(me.o);if(!k)return;try{batDrop()}catch(e){}sitSet(k)}
+function sitPose(m,q){m.position.set(q.x,q.y,q.z);m.rotation.y=q.ry;const g1=legSet(m,1,-1.5,1.55,.06),g2=legSet(m,2,-1.5,1.55,.06);m.pel.position.y=(g1+g2)/2+Math.hypot((g1-g2)/2,.008)-.008+.055;m.pel.rotation.y=0;m.ch.rotation.set(-.05,0,0);m.hd.rotation.set(.05,0,0);
  m.A1.rotation.set(-.55,0,.08);m.A2.rotation.set(-.55,0,-.08);m.E1.rotation.x=m.E2.rotation.x=-.8}
-const CHB=mkBtn('chb','🪑 拿椅子','calc(50% - 150px)',()=>chMain()),CHS=mkBtn('chs','🪑 坐下','calc(50% + 40px)',()=>chSitToggle());CHB.style.bottom=CHS.style.bottom='calc(env(safe-area-inset-bottom,0px) + 205px)';
-function chTick(){if(!MP.on){if(CHR.mine.length||CHR.carry||CHR.sit){CHR.mine=[];CHR.carry=0;CHR.sit=null}}
- const me=chMe(),off=!me||(typeof LKON!=='undefined'&&LKON);
- if(!me){if(CHR.carry||CHR.sit){CHR.carry=0;CHR.sit=null;chRec()}}
- let b1='',b2='';if(me&&!off){const o=me.o;
-  if(CHR.sit){b2='🪑 起身'}else if(CHR.carry){b1='⬇ 放下椅子'}else{if(chNearStack(o))b1='🪑 拿椅子';else if(chNearOwn(o)>=0)b1='🪑 收起椅子';if(chNearAny(o))b2='🪑 坐下'}}
- CHB.style.display=b1?'block':'none';if(b1&&CHB.textContent!==b1)CHB.textContent=b1;CHS.style.display=b2?'block':'none';if(b2&&CHS.textContent!==b2)CHS.textContent=b2;
- chSync();
+const SITB=mkBtn('sitb','🪑 坐下','calc(50% - 150px)',()=>sitToggle());SITB.style.bottom='calc(env(safe-area-inset-bottom,0px) + 205px)';
+function sitTick(){const me=sitMe();if(!me&&SIT.k)sitSet(null);
+ if(SIT.k&&HOLD){try{batDrop()}catch(e){}}
+ const off=!me||(typeof LKON!=='undefined'&&LKON);let t='';if(me&&!off)t=SIT.k?'🪑 起身':(sitNear(me.o)?'🪑 坐下':'');
+ SITB.style.display=t?'block':'none';if(t&&SITB.textContent!==t)SITB.textContent=t;
  const wl=MP.on&&MP.wlist?MP.wlist():[];/* 坐姿（自己與其他玩家） */
- WM.forEach((e,k)=>{const id=wl[k];if(!id)return;const key=id===MP.id?CHR.sit:(MP.players[id]||{}).sit,c=key&&CHR.mesh[key];if(c)chSitPose(e.m,c.rotation.y)})}
+ WM.forEach((e,k)=>{const id=wl[k];if(!id||!e.m.visible)return;const key=id===MP.id?SIT.k:((MP.players||{})[id]||{}).sit,q=key?seatOf(key):null;if(q)sitPose(e.m,q)})}
 const bZone=(x,z)=>inDug(x,z)||-z<Math.abs(x);/* 可用球棒的範圍：休息室＋界外警戒區（不含界內比賽場地） */
 function batLogic(){const o=banEnt(),inD=!!(o&&bZone(o.x,o.z)),my=!!(userBats()&&(!MP.on||MP.ap===MP.id));
  if(HOLD&&(!o||!inD||my||HOLD.k!==bkey()||bnM(o)!==HOLD.m))batDrop();
  BTB.style.display=(o&&inD&&!my&&(HOLD||batNear(o)))?'block':'none';BTB.textContent=HOLD?'🏏 放回去':'🏏 拿球棒';BTS.style.display=HOLD?'block':'none';
  if(BSW&&!BSW.h&&T-BSW.t>=.2){BSW.h=1;if(o&&inD)batHit(o)}
  if(MP.on&&MP.players){const hk=bkey();for(const id in MP.players){const p=MP.players[id];if(!p||!p.hit||p.hit.n<HLOAD||HSEEN[id]===p.hit.n)continue;HSEEN[id]=p.hit.n;if(id===MP.id)continue;const wl=MP.wlist?MP.wlist():[],k=wl.indexOf(p.hit.v);if(k>=0&&WM[k]&&p.hit.v!==MP.id)flyAdd(WM[k].m,{dx:p.hit.dx,dz:p.hit.dz,d:3.2});else if(p.hit.v===MP.id){const mm=bnM(banEnt());if(mm)flyAdd(mm,{dx:p.hit.dx,dz:p.hit.dz,d:3.2})}}}}
-function poseTick(){poseTick0();try{chTick()}catch(e){console.warn('chair',e)}}
+function poseTick(){poseTick0();try{sitTick()}catch(e){console.warn('sit',e)}}
 function poseTick0(){
  {const m=BEAT&&bnM(BEAT.o);if(m){const u=T-BEAT.t;m.A1.rotation.x=-2.3+.25*Math.max(0,Math.sin(u*14));m.A1.rotation.z=.25;m.E1.rotation.x=-1.9;m.hd.rotation.x=-.15}}
  if(HOLD&&HOLD.m){const m=HOLD.m;if(BSW){const u=Math.min(1,(T-BSW.t)/.5);if(u>=1)BSW=null;else{const e=u*u;m.A1.rotation.x=-1.5;m.A1.rotation.z=.9-2.3*e;m.E1.rotation.x=-.5;m.ch.rotation.y=.7-1.6*e}}if(!BSW){m.A1.rotation.x=-1.0;m.A1.rotation.z=.15;m.E1.rotation.x=-.9}}
