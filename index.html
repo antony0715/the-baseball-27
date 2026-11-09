@@ -2563,7 +2563,7 @@ function batHit(o){const cand=[];ACT.flat().forEach(a=>{if(a.m.visible)cand.push
 /* ===== 紅色塑膠椅（多人：待機區／休息室）=====
    休息室牆邊有一疊紅椅；待機中的玩家按「拿椅子」→ 抱著走 → 在休息區或待機區的空地「放下椅子」（每人最多 2 張）；走近任何一張空椅按「坐下」，搖桿一推或按「起身」站起來。
    同步：每位玩家把自己放的椅子 chr、是否抱著椅子 cry、坐的椅子 sit 寫在自己的 players 節點，其他人照著畫；坐著的人位置照原本的待機位置同步（人被固定在椅子上）。 */
-const CHR={mine:[],carry:0,sit:null,mesh:{}};let _chG=null,_chM=null;
+const CHR={mine:[],carry:0,sit:null,mesh:{}};var _chG,_chM;/* 用 var：休息室建置（上方）比這行更早呼叫 mkChair，用 let 會「初始化前存取」而讓整支程式中斷、按鈕全部失效 */
 function mkChair(){if(!_chG){_chG={seat:new THREE.BoxGeometry(.43,.035,.41),lip:new THREE.BoxGeometry(.43,.03,.05),rail:new THREE.BoxGeometry(.4,.022,.022),leg:new THREE.CylinderGeometry(.024,.017,.4,8),band:new THREE.CylinderGeometry(.34,.34,.065,18,1,true,Math.PI-.78,1.56),post:new THREE.BoxGeometry(.026,.27,.03)};
   _chM={r:new THREE.MeshStandardMaterial({color:0xd62b2b,roughness:.32,metalness:0}),d:new THREE.MeshStandardMaterial({color:0xb01f1f,roughness:.42,metalness:0}),b:new THREE.MeshStandardMaterial({color:0xd62b2b,roughness:.32,metalness:0,side:THREE.DoubleSide})}}
  const G=new THREE.Group(),A=(geo,mat,x,y,z,rx,rz,P)=>{const q=new THREE.Mesh(geo,mat);q.position.set(x,y,z);if(rx)q.rotation.x=rx;if(rz)q.rotation.z=rz;q.castShadow=true;q.receiveShadow=true;(P||G).add(q);return q};
