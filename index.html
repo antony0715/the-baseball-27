@@ -617,6 +617,17 @@ body.lkon #emo{display:none!important}
 </div>
 <div class="pg" id="pgDerby">
 <div class="rtag">🎯 全壘打大賽</div>
+<div class="seg" id="dmodeSeg" style="justify-content:center;margin:0 0 8px"><button data-m="t" class="on">🏆 錦標賽模式</button><button data-m="e">♾ 無盡模式</button></div>
+<div class="card" id="drbEnd" style="display:none">
+<details class="dd"><summary><span class="difSum"></span></summary>
+<div class="opt"><span>電腦防守</span><div class="seg" data-k="difD"><button data-v="easy">簡單</button><button data-v="normal" class="on">普通</button><button data-v="hard">困難</button><button data-v="pro">職業</button><button data-v="master">大師</button></div></div>
+<p class="hint">強度越高：你的打擊越難</p>
+</details>
+<p class="hint">不限球數、不限時間，一直打下去，直到<b>揮棒落空</b>才結束（沒揮棒、界外球、打進場內都不會結束）。結束時記錄總分，可輸入名稱登上排行榜。計分同錦標賽：落地 300～1,500 分，全壘打每發 3,000 分起，超過 100 公尺後每 5 公尺 +300，連續全壘打再加分。</p>
+<div id="drbEres"></div>
+<button class="pri" id="drbEgo">♾ 開始無盡挑戰</button>
+<div id="drbEbd"></div>
+</div>
 <div class="card" id="drbSetup">
 <details class="dd"><summary><span class="difSum"></span></summary>
 <div class="opt"><span>電腦防守</span><div class="seg" data-k="difD"><button data-v="easy">簡單</button><button data-v="normal" class="on">普通</button><button data-v="hard">困難</button><button data-v="pro">職業</button><button data-v="master">大師</button></div></div>
@@ -2352,7 +2363,7 @@ function absWho(id){if(!MP.on)return userBats()?'b':'f';const p=MP.pos(id);if(MP
 function absRoleOK(id,uc){let r='';try{r=absWho(id)}catch(e){}return uc==='strike'?r==='b':uc==='ball'?r==='f':false}
 function absAnyOK(uc){try{if(!MP.on)return !!absRoleOK(MP.id,uc)&&ABS.u>0;return Object.keys(MP.players).some(id=>absRoleOK(id,uc)&&ABS[abK(id)]>0)}catch(e){return false}}
 function absElig(){const w=ABS.w;if(!w||w.rv||w.cpu||w.man||w.ann)return 0;const id=MP.id;if(MP.on&&!MP.host&&w.el)return w.el.indexOf(id)>=0?1:0;/* 多人：誰能挑戰由房主算好、隨快照傳給大家 */return absRoleOK(id,w.uc)&&ABS[abK(id)]>0?1:0}
-function absBtn(){try{manBtn()}catch(e){}const b=$('absb');if(!b)return;let on=0;try{on=absElig()}catch(e){console.warn('ABS',e)}b.style.display=on?'block':'none';document.body.classList.toggle('absvis',!!on);if(on){b.textContent='⚖ ABS 挑戰（剩 '+ABS[abK(MP.id)]+'）';if(!window._abH){window._abH=1;toast('教練指示應該要挑戰',3.4)}}else window._abH=0}
+function absBtn(){try{manBtn()}catch(e){}const b=$('absb');if(!b)return;let on=0;try{on=absElig()}catch(e){console.warn('ABS',e)}b.style.display=on?'block':'none';document.body.classList.toggle('absvis',!!on);if(on){b.textContent='⚖ ABS 挑戰（剩 '+ABS[abK(MP.id)]+'）';if(!window._abH){const tk=window._abH=Date.now()+Math.random();setTimeout(()=>{if(window._abH!==tk)return;let ok=0;try{ok=absElig()}catch(e){}if(ok)toast('教練指示應該要挑戰',2.3)},1100)/* 裁判判決出現後才提醒 */}}else window._abH=0}
 function called(k){
  if(k!=='swing'&&(MP.on||!auto)&&!(window.DB&&DB.on)&&pc&&!pc.hbp){
   const c=F[1],q=bp(pc,1),d=absD(q.x,q.y);
@@ -2363,7 +2374,7 @@ function called(k){
     cpuCh=!!cs&&ABS.c>0&&(cs==='b'?(uc==='strike'&&((tr==='ball'&&rnd()<.8)||(tr==='strike'&&rnd()<.1))):(uc==='ball'&&((tr==='strike'&&rnd()<.8)||(tr==='ball'&&rnd()<.1))));
    sfx('catch',ball.x,ball.y,ball.z);trk.visible=false;
    if(!cpuCh&&!absAnyOK(uc)){if(mcCall(uc))return;return called0(uc,{pre:1})}/* 沒有人該挑戰這個判決（判好球不提醒投捕、判壞球不提醒打者）：不開視窗，照常判決，手動鈕仍可用 */
-   ABS.w={uc,tr,q,t:T+(cpuCh?.35:3.4),cpu:cpuCh?1:0,rv:0};/* 電腦要求挑戰：0.35 秒就提出（原 1.1 秒） */
+   ABS.w={uc,tr,q,t:T+(cpuCh?.35:3.4),cpu:cpuCh?1:0,rv:0,said:1};call(0,uc==='ball'?'ball':'strike',uc==='ball'?'壞球':'好球！');/* 先公布裁判的判決，教練提示稍後才出現 *//* 電腦要求挑戰：0.35 秒就提出（原 1.1 秒） */
    if(cpuCh)toast('裁判：'+(uc==='ball'?'壞球':'好球')+'　對手'+(cs==='b'?'打者':'投捕')+'要求 ABS 挑戰…',.9);/* 我方的提示改由 absBtn 顯示「教練指示應該要挑戰」 */
    absBtn();return}}
  if(mcCall(k))return;called0(k)}
@@ -2417,7 +2428,7 @@ function absAsk(id){const w=ABS.w;if(!w||w.rv||w.cpu||w.ann)return;w.ann={id,t:T
 let _chH=false;
 function catchHint(){let h=false;try{const f=userF();h=!!f&&ball.mode==='held'&&ball.holder===f&&g.ph==='play'&&!REP.on&&!userBats()&&!(window.DB&&DB.on)}catch(e){}if(h&&!_chH){const d=$('cth');if(d){d.style.display='block';d.style.animation='none';void d.offsetWidth;d.style.animation='cthp .9s ease-out forwards';clearTimeout(d._t);d._t=setTimeout(()=>{d.style.display='none'},950)}}_chH=h}
 function absRes(ch,id){const w=ABS.w;if(!w||w.rv)return;
- if(!ch){ABS.w=null;absBtn();return called0(w.uc,{pre:1})}
+ if(!ch){ABS.w=null;absBtn();if(w.said)window._absSd=1;/* 判決已經喊過了，不重複喊 */return called0(w.uc,{pre:1})}
  const ov=w.uc!==w.tr,k=ch===2?'c':abK(id),who=ch===2?'對手':(MP.on?(((MP.players||{})[id]||{}).n||'玩家')+' ':''),tl=MP.pvp?'':(ch===2?'對手':'我方');let m;/* 各隊次數分開：我方／對手（對戰模式依隊伍） */
  if(ov)m=who+'ABS 挑戰成功！改判'+(w.tr==='ball'?'壞球':'好球')+'（'+tl+'剩 '+ABS[k]+' 次）';else{ABS[k]--;m=who+'ABS 挑戰失敗，原判維持（'+tl+'剩 '+ABS[k]+' 次）'}
  w.fin=w.tr;w.msg=null;w.res=m;w.rp=T;w.rv=T+ABTT;absBtn()}
@@ -2429,7 +2440,7 @@ window.absTick=function(){try{mcTick()}catch(e){}const w=ABS.w;if(!w)return;if(g
  if(T>=w.t)absRes(w.cpu?2:0)};
 function called0(k,ab){retNext=1;g.spd=Math.round(pc.spd?pc.spd/MPH:PT[pc.type][1]);g.pfb=PT[pc.type][7]+'　'+g.spd+' mph　'+Math.round(pc.rpm||0)+' rpm';g.pfbT=T+3;const pbm=(()=>{const c=F[1];/* 捕手不在接球位置（被玩家移開）→ 漏接，球繼續往後滾；第三好球／第四壞球照常判 */if(!c||hyp(c.x-ball.x,c.z-ball.z)<1.2)return 0;return k==='ball'?g.b<3:g.s<2})();pbNext=pbm?1:0;if(!pbm&&!(ab&&ab.pre))sfx('catch',ball.x,ball.y,ball.z);const q=bp(pc,1),zz=inZone(q.x,q.y);trk.position.set(q.x,q.y,0);trk.material.color.setHex(zz?0x44ff88:0xff5a5a);trk.visible=true;call(0,k==='ball'?'ball':'strike',(ab&&ab.msg)||(k==='ball'?'壞球':(k==='swing'?'揮棒落空！':'好球！')));if(pbm){ball.mode='loose';ball.holder=null;ball.drag=0}else{ball.mode='held';ball.holder=F[1];ball.heldAt=T;ball.drag=0}
  if(k==='ball'){g.b++;if(window.DB&&DB.on)g.b=0;else if(g.b>=4)return walk();return endPitch('壞球',1.2)}
- if(window.DB&&DB.on){g.s=g.b=0;if(k==='swing'){DB.o++;DB.c=0}return endPitch(k==='swing'?'揮空　剩 '+(DB.lim-DB.o)+' 球':'好球（沒揮棒不耗球）',1.2)}g.s++;if(g.s>=3){psK();g.b=g.s=0;const dk=!MP.on&&(pbm||(k==='swing'&&rnd()<.04+(q.y<.62?.1:0)))&&(g.outs>=2||!RN.some(r=>alive(r)&&r.base===1));if(dk){pbNext=1;bxOut=1;const br=mkRunner(0,1,true);if(br){br.x=BM.position.x;br.z=BM.position.z;br.sx=br.x;br.sz=br.z;if(!auto&&userBats()){br.ctl=1;br.man=1;selRun=br}}return endPitch('三振',1.8)}g.outs++;call(0,'out','');return endPitch('三振！',1.8)}endPitch(k==='swing'?'揮棒落空':'好球',1.2)}
+ if(window.DB&&DB.on){g.s=g.b=0;if(k==='swing'){DB.o++;DB.c=0;if(DB.inf&&!MP.on)DB.lim=DB.o/* 無盡模式：揮空＝結束 */}return endPitch(k==='swing'?(DB.inf?'揮空！無盡挑戰結束':'揮空　剩 '+(DB.lim-DB.o)+' 球'):'好球（沒揮棒不耗球）',1.2)}g.s++;if(g.s>=3){psK();g.b=g.s=0;const dk=!MP.on&&(pbm||(k==='swing'&&rnd()<.04+(q.y<.62?.1:0)))&&(g.outs>=2||!RN.some(r=>alive(r)&&r.base===1));if(dk){pbNext=1;bxOut=1;const br=mkRunner(0,1,true);if(br){br.x=BM.position.x;br.z=BM.position.z;br.sx=br.x;br.sz=br.z;if(!auto&&userBats()){br.ctl=1;br.man=1;selRun=br}}return endPitch('三振',1.8)}g.outs++;call(0,'out','');return endPitch('三振！',1.8)}endPitch(k==='swing'?'揮棒落空':'好球',1.2)}
 /* ---- 盜壘：打擊方在投球前／投球中按「盜壘」，壘上跑者起跑；球進捕手手套後由捕手傳球，用既有的傳球／觸殺／滑壘機制判定 ---- */
 const hRun=r=>!!(MP.on&&r.own&&MP.players&&MP.players[r.own]);/* 多人模式：真人玩家的跑者不能被別人操控盜壘／回壘，只有電腦跑者可以 */
 function stealers(){const o=[],ar=RN.filter(r=>alive(r)&&r.st==='on'&&!r.stl&&!hRun(r));for(const b of[2,1]){const r=ar.find(q=>q.base===b);if(r&&!RN.some(q=>alive(q)&&q.base===b+1&&!o.includes(q)))o.push(r)}return o}
@@ -3196,7 +3207,7 @@ const PGM={home:'pgHome',solo:'pgSolo',mp:'pgMP',season:'pgSeason',derby:'pgDerb
 window.showPage=n=>{for(const k in PGM)$(PGM[k]).classList.toggle('on',k===n);$('menu').classList.toggle('mpg',n==='mp'||n==='season'||n==='derby')};
 $('st0').onclick=()=>showPage('solo');$('mpm').onclick=()=>showPage('mp');$('bk1').onclick=$('bk2').onclick=()=>showPage('home');$('bk3').onclick=()=>showPage(MP.on?'mp':'solo');$('mrS').addEventListener('toggle',e=>{window.mrDO=e.target.open},true);
 window.mpEntered=host=>{$('mpb').style.display='none';$('mpR').style.display='grid';$('menu').classList.add('inroom');$('bk2').onclick=()=>location.reload()};
-function launch(uf){DB.on=0;DB.rk='';DG=null;MP.dbm=null;dbHide(0);$('dbh').style.display='none';if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;SVD=[difO,difD];D=mkD(difO,difD);g.max=inn;g.uf=uf;startGame();$('menu').style.display='none';if(matchMedia('(pointer:coarse)').matches)goFull()}
+function launch(uf){DB.on=0;DB.inf=0;DB.rk='';DG=null;MP.dbm=null;dbHide(0);$('dbh').style.display='none';if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;SVD=[difO,difD];D=mkD(difO,difD);g.max=inn;g.uf=uf;startGame();$('menu').style.display='none';if(matchMedia('(pointer:coarse)').matches)goFull()}
 $('st').onclick=()=>launch(ufSel==='r'?(rnd()<.5?1:0):(ufSel==='f'?1:0));
 var mpMode='g';
 /* ===== 隊徽／賽季專屬隊名／多人賽季同步 ===== */
@@ -3288,16 +3299,16 @@ $('mrS').addEventListener('click',e=>{if(e.target.id==='mpSea'&&MP.host){showPag
 /* ================= 單人全壘打大賽 =================
    8 位強打者單淘汰（八強→準決賽→決賽）。你手打自己的比賽，其餘對戰依強度自動模擬。
    每輪：投手固定投好打的球；全壘打不算出局，揮空三次／其他擊球（安打、飛球、滾地）算 1 個出局；出局用完後全壘打多者晉級，同分打 3 出局延長賽。 */
-var DB={on:0,o:0,h:0,n:0,c:0,lim:7,end:0,at:0,s:''},DT=null,DBEST={h:0,l:0},dlim=20;
-try{DT=JSON.parse(localStorage.getItem('nbDerby4')||'null');Object.assign(DBEST,JSON.parse(localStorage.getItem('nbDerbyBest3')||'{}'));const q=+localStorage.getItem('nbDlim');if([15,20,25].includes(q))dlim=q}catch(e){}
+var DB={on:0,o:0,h:0,n:0,c:0,lim:7,end:0,at:0,s:'',inf:0},DT=null,DBEST={h:0,l:0},dlim=20,dmode='t',DEL=[],ENP=null;
+try{DT=JSON.parse(localStorage.getItem('nbDerby4')||'null');Object.assign(DBEST,JSON.parse(localStorage.getItem('nbDerbyBest3')||'{}'));const q=+localStorage.getItem('nbDlim');if([15,20,25].includes(q))dlim=q;dmode=localStorage.getItem('nbDmode')==='e'?'e':'t';DEL=JSON.parse(localStorage.getItem('nbDerbyEL1')||'[]')||[]}catch(e){}
 const DBN=['鐵牛 陳','飛鷹 林','金剛 朴','雷神 王','巨砲 佐藤','黑熊 Cruz','猛虎 Reyes'],DBP=[.3,.34,.38,.42,.46,.5,.54],DBR={8:'八強賽',4:'準決賽',2:'決賽'};
 const dbSave=()=>{try{DT?localStorage.setItem('nbDerby4',JSON.stringify(DT)):localStorage.removeItem('nbDerby4');localStorage.setItem('nbDerbyBest3',JSON.stringify(DBEST))}catch(e){}},
  dbNm=i=>i===0?(LK.nm||'你'):DBN[i-1];
 function hrDist(){const b=ball,t=(b.vy+Math.sqrt(Math.max(0,b.vy*b.vy+2*G*b.y)))/G,d=Math.hypot(b.x+b.vx*t,b.z+b.vz*t);return(isFinite(d)?d:Math.hypot(b.x,b.z))/KB}
-const DBK=300;/* 分數倍率：全部分數 ×300 */
+const DBK=300,dbRm=()=>DB.inf?`　已打 ${DB.o} 球`:`　剩 ${Math.max(0,DB.lim-DB.o)} 球`;/* 分數倍率：全部分數 ×300 */
 function dbHide(on){F.forEach(f=>{if(f.i<2)return;if(on){if(f._hx===undefined){f._hx=f.hx;f._hz=f.hz}f.hx=f.x=f.i*6;f.hz=f.z=-6000}else if(f._hx!==undefined){f.hx=f.x=f._hx;f.hz=f.z=f._hz;delete f._hx}})}
-function dbPlay(p,bt){if(!p.hr)return'';DB.o++;DB.n++;DB.c++;const d=p.hd?Math.round(p.hd):0,cb=Math.min(DB.c-1,5),pt=(10+Math.max(0,Math.round((d-100)/5))+cb)*DBK;DB.h+=pt;if(d>DBEST.l){DBEST.l=d;dbSave()}return`全壘打！${d} m　+${pt.toLocaleString()} 分${cb?`（連轟 +${cb*DBK}）`:''}　剩 ${Math.max(0,DB.lim-DB.o)} 球`}
-function dbLand(){const b=ball,d=hyp(b.x,b.z)/KB,v=(1+Math.round(d/25))*DBK;DB.o++;DB.c=0;DB.h+=v;b.mode='dead';finishAB(`落地 ${Math.round(d)} m　+${v.toLocaleString()} 分　剩 ${Math.max(0,DB.lim-DB.o)} 球`,1.4,1.2)}
+function dbPlay(p,bt){if(!p.hr)return'';DB.o++;DB.n++;DB.c++;const d=p.hd?Math.round(p.hd):0,cb=Math.min(DB.c-1,5),pt=(10+Math.max(0,Math.round((d-100)/5))+cb)*DBK;DB.h+=pt;if(d>DBEST.l){DBEST.l=d;dbSave()}return`全壘打！${d} m　+${pt.toLocaleString()} 分${cb?`（連轟 +${cb*DBK}）`:''}${dbRm()}`}
+function dbLand(){const b=ball,d=hyp(b.x,b.z)/KB,v=(1+Math.round(d/25))*DBK;DB.o++;DB.c=0;DB.h+=v;b.mode='dead';finishAB(`落地 ${Math.round(d)} m　+${v.toLocaleString()} 分${dbRm()}`,1.4,1.2)}
 function dbCpu(i,lim){const p=cl(DBP[i-1]+(SLV.indexOf(difD)-1)*.04,.12,.75);let h=0,c=0;for(let n=0;n<lim;n++){if(rnd()<p){c++;h+=10+(rnd()*9|0)+Math.min(c-1,5)}else{c=0;h+=1+(rnd()*4|0)}}return h*DBK}
 function dbPair(a,b,lim){let x=dbCpu(a,lim),y=dbCpu(b,lim);if(x===y){if(rnd()<.5)x++;else y++}return[x,y]}
 function dbNew(){const o=[1,2,3,4,5,6,7].sort(()=>rnd()-.5);DT={lim:dlim,al:[0,...o],bonus:0,log:[],out:0,champ:0,ch:-1,msg:'',df:difD};dbSave();dbRender()}
@@ -3310,17 +3321,24 @@ function dbResolve(h){const lim=DT.bonus?5:DT.lim,op=DT.al[1],c=dbCpu(op,lim);if
  else if(DT.al.length===2){DT.champ=1;DT.ch=0;DT.msg='🏆 你是全壘打大賽冠軍！'}
  else{DT.al=nx;DT.msg=`晉級${DBR[nx.length]}！`}
  dbSave()}
-function dbRender(){const m=$('drbMain'),s=$('drbSetup');if(!DT){s.style.display='';m.style.display='none';$('drbRst').style.display='none';return}
+function dbRender(){const m=$('drbMain'),s=$('drbSetup'),en=$('drbEnd');[...$('dmodeSeg').children].forEach(b=>b.classList.toggle('on',b.dataset.m===dmode));if(dmode==='e'){s.style.display='none';m.style.display='none';$('drbRst').style.display='none';en.style.display='';dbERender();return}en.style.display='none';if(!DT){s.style.display='';m.style.display='none';$('drbRst').style.display='none';return}
  s.style.display='none';m.style.display='';$('drbRst').style.display='';
  const done=DT.out||DT.champ,rn=DBR[DT.al.length],op=DT.al[1],pw='★'.repeat(Math.max(1,Math.round((DBP[(op||1)-1]-.2)/.06)));
  let h=done?`<div class="big">${DT.champ?DT.msg:'😢 '+DT.msg}</div>${DT.champ?'':`<div class="lg">冠軍：${dbNm(DT.ch)}</div>`}<button class="pri" id="drbNew2">再來一次</button>`
   :`${DT.msg?`<div class="lg" style="text-align:center;color:#ffb703">${DT.msg}</div>`:''}<div class="big">${rn}${DT.bonus?'・延長賽':''}</div><div class="lg" style="text-align:center">對手：<b>${dbNm(op)}</b> ${pw}<br>${DT.bonus?5:DT.lim} 球，分數高者晉級</div><button class="pri" id="drbGo">⚾ 開始打擊</button>`;
  h+=DT.log.slice().reverse().map(r=>`<div class="lg"><b>${r.n}</b><br>${r.l.join('<br>')}</div>`).join('')+`<div class="lg" style="text-align:center;margin-top:6px">最佳單輪 ${DBEST.h.toLocaleString()} 分　最遠全壘打 ${DBEST.l} m</div>`;
  m.innerHTML=h}
-function dbGo(){DG=null;DB.on=1;DB.o=0;DB.h=0;DB.n=0;DB.c=0;dbHide(1);DB.end=0;DB.at=0;DB.s='';DB.lim=DT.bonus?5:DT.lim;if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;difD=dnorm(DT.df||difD);D=mkD(difO,difD);g.max=99;g.uf=1;startGame();setMode('p');$('menu').style.display='none';$('dbh').style.display='block';if(matchMedia('(pointer:coarse)').matches)goFull()}
-function dbFin(ab){try{if(!ab&&window.profDerby)profDerby(DB.h,DB.n)}catch(e){}DG=null;DB.on=0;dbHide(0);DB.end=1;$('dbh').style.display='none';g.ph='over';g.msgT=0;if(!ab){$('sum').classList.add('res');$('sum').textContent=`全壘打大賽　本輪 ${DB.h.toLocaleString()} 分（${DB.n} 發全壘打）`;dbResolve(DB.h)}$('menu').style.display='flex';showPage('derby');dbRender()}
-function dbTick(){if(!DB.on)return;const mp=MP.on,gst=mp&&!MP.host,pn=mp?((MP.players[MP.ap]||{}).n||'玩家').replace(/[&<>"]/g,c=>'&#'+c.charCodeAt(0)+';'):'',lab=mp?`${pn}（${(DB.pi||0)+1}/${DB.np||1}）`:`${DBR[DT.al.length]}${DT.bonus?'・延長':''}`;
- const s=`🎯 ${lab}　分數 <b>${DB.h.toLocaleString()}</b>　HR ${DB.n}　剩餘 <b>${Math.max(0,DB.lim-DB.o)}</b> 球${gst?'':'<button id="dbq">✕</button>'}`;if(s!==DB.s){DB.s=s;$('dbh').innerHTML=s}
+const DLN={easy:'簡單',normal:'普通',hard:'困難',pro:'職業',master:'大師'};
+function dbEsv(){try{localStorage.setItem('nbDerbyEL1',JSON.stringify(DEL))}catch(e){}}
+function dbERender(){let h='';if(ENP){h=`<div class="big">♾ 本次 ${ENP.h.toLocaleString()} 分</div><div class="lg" style="text-align:center">${ENP.n} 發全壘打・打了 ${ENP.o} 球・電腦防守 ${DLN[ENP.d]||''}</div>`;if(ENP.h>0){let nm='';try{nm=localStorage.getItem('nbDenm')||''}catch(e){}h+=`<input id="denm" maxlength="12" placeholder="輸入名稱上榜" value="${rEsc(nm)}" style="width:100%;box-sizing:border-box;margin:8px 0;padding:10px 12px;border-radius:10px;border:1px solid #ffffff33;background:#ffffff14;color:#fff;font-size:16px"><div class="row"><button class="pri" id="denOk">登上排行榜</button><button class="pri2" id="denSkip">略過</button></div>`}else h+=`<div class="lg" style="text-align:center">沒有得分，無法上榜</div><button class="pri2" id="denSkip">關閉</button>`}
+$('drbEres').innerHTML=h;$('drbEgo').textContent=ENP?'♾ 再挑戰一次':'♾ 開始無盡挑戰';
+const md=['🥇','🥈','🥉'];$('drbEbd').innerHTML=`<div class="lg" style="text-align:center;margin-top:8px"><b>🏆 無盡排行榜</b></div>`+(DEL.length?DEL.slice(0,10).map((e,i)=>`<div class="lg" style="display:flex;gap:8px;align-items:baseline;${e.t===window._denNew?'color:#ffb703;font-weight:800;opacity:1':''}"><span style="width:28px;text-align:center">${md[i]||i+1}</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${rEsc(e.nm)}</span><b>${e.h.toLocaleString()}</b><small style="width:84px;text-align:right">${e.n} HR・${DLN[e.d]||''}</small></div>`).join(''):`<div class="lg" style="text-align:center">還沒有紀錄</div>`)}
+function dbEsave(){const inp=$('denm');if(!ENP||!inp)return;const nm=(inp.value||'').trim().slice(0,12)||'無名氏';try{localStorage.setItem('nbDenm',nm)}catch(e){}const e={nm,h:ENP.h,n:ENP.n,o:ENP.o,d:ENP.d,t:Date.now()};DEL.push(e);DEL.sort((a,b)=>b.h-a.h||a.t-b.t);DEL=DEL.slice(0,50);dbEsv();window._denNew=e.t;ENP=null;dbERender()}
+function dbGoE(){ENP=null;DG=null;DB.on=1;DB.inf=1;DB.o=0;DB.h=0;DB.n=0;DB.c=0;dbHide(1);DB.end=0;DB.at=0;DB.s='';DB.lim=1e9;window._denNew=0;if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;difD=dnorm(difD);D=mkD(difO,difD);g.max=99;g.uf=1;startGame();setMode('p');$('menu').style.display='none';$('dbh').style.display='block';if(matchMedia('(pointer:coarse)').matches)goFull()}
+function dbGo(){DG=null;DB.on=1;DB.inf=0;DB.o=0;DB.h=0;DB.n=0;DB.c=0;dbHide(1);DB.end=0;DB.at=0;DB.s='';DB.lim=DT.bonus?5:DT.lim;if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;difD=dnorm(DT.df||difD);D=mkD(difO,difD);g.max=99;g.uf=1;startGame();setMode('p');$('menu').style.display='none';$('dbh').style.display='block';if(matchMedia('(pointer:coarse)').matches)goFull()}
+function dbFin(ab){const inf=DB.inf;try{if(!ab&&!inf&&window.profDerby)profDerby(DB.h,DB.n)}catch(e){}DG=null;DB.on=0;dbHide(0);DB.end=1;$('dbh').style.display='none';g.ph='over';g.msgT=0;if(inf){ENP={h:DB.h,n:DB.n,o:DB.o,d:difD};DB.inf=0;if(DB.h>DBEST.h){DBEST.h=DB.h;dbSave()}}else if(!ab){$('sum').classList.add('res');$('sum').textContent=`全壘打大賽　本輪 ${DB.h.toLocaleString()} 分（${DB.n} 發全壘打）`;dbResolve(DB.h)}$('menu').style.display='flex';showPage('derby');dbRender()}
+function dbTick(){if(!DB.on)return;const mp=MP.on,gst=mp&&!MP.host,pn=mp?((MP.players[MP.ap]||{}).n||'玩家').replace(/[&<>"]/g,c=>'&#'+c.charCodeAt(0)+';'):'',lab=mp?`${pn}（${(DB.pi||0)+1}/${DB.np||1}）`:DB.inf?'♾ 無盡模式':`${DBR[DT.al.length]}${DT.bonus?'・延長':''}`;
+ const s=`🎯 ${lab}　分數 <b>${DB.h.toLocaleString()}</b>　HR ${DB.n}　${DB.inf?`已打 <b>${DB.o}</b> 球・揮空結束`:`剩餘 <b>${Math.max(0,DB.lim-DB.o)}</b> 球`}${gst?'':'<button id="dbq">✕</button>'}`;if(s!==DB.s){DB.s=s;$('dbh').innerHTML=s}
  if(gst)return;
  if(!DB.end&&DB.o>=DB.lim&&g.ph==='ready'){g.rdy=Math.max(g.rdy,T+9);if(DG)DB.at=0;else if(!DB.at)DB.at=T+1.6;else if(T>DB.at){if(mp&&MP.dbm)dbMpNext();else dbFin(0)}}}
 function dbMpNext(){const m=MP.dbm;m.sc[m.ord[m.i]]={h:DB.h,n:DB.n};
@@ -3334,7 +3352,7 @@ function dbMpFin(ab){const m=MP.dbm;if(!m)return;if(ab&&m.i<m.ord.length)m.sc[m.
  DB.on=0;DB.end=1;dbHide(0);DG=null;$('dbh').style.display='none';fin();$('sum').textContent=DB.rk}
 function dbMpGo(){const L=Object.keys(MP.players).sort((a,b)=>(MP.players[a].j-MP.players[b].j)||(a<b?-1:1));
  MP.pvp=0;MP.dbm={ord:L,i:0,sc:{}};
- DB.on=1;DB.o=0;DB.h=0;DB.n=0;DB.c=0;DB.end=0;DB.at=0;DB.s='';DB.lim=dlim;DB.pi=0;DB.np=L.length;DB.rk='';DB.mid=0;DB.mt='';DG=null;dbHide(1);
+ DB.on=1;DB.o=0;DB.h=0;DB.n=0;DB.c=0;DB.end=0;DB.at=0;DB.s='';DB.lim=dlim;DB.inf=0;DB.pi=0;DB.np=L.length;DB.rk='';DB.mid=0;DB.mt='';DG=null;dbHide(1);
  if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;D=mkD(difO,difD);g.max=99;g.uf=1;startGame();setMode('p');$('menu').style.display='none';$('dbh').style.display='block';if(matchMedia('(pointer:coarse)').matches)goFull()}
 
 /* ===== 大賽專用：擊球後打者留在打擊區，球在空中飛行時就先投下一顆 ===== */
@@ -3368,7 +3386,7 @@ function dbRes(r){let m;
  if(r.k==='hr'){DB.n++;DB.c++;const d=Math.round(r.d),cb=Math.min(DB.c-1,5),pt=(10+Math.max(0,Math.round((d-100)/5))+cb)*DBK;DB.h+=pt;if(d>DBEST.l){DBEST.l=d;dbSave()}m=`全壘打！${d} m　+${pt.toLocaleString()} 分${cb?`（連轟 +${cb*DBK}）`:''}`;SND.hr()}
  else if(r.k==='land'){const v=(1+Math.round(r.d/25))*DBK;DB.c=0;DB.h+=v;m=`落地 ${Math.round(r.d)} m　+${v.toLocaleString()} 分`;SND.fadeHit(.6)}
  else{DB.c=0;m='界外球';SND.fadeHit(.6)}
- m+=`　剩 ${Math.max(0,DB.lim-DB.o)} 球`;DB.mt=m;DB.mid=(DB.mid||0)+1;toast(m,1.8)}
+ m+=`${dbRm()}`;DB.mt=m;DB.mid=(DB.mid||0)+1;toast(m,1.8)}
 function dbGhost(){
  if(!DG){gmesh.visible=gsh.visible=false;return}
  const u=T-DG.t0,P=DG.P;
@@ -3377,9 +3395,9 @@ function dbGhost(){
  const i=Math.max(0,Math.min(P.length-2,Math.floor(u/.02))),k=Math.max(0,Math.min(1,(u-P[i][0])/.02)),A=P[i],B=P[i+1];
  const x=A[1]+(B[1]-A[1])*k,y=A[2]+(B[2]-A[2])*k,z=A[3]+(B[3]-A[3])*k;
  gmesh.position.set(x,y,z);gmesh.rotation.x+=.3;gmesh.rotation.z-=.2;gsh.position.set(x,.06,z);gsh.scale.setScalar(Math.max(.4,1.1-y*.035));gmesh.visible=gsh.visible=true}
-$('dbh').onclick=e=>{if(e.target.id!=='dbq')return;if(MP.on&&MP.dbm){if(confirm('結束全壘打大賽？以目前成績排名。'))dbMpFin(1)}else if(confirm('離開本輪？本輪成績不計。'))dbFin(1)};
+$('dbh').onclick=e=>{if(e.target.id!=='dbq')return;if(MP.on&&MP.dbm){if(confirm('結束全壘打大賽？以目前成績排名。'))dbMpFin(1)}else if(DB.inf){if(confirm('結束無盡模式？目前成績仍可上榜。'))dbFin(0)}else if(confirm('離開本輪？本輪成績不計。'))dbFin(1)};
 $('drbB').onclick=()=>{dbRender();showPage('derby')};$('bk4').onclick=()=>showPage('solo');
-$('drbNew').onclick=dbNew;$('drbRst').onclick=()=>{if(confirm('放棄目前的大賽並重來？')){DT=null;dbSave();dbRender()}};
+$('dmodeSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;dmode=b.dataset.m==='e'?'e':'t';try{localStorage.setItem('nbDmode',dmode)}catch(x){}dbRender()};$('drbEgo').onclick=dbGoE;$('drbEnd').onclick=e=>{const i=e.target.id;if(i==='denOk')dbEsave();else if(i==='denSkip'){ENP=null;dbERender()}};$('drbEnd').onkeydown=e=>{if(e.target.id==='denm'&&e.key==='Enter')dbEsave()};$('drbNew').onclick=dbNew;$('drbRst').onclick=()=>{if(confirm('放棄目前的大賽並重來？')){DT=null;dbSave();dbRender()}};
 $('drbMain').onclick=e=>{const i=e.target.id;if(i==='drbGo')dbGo();else if(i==='drbNew2')dbNew()};
 $('dlim').onclick=e=>{const b=e.target.closest('button');if(!b)return;dlim=+b.dataset.v;try{localStorage.setItem('nbDlim',dlim)}catch(x){}[...$('dlim').children].forEach(q=>q.classList.toggle('on',q===b))};
 [...$('dlim').children].forEach(q=>q.classList.toggle('on',+q.dataset.v===dlim));
@@ -4172,7 +4190,7 @@ function svSaveExit(){if(MP.on){mpSaveExit();return}const s=svNow();let old=null
  location.reload()}
 function svResume(){const s=svGet();if(!s){svK='x';svRender();return}
  if(s.kind==='season')sPlay();
- else{DB.on=0;DB.rk='';DG=null;MP.dbm=null;dbHide(0);$('dbh').style.display='none';if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;D=mkD(s.lo,s.ld);g.max=s.max;g.uf=s.uf;startGame();$('menu').style.display='none';if(matchMedia('(pointer:coarse)').matches)goFull()}
+ else{DB.on=0;DB.inf=0;DB.rk='';DG=null;MP.dbm=null;dbHide(0);$('dbh').style.display='none';if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;D=mkD(s.lo,s.ld);g.max=s.max;g.uf=s.uf;startGame();$('menu').style.display='none';if(matchMedia('(pointer:coarse)').matches)goFull()}
  SVD=[s.lo,s.ld];D=mkD(s.lo,s.ld);
  Object.assign(g,{inn:s.inn,top:s.top,outs:s.outs,b:s.b,s:s.s,sc:s.sc.slice(),max:s.max,uf:s.uf,pkn:s.pkn|0,ps:s.ps||{}});if(s.ab){ABS.u=s.ab[0]|0;ABS.c=s.ab[1]|0;ABS.t0=s.ab[2]|0;ABS.t1=s.ab[3]|0}
  LS=s.ls||[[],[]];BI[0]=s.bi[0]|0;BI[1]=s.bi[1]|0;
@@ -4200,7 +4218,7 @@ window.mpSvReq=id=>{/* 多人模式：只有房主能暫停，隊友的暫停要
 function mpBack(){try{relIn()}catch(e){}try{play=null;pc=null;selRun=null;chg=0;pstg=0;stlPlan=0;ut=null;window._hoff=window._abon=undefined;document.body.classList.remove('hudoff','abson','absvis')}catch(e){}PZ=0;$('pzm').classList.remove('open');$('pzg2').style.display='none';
  if(REP.on)try{repEnd()}catch(e){}
  ABS.w=null;try{absBtn()}catch(e){}
- DB.on=0;DB.rk='';DB.end=0;DG=null;MP.dbm=null;window._dbAp=null;window._dgL=-1;try{dbHide(0)}catch(e){}$('dbh').style.display='none';
+ DB.on=0;DB.inf=0;DB.rk='';DB.end=0;DG=null;MP.dbm=null;window._dbAp=null;window._dgL=-1;try{dbHide(0)}catch(e){}$('dbh').style.display='none';
  if(SEA)SEA.cur=null;SEAG=null;TC[1]=0x3b82f6;try{hideRes()}catch(e){}
  g.ph='menu';g.msg='';g.msgT=0;SNAP=null;svId=0;svK='x';
  document.body.classList.remove('lkon');
