@@ -333,7 +333,7 @@ details.dd{background:#0000002e;border-radius:14px}
 .sp-tb{display:flex;flex-direction:column;gap:2px}.sp-r{display:flex;align-items:center;gap:6px;padding:3px 6px;border-radius:8px;font-size:13px}.sp-r em{font-style:normal;opacity:.5;width:16px;font-size:11px}.sp-r b{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sp-r span{font-size:12px;opacity:.85;white-space:nowrap}.sp-r span.p{font-weight:800;min-width:38px;text-align:right}.sp-r.me{background:#ffb70026;outline:1px solid #ffb70077}
 .ld-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}.ld-c{background:#ffffff0d;border:1px solid #ffffff1f;border-radius:12px;padding:7px 9px}.ld-c h6{margin:0 0 3px;font-size:13px;color:#ffcf66}
 .ld-r{display:flex;align-items:center;gap:6px;font-size:13px;padding:2px 0}.ld-r em{font-style:normal;opacity:.6;width:16px;text-align:center;font-size:12px}.ld-r b{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ld-r small{opacity:.6;font-size:10.5px;max-width:5.5em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ld-r span{font-weight:800;color:#ffd23f;font-variant-numeric:tabular-nums}.ld-r.me b{color:#ffd23f}
-#wxb{position:fixed;left:50%;top:calc(var(--st,0px) + 6px);transform:translateX(-50%);z-index:3;padding:3px 10px;border-radius:999px;background:#0a1626b8;border:1px solid #ffffff30;font-size:12px;font-weight:700;pointer-events:none;display:none;white-space:nowrap}body.hudoff #wxb,body.dbon #wxb,body.chon #wxb,body.abson #wxb,body.inrep #wxb,body.lkon #wxb{display:none!important}
+#wxb{position:fixed;left:50%;top:calc(var(--st,0px) + 6px);transform:translateX(-50%);z-index:3;padding:3px 10px;border-radius:999px;background:#0a1626b8;border:1px solid #ffffff30;font-size:12px;font-weight:700;pointer-events:none;display:none!important;white-space:nowrap}body.hudoff #wxb,body.dbon #wxb,body.chon #wxb,body.abson #wxb,body.inrep #wxb,body.lkon #wxb{display:none!important}
 .ld-gh{margin:12px 0 5px;font-size:14px;font-weight:800;color:#fff}.ld-gh:first-child{margin-top:2px}.ld-my{margin:0 0 6px;padding:7px 10px;border-radius:12px;background:#ffd23f1f;border:1px solid #ffd23f55;font-size:12.5px;line-height:1.5}.ld-r em.ic{opacity:1;width:18px}
 .lbx .ld-r{padding:4px 0;border-bottom:1px solid #ffffff12}.lbx .ld-r b{flex:1}.lbx .ld-r span{min-width:4.5em;text-align:right}
 .sr-g svg.cr{flex:none}.ss-t svg.cr,.bk-r svg.cr{vertical-align:middle;margin-right:5px}.ss-tnr svg.cr{flex:none}
@@ -497,12 +497,17 @@ body.lkon #prb{display:none!important}
 #emo button{width:54px;height:50px;border-radius:14px;background:var(--glass);border:2px solid #ffffff40;color:#fff;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
 #emo button span{font-size:20px}#emo button small{font-size:9.5px;font-weight:700;opacity:.9}#emo button:active{border-color:var(--amber)}
 body.lkon #emo{display:none!important}
+/* 打者第一人稱：暈邊／揮棒速度感／擊中閃光 */
+#fpv{position:fixed;inset:0;pointer-events:none;z-index:1;display:none}#fpv.on{display:block}#fpv.tp .vg{display:none}
+#fpv .vg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 75% at 50% 48%,transparent 55%,rgba(0,0,0,.3) 80%,rgba(0,0,0,.6) 100%)}
+#fpv .sw{position:absolute;inset:0;opacity:var(--sw,0);background:radial-gradient(ellipse 55% 45% at 50% 52%,transparent 40%,rgba(10,16,30,.42) 100%),linear-gradient(90deg,transparent 8%,rgba(255,255,255,.07) 30%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.07) 70%,transparent 92%)}
+#fpv .fl{position:absolute;inset:0;opacity:var(--fl,0);background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.95) 0,rgba(255,238,180,.45) 40%,rgba(255,238,180,0) 78%)}
 </style>
 </head><body>
-<script>window.APP_BUILD='2026-11-10-a';/* 【每次更新遊戲就改這個字串】玩家更新後第一次進入才顯示載入畫面並重新掃描音效檔；之後直接進遊戲 */</script>
+<script>window.APP_BUILD='2026-11-11-a';/* 【每次更新遊戲就改這個字串】玩家更新後第一次進入才顯示載入畫面並重新掃描音效檔；之後直接進遊戲 */</script>
 <div id="ldg" style="position:fixed;inset:0;z-index:99999;background:#0b1220;color:#ffb703;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;font-family:system-ui,sans-serif;transition:opacity .45s"><style>@keyframes ldgs{to{transform:rotate(360deg)}}</style><div style="width:54px;height:54px;border:5px solid #ffb70033;border-top-color:#ffb703;border-radius:50%;animation:ldgs .9s linear infinite"></div><div style="font-size:20px;font-weight:800;letter-spacing:.12em">載入中…</div><div id="ldgt" style="font-size:13px;opacity:.7">準備音樂與音效</div></div>
 <div id="hud"></div><div id="rcall"></div><button id="ccb" title="呼叫電腦傳球">呼叫</button><div id="dbh"></div><div id="wxb"></div><div id="call"></div><div id="fb"></div><div id="bfb"></div><div id="pfb"></div><div id="msg"></div><div id="hsb"></div><div id="zpip"><span>好球帶</span></div>
-<div id="camc"><button id="pzb" title="暫停" style="display:none">⏸</button><button id="rplb" title="重播上一球" style="display:none">↻</button><button id="fldb"><svg viewBox="0 0 24 24"><path d="M12 22L2 11A14 14 0 0 1 22 11Z" fill="#2f8a43"/><path d="M12 19L6.5 12.5 12 7l5.5 5.5Z" fill="#c29a66"/><path d="M12 17.5L9 13.5 12 10.5l3 3Z" fill="#2f8a43"/></svg><span id="fln">投手</span></button><button id="pcb" title="投球視角">投1</button><button id="fpb" title="第一人稱">👁</button><button id="cmb" title="視角：人／球">🧍</button><button id="mpi" title="玩家資訊" style="display:none">👥</button><button id="fsb" title="全螢幕">⛶</button></div><button id="gearb" title="設定"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6c-.6.3-1.2.6-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.3.4.5.4h4c.3 0 .5-.2.5-.4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg></button>
+<div id="fpv"><div class="vg"></div><div class="sw"></div><div class="fl"></div></div><div id="camc"><button id="pzb" title="暫停" style="display:none">⏸</button><button id="rplb" title="重播上一球" style="display:none">↻</button><button id="fldb"><svg viewBox="0 0 24 24"><path d="M12 22L2 11A14 14 0 0 1 22 11Z" fill="#2f8a43"/><path d="M12 19L6.5 12.5 12 7l5.5 5.5Z" fill="#c29a66"/><path d="M12 17.5L9 13.5 12 10.5l3 3Z" fill="#2f8a43"/></svg><span id="fln">投手</span></button><button id="pcb" title="投球視角">投1</button><button id="fpb" title="第一人稱">👁</button><button id="cmb" title="視角：人／球">🧍</button><button id="mpi" title="玩家資訊" style="display:none">👥</button><button id="fsb" title="全螢幕">⛶</button></div><button id="gearb" title="設定"><svg viewBox="0 0 24 24"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.4 2.6c-.6.3-1.2.6-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.3.4.5.4h4c.3 0 .5-.2.5-.4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg></button>
 <div id="uibar"><div class="r1"><b id="uitt">拖曳按鍵移動，點選後調整</b><button id="uidn">完成</button></div><div class="r2"><label><span>大小<b id="uisv"></b></span><input type="range" id="uis" min="50" max="200" step="5"></label><label><span>透明度<b id="uiov"></b></span><input type="range" id="uio" min="10" max="100" step="5"></label></div><div class="r3"><button id="uir1">還原此按鍵</button><button id="uimr">↔ 左右對調全部</button></div></div>
 <button id="absb" style="display:none"></button><button id="lkg" style="display:none">👕 更衣室</button>
 <div id="setm"><div class="box">
@@ -520,6 +525,7 @@ body.lkon #emo{display:none!important}
 <div class="it"><label>觀眾歡呼<small>擊出安打、全壘打、接殺時的歡呼</small><b id="vcrv"></b></label><input type="range" id="vcr" min="0" max="100"></div>
 </section>
 <section class="sg"><h4>🎨 畫面</h4>
+<div class="it"><label>⚡ 效能模式<b id="pmv"></b></label><div id="pmb" class="seg3"><button data-p="a">自動</button><button data-p="h">高畫質</button><button data-p="b">平衡</button><button data-p="e">省電</button></div><small>一鍵統一調整陰影、場地精細度、解析度、場外景物、啦啦隊與幀率。自動＝偵測到卡頓就自動降級；省電＝最流暢、最省電（30 幀），並改用舊版低面數人物（重新開啟遊戲後生效）；其他模式使用高面數人物。下方個別選項手動改動後會變成「自訂」</small></div>
 <div class="it"><label>時間<b id="todv"></b></label><div id="todb" class="seg3"><button data-t="dawn">🌅 日出</button><button data-t="day">☀️ 白天</button><button data-t="dusk">🌇 傍晚</button><button data-t="night">🌙 夜晚</button></div></div>
 <div class="it"><label>陰影<b id="shdv"></b></label><div id="shdb" class="seg3"><button data-s="0">標準</button><button data-s="1">精簡</button><button data-s="2">關閉</button></div><small>手機卡頓時改「精簡」或「關閉」可明顯提升流暢度</small></div>
 <div class="it"><label>場地精細度<b id="fqv"></b></label><div id="fqb" class="seg3"><button data-q="h">高</button><button data-q="m">中</button><button data-q="l">低</button></div><small>草皮與紅土的細節程度；較低可讓效能較弱的手機更順暢</small></div>
@@ -528,6 +534,7 @@ body.lkon #emo{display:none!important}
 <div class="tg"><span>降低解析度<small>觀眾席與廣告牌貼圖改用低解析度（提升流暢度）</small></span><button id="vlow"></button></div>
 </section>
 <section class="sg"><h4>🎮 操作</h4>
+<div class="tg"><span>揮棒臨場特效<small>打擊時的鏡頭推近、速度光、擊中閃光與震動、第一人稱暗角（第一、第三人稱都適用）</small></span><button id="vswf"></button></div>
 <div class="tg"><span>震動回饋<small id="vibs">擊球、全壘打、接殺、好壞球時手機震動</small></span><button id="vvib"></button></div>
 <div class="it"><label>移動方式</label><div id="uijm" class="seg3"><button data-m="area">移動區域</button><button data-m="stk">舊搖桿</button></div><small>移動區域：和瞄準區一樣的長方形區域，手指在區域內按下，往哪個方向滑角色就往哪個方向走。舊搖桿：原本的圓形搖桿，推多遠走多快（預設）。位置固定在畫面左下角，可用「編輯按鍵」移動。</small></div>
 <div class="btn2r"><button id="uied" class="uibtn">🎛 編輯按鍵</button><button id="uirs" class="uibtn alt">↺ 還原預設</button></div>
@@ -544,8 +551,8 @@ body.lkon #emo{display:none!important}
 </section>
 <section class="sg"><h4>🔧 疑難排解</h4>
 <button id="unstk" class="uibtn warn">重置卡住</button>
-<button id="wtrs" class="uibtn warn">重置人物（待機卡住→回休息室）</button>
-<small class="hint">多人模式待機中的你卡在球場底下、走不出來時按：直接重生在休息室</small>
+<button id="wtrs" class="uibtn warn">重置人物（待機卡住→回休息室入口）</button>
+<small class="hint">多人模式待機中的你卡在球場底下、走不出來時按：重生在休息室入口外的地面（同時解除坐下／拿球棒狀態）；站在不能走的位置超過 1 秒也會自動重生</small>
 <small class="hint">移動搖桿推了角色卻不動時按：重置搖桿／觸控，並解除自己角色卡住的撲接、跳躍、硬直狀態（多人模式會一併通知房主重置）</small>
 <button id="btnrs" class="uibtn warn">重置按鈕功能</button>
 <small class="hint">撲壘／滑壘等按鈕「看起來能按卻沒反應」時按：重新綁定所有操作按鈕、放開卡住的搖桿／蓄力／輪盤、重選跑者、解除卡住的暫停遮罩（比賽進度不受影響）</small>
@@ -781,14 +788,24 @@ function wtInit(id){if(isPend(id)){/* 中途加入的玩家：不論攻守，一
  if(r===0){const q=WS[0];return{x:OD.x+q[0],z:OD.z+q[1],vx:0,vz:0}}
  const k=r-1,h=dugW(1,4+(k%8)*1.9,1.2+((k>>3)%2)*.6);return{x:h[0],z:h[1],vx:0,vz:0}}
 /* 重置人物：待機中卡在球場底下的玩家，直接重生在己方休息室長椅前（位置以本機為準，房主會跟著同步） */
-MP.wtHome=()=>{const o=MP.WT[MP.id];if(!o||!MP.waiting())return 0;const L=bl(),k=Math.max(0,L.indexOf(MP.id))%8,h=dugW(1,4+k*1.9,1.2+(k%2)*.3);o.x=h[0];o.z=h[1];o.vx=o.vz=0;o.px=o.x;o.pz=o.z;return 1};
+MP.wtHome=()=>{const o=MP.WT[MP.id];if(!o||!MP.waiting())return 0;
+ /* 重生點：依序找「真的走得動」的位置（wzOK 通過）。先試休息室入口外的地面（高度 0，不在下沉的休息室裡），再試打擊準備圈，最後才是長椅前 */
+ const C=[];[[3.2,-.9],[2.4,-.9],[4.2,-.9],[3.2,-1.5],[1.6,-1.2]].forEach(q=>C.push(dugW(1,q[0],q[1])));
+ WS.forEach(q=>C.push([OD.x+q[0],OD.z+q[1]]));
+ const L=bl(),k=Math.max(0,L.indexOf(MP.id))%8;for(let i=0;i<8;i++)C.push(dugW(1,4+((k+i)%8)*1.9,1.2));
+ let h=C.find(q=>isFinite(q[0])&&isFinite(q[1])&&wzOK(q[0],q[1]))||C[0];
+ o.x=h[0];o.z=h[1];o.vx=o.vz=0;o.px=o.x;o.pz=o.z;o._bad=0;
+ try{if(window.sitSet)window.sitSet(null)}catch(e){}/* 坐在長椅上的狀態也要解除，否則會被拉回座位 */
+ try{if(window.batDrop)window.batDrop()}catch(e){}
+ try{const wl=MP.wlist?MP.wlist():[],kk=wl.indexOf(MP.id);if(kk>=0&&window.WM&&WM[kk]&&WM[kk].m){WM[kk].m.dyc=0;WM[kk].m.dy=0}}catch(e){}
+ return 1};
 function wtTick(dt){if(!(g.ph!=='menu'&&g.ph!=='over')||(!bOff()&&!list().some(isPend))){MP.WT={};return}
  for(const id of list()){if(!isW(id)){delete MP.WT[id];continue}
   const o=MP.WT[id]||(MP.WT[id]=wtInit(id));
   if(id===MP.id){const S=lstk(),mg=S[2];if(SIT.k&&mg>=.6&&window.sitSet)window.sitSet(null);if(SIT.k){o.vx=o.vz=0}else if(mg>=.12){const sp=5.2*Math.min(1,Math.max(.4,mg*1.1));o.vx=S[0]/mg*sp;o.vz=S[1]/mg*sp;if(o.em)o.em=0}else o.vx=o.vz=0;o.x+=o.vx*dt;o.z+=o.vz*dt}
   else if(MP.host){const v=MP.xi[id];if(v&&v.w){o.vx=v.w[2]||0;o.vz=v.w[3]||0;o.em=v.w[4]|0;o.en=v.w[5]|0;o.x+=(v.w[0]-o.x)*.5;o.z+=(v.w[1]-o.z)*.5}}
   else{o.x+=o.vx*dt;o.z+=o.vz*dt}
-  wzClamp(o)}}
+  wzClamp(o);if(id===MP.id){if(!isFinite(o.x)||!isFinite(o.z)||!wzOK(o.x,o.z)){o._bad=(o._bad||0)+dt;if(o._bad>1&&MP.wtHome)MP.wtHome()}else o._bad=0}}}
 const lookOf=id=>{const p=MP.players[id],o=Object.assign({},DEFLK,id===MP.id?LK:((p&&p.lk)||{}));if(!String(o.nm||'').trim())o.nm=(p&&p.n)||'';return o};const TG=id=>String(lookOf(id).nm||'').trim().slice(0,8);
 /* 每位玩家的連線狀況：直連 ping(ms)／備援(Firebase 轉送)／房主 */
 const pgOf=id=>{const p=MP.players[id]||{};if(id===MP.id&&MP.host||p.host)return{t:'房主',c:'g'};const me=id===MP.id,dc=me?gOpen():(MP.host?dcOpen(id):p.dc),ms=me?MP.ping:p.ms;if(!dc)return{t:'備援・延遲高',c:'w'};if(ms==null)return{t:'測量中',c:''};return{t:ms+'ms',c:ms<=60?'g':ms<=120?'y':'r'}};
@@ -880,6 +897,7 @@ MP.fr=dt=>{if(!MP.on||!bOff()||(g.ph!=='ready'&&g.ph!=='pitch')||g.hs1>T||bra)re
 MP.ur=dt=>{MP.fv=MP.pvp?1:null;try{MP.ur0(dt)}finally{MP.fv=null}};MP.ur0=dt=>{if(!play||play.hr)return;RN.forEach(r=>{if(r.own)r.ctl=0});const seen={};
  for(const r of RN.filter(q=>alive(q)&&q.own&&MP.players[q.own]).sort((a,b)=>(b.isB?1:0)-(a.isB?1:0)||b.base-a.base)){if(seen[r.own])continue;seen[r.own]=1;r.ctl=1;r.man=1;if(r.own===MP.ap)selRun=r;userRun(dt,r,ostk(r.own))}};
 let autoSlF=0;/* 電腦跑者自動滑壘時暫時略過「多人模式過半才能滑」的限制 */
+window.autoSlOK=r=>autoSlOK(r);/* 修正：這個函式定義在多人模組內，主程式（盜壘／回壘／牽制）也會呼叫，原本沒有對外開放，會出現 autoSlOK is not defined */
 const slOK=r=>{if(r.base!==0)return true;const a=BB(0),b=BB(1);return hyp(r.x-a[0],r.z-a[1])>=hyp(b[0]-a[0],b[1]-a[1])/2},/* 打者離開本壘後，要跑過本壘→一壘距離的一半才能開始第一次滑壘 */stH=r=>{if(r.base<1||r.base>3||!(isStl(r)||hRun(r)))return false;/* 電腦盜壘中的跑者，或真人玩家自己用搖桿離壘跑向下一壘的跑者 */const a=BB(r.base),b=BB(r.base+1);return hyp(r.x-a[0],r.z-a[1])>=hyp(b[0]-a[0],b[1]-a[1])/2},/* 多人模式：球還沒打出去（準備／投球中）時，只有盜壘中的跑者跑過兩壘一半以後才能滑壘／撲壘 */autoSlOK=r=>(!MP.on||MP.pvp||!userBats())&&!r.ctl&&!hRun(r),/* 單人（單人模式／1v1）：電腦自己跑的跑者，快到壘包時才自動滑壘／撲壘 */canSl=r=>!!r&&slOK(r)&&(!MP.on||g.ph==='play'||autoSlF||stH(r))&&!(r.sl&&T-r.sl<.9)&&!(r.sl&&r.slB===r.base&&r.slP===play);/* 每踩到一個新壘包（r.base 改變）或新的一球，就刷新一次滑壘 */
 function doSl(r,dv){if(canSl(r)){r.sl=T;repPin();window.slideSfx&&window.slideSfx(r);r.hs=dv?1:0;r.slB=r.base;r.slP=play;/* 滑壘本身會往前滑：沿目前跑動方向（沒在動就朝目標壘包）滑出去，快到壘包時停在壘包上 */let dx=r.vx||0,dz=r.vz||0,L=hyp(dx,dz),tb=-1;if(L<.5){tb=r.st==='go'?r.target:(isSafe(r)?-1:r.base+1);if(tb>=0&&tb<=4){const p=BB(tb);dx=p[0]-r.x;dz=p[1]-r.z;L=hyp(dx,dz)}}else tb=r.st==='go'?r.target:Math.min(4,r.base+1);r.sg=L>.3?[dx/L,dz/L]:null;r.sgb=tb;if(dv){if(play)play.hsl=1;const hp=tb>=0&&tb<=4?BB(tb):[r.x,r.z];window.HSP={x:hp[0],z:hp[1]}}}}
 function autoSl(r){const bt=BB(r.target),h=ball.mode==='held'&&ball.holder;const dv=rnd()<.3||!!(h&&hyp(h.x-bt[0],h.z-bt[1])<9);autoSlF=1;try{doSl(r,dv)}finally{autoSlF=0}}
@@ -929,8 +947,8 @@ const ball={x:0,y:1,z:0,vx:0,vy:0,vz:0,mode:'held',drag:0,bs:0,ss:0,bounced:0,la
 const userBats=()=>{const M=window.MP;if(!(M&&M.pvp))return g.top===1;return M.fv!=null?!!M.fv:!M.fld()},batIdx=()=>g.top?0:1,toast=(m,d)=>{g.msg=m;g.msgT=T+d};
 
 /* ================= 場景 ================= */
-const SET=(()=>{const d={mus:1,sfx:1,cheer:1,all:1,thm:1,amb:1,crd:1,ump:1,far:1,chr:1,tod:'dusk',shd:0,low:0,vib:1,fq:'h'};window.SETD=Object.assign({},d);/* 新玩家＝沒有存檔：預設全部最高（場地精細度高、陰影標準、不降解析度、場外景物開）；玩家在設定改過才會存起來，下次沿用 */
- try{Object.assign(d,JSON.parse(localStorage.getItem('nbSet')||'{}'))}catch(e){}try{const o=JSON.parse(localStorage.getItem('nbSet')||'{}');if(o.mus!=null){if(o.thm==null)d.thm=o.mus;if(o.amb==null)d.amb=o.mus}}catch(e){}/* 舊存檔的「音樂」音量沿用到主題曲與環境聲 */if(!['h','m','l'].includes(d.fq))d.fq='h';if(![0,1,2].includes(d.shd|0))d.shd=0;if(!['r','0','1','2','3','4'].includes(String(d.wx)))d.wx='r';return d})(),FARS=[];window.nbSv=()=>{try{let old={};try{old=JSON.parse(localStorage.getItem('nbSet')||'{}')||{}}catch(e){}const o={};for(const k in SET)if(SET[k]!==window.SETD[k]||k in old)o[k]=SET[k];localStorage.setItem('nbSet',JSON.stringify(o))}catch(e){}};
+const SET=(()=>{const d={swf:1,mus:1,sfx:1,cheer:1,all:1,thm:1,amb:1,crd:1,ump:1,far:1,chr:1,tod:'dusk',shd:0,low:0,vib:1,fq:'h',pm:'a'};window.SETD=Object.assign({},d);/* 新玩家＝沒有存檔：預設全部最高（場地精細度高、陰影標準、不降解析度、場外景物開）；玩家在設定改過才會存起來，下次沿用 */
+ try{Object.assign(d,JSON.parse(localStorage.getItem('nbSet')||'{}'))}catch(e){}try{const o=JSON.parse(localStorage.getItem('nbSet')||'{}');if(o.mus!=null){if(o.thm==null)d.thm=o.mus;if(o.amb==null)d.amb=o.mus}}catch(e){}/* 舊存檔的「音樂」音量沿用到主題曲與環境聲 */if(!['h','m','l'].includes(d.fq))d.fq='h';if(![0,1,2].includes(d.shd|0))d.shd=0;if(!['a','h','b','e','c'].includes(d.pm))d.pm='a';if(!['r','0','1','2','3','4'].includes(String(d.wx)))d.wx='r';return d})(),FARS=[];window.nbSv=()=>{try{let old={};try{old=JSON.parse(localStorage.getItem('nbSet')||'{}')||{}}catch(e){}const o={};for(const k in SET)if(SET[k]!==window.SETD[k]||k in old)o[k]=SET[k];localStorage.setItem('nbSet',JSON.stringify(o))}catch(e){}};
 const R=new THREE.WebGLRenderer({antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;document.body.prepend(R.domElement);R.localClippingEnabled=true;
 let SKYM=null,SKYD=null,HILLM=null;const POLEG=[];
 const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(55,1,.1,1000);
@@ -1280,8 +1298,8 @@ const sbc=document.createElement('canvas');sbc.width=2112;sbc.height=512;const s
   [-16,-8,0,8,16].forEach((x,i)=>{bx(.12,6,.12,0xdddddd,x,23.3,1.5);const f=new THREE.Mesh(new THREE.PlaneGeometry(2,1.2),new THREE.MeshBasicMaterial({color:[0xe03c31,0x1e56e0,0xffffff,0x1b1b1b,0xffd23f][i],side:THREE.DoubleSide}));f.position.set(x+1.06,25.7,1.5);SB.add(f)});
  SB.scale.setScalar(1.3);SB.position.set(0,0,-131*KB*KO);sc.add(SB)}
 /* ---- 打線／大頭照：之後新增自訂球員只要呼叫 setLineup(0或1,[{name,num,avg,hr,photo}]) ，photo 可為圖片網址或 dataURL ---- */
-var DEFLK={th:1,bt:0,sk:0xefc39a,hc:0x2a1a10,hs:0,eye:0,mo:0,bd:0,eb:0,js:0,hat:0,hcol:null,jc:0xe5484d,ac:0xffffff,num:7,nm:'',tn:'紅隊',fw:0,ec:0,bw:0,hb:0,er:0,ne:0,wb:0,xc:null,nk:null,lc:null,nc:null,pc:null,shc:null,skc:null,glc:null,bm:0,bs:0,bg:0,bk:0,bp:0,bx:0,bcl:null,bgc:null,bpc:null,btc:null,jk:0,jkc:null,ps:0,pch:0,bch:0,chc:null,bgl:0};
-const _IXN={bgl:5,hs:17,jk:5,ps:5,pch:6,bch:6,hat:13,eye:11,mo:9,bd:8,eb:4,bw:5,ec:6,fw:4,js:19,hb:3,er:3,ne:9,wb:3,bm:5,bs:6,bg:5,bk:4,bp:7,bx:4},_IXC=['hcol','lc','nc','pc','shc','skc','glc','xc','nk','bcl','bgc','bpc','btc','jkc','chc'];
+var DEFLK={th:1,bt:0,sk:0xefc39a,hc:0x2a1a10,hs:0,eye:0,mo:0,bd:0,eb:0,js:0,hat:0,hcol:null,jc:0xe5484d,ac:0xffffff,num:7,nm:'',tn:'紅隊',fw:0,ec:0,mk:0,bw:0,hb:0,er:0,ne:0,wb:0,xc:null,nk:null,lc:null,nc:null,pc:null,shc:null,skc:null,glc:null,bm:0,bs:0,bg:0,bk:0,bp:0,bx:0,bcl:null,bgc:null,bpc:null,btc:null,jk:0,jkc:null,ps:0,pch:0,bch:0,chc:null,bgl:0};
+const _IXN={bgl:5,hs:23,jk:5,ps:5,pch:6,bch:6,hat:17,eye:14,mo:11,bd:8,eb:4,bw:11,ec:8,fw:6,mk:3,js:23,hb:3,er:6,ne:9,wb:3,bm:5,bs:6,bg:5,bk:4,bp:7,bx:4},_IXC=['hcol','lc','nc','pc','shc','skc','glc','xc','nk','bcl','bgc','bpc','btc','jkc','chc'];
 const _ix=(v,n)=>(v>=0&&v<n&&v===(v|0))?v:0;
 var LK=Object.assign({},DEFLK);try{Object.assign(LK,JSON.parse(localStorage.getItem('nbLK')||'{}'))}catch(e){}
 for(const k in _IXN)LK[k]=_ix(LK[k],_IXN[k]);_IXC.forEach(k=>{if(typeof LK[k]!=='number')LK[k]=null});
@@ -1291,7 +1309,7 @@ const curB=()=>{const t=batIdx(),L=LINEUP[t],i=BI[t]%L.length;return{t,i,p:L[i]}
 function photoOf(p){if(!p.photo)return null;let im=PH[p.photo];if(!im){im=PH[p.photo]=new Image();im.crossOrigin='anonymous';im.onload=drawBB;im.src=p.photo}return im.complete&&im.naturalWidth?im:null}
 window.setLineup=(t,arr)=>{LINEUP[t]=arr;BI[t]=0;PH={};drawBB()};
 /* drawBB 已併入 boardDraw（見下方） */
-function batTrack(){const ph=g.ph;if(ph===prevPh)return;if(ph==='play'&&play&&!play.steal)bxOut=1;/* 多人模式的非主機端也靠這裡進入「打擊區清空」狀態 */if(ph==='ready'){if(paKeep||(window.DB&&DB.on)){paKeep=0;bxOut=0;if(lastT!==batIdx()){cpuPk=0;g.pkn=0;lastT=batIdx();drawBB()}}else if(g.b===0&&g.s===0){cpuPk=0;g.pkn=0;if(prevPh!=='menu'&&!(MP.on&&!MP.host)&&!midPA)BI[lastT]++;midPA=0;/* 半局在打者打到一半時結束（盜壘／牽制被刺殺等）→ 他不換棒，下個半局由他開頭 */bxOut=prevPh!=='menu'?1:0;/* 換新打者：打擊區先空著，等他走上來 */lastT=batIdx();drawBB();/* 換新打者才播放「拿著球棒走上打擊區」的鏡頭（半局交換時另有轉場） */if(!(MP.on&&!MP.host)&&!(g.hs1>T)){const W=Math.max(0,g.rdy-T);g.nb0=T+W*.55;g.nb1=g.nb0+1.9;g.rdy=Math.max(g.rdy,g.nb1+.15)}}else bxOut=0}if(ph!=='ready'&&ph!=='play')bxOut=0;prevPh=ph}
+function batTrack(){const ph=g.ph;if(ph===prevPh)return;if(ph==='play'&&play&&!play.steal)bxOut=1;/* 多人模式的非主機端也靠這裡進入「打擊區清空」狀態 */if(ph==='ready'){if(paKeep||(window.DB&&DB.on)){paKeep=0;midPA=0;/* 牽制刺殺結束半局時 midPA 會被設成 1；若這裡不清掉，下一棒打完（例如被三振）就不會換棒 */bxOut=0;if(lastT!==batIdx()){cpuPk=0;g.pkn=0;lastT=batIdx();drawBB()}}else if(g.b===0&&g.s===0){cpuPk=0;g.pkn=0;if(prevPh!=='menu'&&!(MP.on&&!MP.host)&&!midPA)BI[lastT]++;midPA=0;/* 半局在打者打到一半時結束（盜壘／牽制被刺殺等）→ 他不換棒，下個半局由他開頭 */bxOut=prevPh!=='menu'?1:0;/* 換新打者：打擊區先空著，等他走上來 */lastT=batIdx();drawBB();/* 換新打者才播放「拿著球棒走上打擊區」的鏡頭（半局交換時另有轉場） */if(!(MP.on&&!MP.host)&&!(g.hs1>T)){const W=Math.max(0,g.rdy-T);g.nb0=T+W*.55;g.nb1=g.nb0+1.9;g.rdy=Math.max(g.rdy,g.nb1+.15)}}else bxOut=0}if(ph!=='ready'&&ph!=='play')bxOut=0;prevPh=ph}
 const batR=new THREE.Group(),batG=new THREE.Group();let batM;{const top=[[-2,.05],[-1.95,.11],[-1.85,.07],[-1.2,.07],[-.7,.1],[-.2,.15],[.3,.17],[.5,.16],[.55,.11],[.57,0]],pts=[...top,...top.slice(0,-1).reverse().map(a=>[a[0],-a[1]])].map(a=>new THREE.Vector2(a[0]*.8,a[1])),
  bm=(c,o)=>new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o,depthTest:false,side:THREE.DoubleSide}),lm=(c)=>new THREE.LineBasicMaterial({color:c,transparent:true,opacity:.95,depthTest:false}),
  L3=(a)=>new THREE.BufferGeometry().setFromPoints(a.map(p=>new THREE.Vector3(p[0],p[1],0)));
@@ -1393,6 +1411,8 @@ function boardDraw(mode,w,over){
  肌肉輪廓的四肢、有肩線與斜方肌的軀幹、真實比例的頭骨（眉骨／顴骨／下顎／下巴）、
  鼻子、耳朵、嘴唇、眉毛、寫實眼睛貼圖、五指手掌、手套、球鞋、帽子、髮型與鬍子。
  所有幾何都是先用純 JS 算好陣列、合併成單一 mesh（每段骨頭每種材質只有一個 draw call）並快取共用。 */
+/* 人物模型精細度：1＝高面數、0＝舊版低面數（省電模式，或自動模式曾降到省電時）。啟動時決定 */
+const MDET=(()=>{try{const o=JSON.parse(localStorage.getItem('nbSet')||'{}')||{};if(o.pm==='e'||(o.pm==='c'&&o.low))return 0;if((o.pm==null||o.pm==='a')&&localStorage.getItem('nbLoMd')==='1')return 0}catch(e){}return 1})(),SEGK=MDET?1.5:1;
 const HM=(function(){
 const PI=Math.PI,TAU=PI*2,sin=Math.sin,cos=Math.cos,abs=Math.abs,hyp=Math.hypot;
 const clp=(v,a,b)=>v<a?a:v>b?b:v,sq=v=>v*v,sgn=v=>v<0?-1:1,mix=(a,b,t)=>a+(b-a)*t;
@@ -1439,7 +1459,7 @@ function cat(L){L=L.filter(Boolean);const p=[],n=[],u=[],c=[],ix=[];let off=0,hu
  return{p,n,u:hu?u:null,c:hc?c:null,i:ix}}
 const withC=P=>{if(!P.c){P.c=new Array(P.p.length).fill(1)}return P};
 /* ---- 橢球（解析法線）---- */
-function ELL(rx,ry,rz,ws,hs){ws=ws||10;hs=hs||7;const p=[],n=[],u=[],ix=[];
+function ELL(rx,ry,rz,ws,hs){ws=Math.round((ws||10)*SEGK);hs=Math.round((hs||7)*SEGK);const p=[],n=[],u=[],ix=[];
  for(let iy=0;iy<=hs;iy++){const v=iy/hs,th=v*PI;for(let i=0;i<=ws;i++){const uu=i/ws,ph=uu*TAU,X=-cos(ph)*sin(th),Y=cos(th),Z=sin(ph)*sin(th);
   p.push(X*rx,Y*ry,Z*rz);let a=X/rx,b=Y/ry,c=Z/rz;const l=hyp(a,b,c)||1;n.push(a/l,b/l,c/l);u.push(uu,1-v)}}
  for(let iy=0;iy<hs;iy++)for(let i=0;i<ws;i++){const a=iy*(ws+1)+i+1,b=iy*(ws+1)+i,c=(iy+1)*(ws+1)+i,d=(iy+1)*(ws+1)+i+1;
@@ -1447,7 +1467,7 @@ function ELL(rx,ry,rz,ws,hs){ws=ws||10;hs=hs||7;const p=[],n=[],u=[],ix=[];
  return{p,n,u,i:ix}}
 /* ---- 通用管狀曲面：rings=[{c:[x,y,z],rx,rz|rzf+rzb,n(超橢圓指數),T?,X?}]
    座標系 (X,T,N=X×T)；角度 a：點 = c + X·rx·sin a + N·rz·cos a；caps=[起端長度,末端長度] 做圓頭 ---- */
-function TUBE(R,o){o=o||{};const segs=o.segs||10,ax0=o.ax||[1,0,0],closed=!!o.closed;
+function TUBE(R,o){o=o||{};const segs=Math.round((o.segs||10)*SEGK),ax0=o.ax||[1,0,0],closed=!!o.closed;
  let rg=R.map(r=>Object.assign({},r));const n0=rg.length;
  rg.forEach((r,j)=>{if(r.T)r.T=V3.nrm(r.T);else{const a=rg[closed?(j+n0-1)%n0:Math.max(0,j-1)],b=rg[closed?(j+1)%n0:Math.min(n0-1,j+1)];r.T=V3.nrm(V3.sub(b.c,a.c))}});
  const scl=(r,f)=>{const q=Object.assign({},r);['rx','rz','rzf','rzb'].forEach(k=>{if(q[k]!==undefined)q[k]=Math.max(q[k]*f,.0004)});return q};
@@ -1488,7 +1508,7 @@ const HC=.16;
 /* 鼻子：高度場（沿 z 加在臉上）。鼻根→鼻樑→鼻頭，兩側鼻翼；與頭殼同一張網格，所以沒有接縫、法線連續 */
 function noseH(X,Y){const ny=Y,nx=abs(X);if(ny>.04||ny<-.06||nx>.045)return 0;
   const s=clp((.016-ny)/.0565,0,1),root=smp(.036,.014,ny);
-  let h=(.0042+.0212*s)*root;                                    /* 鼻樑：鼻根淺、往下漸高 */
+  let h=(.0046+.0236*s)*root;                                    /* 鼻樑：鼻根淺、往下漸高 */
   const tipC=.0455*Math.exp(-(sq(ny+.0405)/.00011))*.0;
   const under=1-smp(-.0402,-.0528,ny);                              /* 鼻頭下緣收回臉面 */
   h=ny<-.0402?(.0254*under):h;
@@ -1496,8 +1516,8 @@ function noseH(X,Y){const ny=Y,nx=abs(X);if(ny>.04||ny<-.06||nx>.045)return 0;
   const q=nx/W;let c=Math.exp(-Math.pow(q,2.5)*1.05)*smp(2.6,1.7,q);
   /* 鼻頭圓潤：鼻頭附近橫向加寬、中央微凸 */
   h*=c;
-  h+=.0030*Math.exp(-(sq(nx/.0072)+sq((ny+.0392)/.0062)));          /* 鼻頭球 */
-  h+=.0062*Math.exp(-(sq((nx-.0118)/.0046)+sq((ny+.0452)/.0062)));  /* 鼻翼 */
+  h+=.0035*Math.exp(-(sq(nx/.0066)+sq((ny+.0392)/.0062)));          /* 鼻頭球 */
+  h+=.0052*Math.exp(-(sq((nx-.0112)/.0044)+sq((ny+.0452)/.0062)));  /* 鼻翼 */
   h-=.0022*Math.exp(-(sq((nx-.0083)/.0026)+sq((ny+.0368)/.0044)));  /* 鼻翼溝 */
   h-=.0016*Math.exp(-(sq((nx-.0105)/.005)+sq((ny+.0262)/.011)))*smp(.012,.0,nx);  /* 鼻樑兩側微凹 */
   return Math.max(0,h*1.12)}
@@ -1506,17 +1526,17 @@ function hp(ux,uy,uz){
   const ax=abs(ux);let X=ux*.0765,Y=uy*.117,Z=uz*.097;
   const X0=X,Y0=Y;
   const t=clp((.18-uy)/1.18,0,1);X*=1-.2*Math.pow(t,1.25);
-  X*=1-.07*smp(-.28,-.62,uy)*(1-smp(-.8,-1,uy));                                         /* 顴骨下方收進來，下顎線更清楚 */
-  X*=1+.075*Math.exp(-(sq(ax-.62)/.05+sq(uy+.55)/.05+sq(uz-.15)/.3));              /* 下顎角（咬肌） */
-  Z+=.019*Math.exp(-(sq(ux)/.09+sq(uy+.9)/.05+sq(uz-.4)/.5));                      /* 下巴前凸 */
+  X*=1-.09*smp(-.28,-.62,uy)*(1-smp(-.8,-1,uy));                                         /* 顴骨下方收進來，下顎線更清楚 */
+  X*=1+.085*Math.exp(-(sq(ax-.62)/.05+sq(uy+.55)/.05+sq(uz-.15)/.3));              /* 下顎角（咬肌） */
+  Z+=.022*Math.exp(-(sq(ux)/.09+sq(uy+.9)/.05+sq(uz-.4)/.5));                      /* 下巴前凸 */
   Z+=.006*Math.exp(-(sq(ux/.45)+sq((uy+.935)/.075)))*(uz>0?1:0);                 /* 下巴尖 */
   Z-=.0026*Math.exp(-(sq(ux/.4)+sq((uy+.80)/.05)))*(uz>0?1:0);                    /* 下唇下的凹線 */
   Z+=.0042*Math.exp(-(sq(ux/.55)+sq((uy+.6)/.16)))*(uz>0?1:0);                    /* 嘴部微凸 */
   Z-=.0015*Math.exp(-(sq(ux/.09)+sq((uy+.5)/.07)))*(uz>0?1:0);                    /* 人中 */
-  const cb=Math.exp(-(sq(ax-.66)/.06+sq(uy+.12)/.07+sq(uz-.55)/.2));X*=1+.035*cb;Z+=.0045*cb; /* 顴骨 */
+  const cb=Math.exp(-(sq(ax-.66)/.06+sq(uy+.12)/.07+sq(uz-.55)/.2));X*=1+.035*cb;Z+=.0058*cb; /* 顴骨 */
   Z-=.003*Math.exp(-(sq(ax-.62)/.05+sq(uy+.50)/.045+sq(uz-.7)/.2));                 /* 顴骨下方臉頰凹 */
-  Z+=.006*Math.exp(-(sq(uy-.30)/.012+sq(uz-.9)/.18))*(1-.35*Math.exp(-sq(ux/.15)));     /* 眉骨（鼻根處略凹） */
-  Z-=.0045*Math.exp(-(sq(ax-.5)/.025+sq(uy-.1)/.02+sq(uz-.85)/.15));               /* 眼窩 */
+  Z+=.0078*Math.exp(-(sq(uy-.30)/.012+sq(uz-.9)/.18))*(1-.35*Math.exp(-sq(ux/.15)));     /* 眉骨（鼻根處略凹） */
+  Z-=.0062*Math.exp(-(sq(ax-.5)/.025+sq(uy-.1)/.02+sq(uz-.85)/.15));Z+=.0028*Math.exp(-(sq(ax-.5)/.006+sq(uy-.1)/.004+sq(uz-.85)/.1));/* 眼球微凸 */Z+=.0032*Math.exp(-(sq(ux/.6)+sq((uy-.55)/.25)+sq(uz-.8)/.3));/* 額頭圓潤 */Z-=.0018*Math.exp(-(sq(ax-.9)/.02+sq(uy-.35)/.05+sq(uz-.35)/.15));/* 太陽穴微凹 */X*=1-.05*Math.exp(-sq((uy+.93)/.14));/* 下巴更收、更有型 */               /* 眼窩 */
   if(uz<0)Z*=1+.06*smp(0,-.9,uz);                                                  /* 後腦勺 */
   X*=1-.04*smp(.3,.9,uy);
   if(uz>0)Z+=noseH(X0,Y0);
@@ -1527,7 +1547,7 @@ function inv(x,y){const uy=clp((y-HC)/.117,-.995,.995),r=Math.sqrt(1-uy*uy);let 
   const ux=(lo+hi)/2;return[ux,uy,Math.sqrt(Math.max(0,r*r-ux*ux))]}
 function sz(x,y){const q=inv(x,y);return hp(q[0],q[1],q[2])[2]}
 let _HD=null;
-function HD(){if(_HD)return _HD;const ws=96,hs=72,p=[],uu=[],u=[],ix=[];
+function HD(){if(_HD)return _HD;const ws=MDET?144:96,hs=MDET?108:72,p=[],uu=[],u=[],ix=[];
  for(let iy=0;iy<=hs;iy++){const v=iy/hs,th=v*PI;for(let i=0;i<=ws;i++){const uf=i/ws,ph=uf*TAU,X=-cos(ph)*sin(th),Y=cos(th),Z=sin(ph)*sin(th),q=hp(X,Y,Z);p.push(q[0],q[1],q[2]);uu.push(X,Y,Z);u.push(uf,1-v)}}
  for(let iy=0;iy<hs;iy++)for(let i=0;i<ws;i++){const a=iy*(ws+1)+i+1,b=iy*(ws+1)+i,c=(iy+1)*(ws+1)+i,d=(iy+1)*(ws+1)+i+1;if(iy!==0)ix.push(a,b,d);if(iy!==hs-1)ix.push(b,c,d)}
  const P=vnorm({p,u,i:ix});P.uu=uu;return _HD=P}
@@ -1648,7 +1668,10 @@ function skinHeadP(){const L=[];
    L.push(xf(ELL(.0032,.027,.016,8,8),[s*.0782,.1575,-.0045],[0,-s*.38,0]));
    L.push(xf(ELL(.0052,.0075,.0075,6,5),[s*.0768,.126,.0]));
    L.push(xf(ELL(.0058,.0105,.0065,6,5),[s*.0745,.176,-.012],[0,-s*.38,0]));
-   L.push(xf(ELL(.0026,.0058,.0042,6,5),[s*.0722,.1475,.0125]))});
+   L.push(xf(ELL(.0026,.0058,.0042,6,5),[s*.0722,.1475,.0125]));
+    const ring=(ry,rz,a0,a1,w,n)=>{const R=[];for(let q=0;q<=n;q++){const a=mix(a0,a1,q/n);R.push({c:[s*(.002+.0025*(1-cos(a))),ry*sin(a),rz*cos(a)],rx:w,rz:w})}return xf(TUBE(R,{segs:7,caps:[.003,.004]}),[s*.0742,.155,-.004],[0,-s*.38,0])};
+    L.push(ring(.0295,.0188,.9,5.0,.0042,18));   /* 耳輪（耳廓外緣） */
+    L.push(ring(.0195,.0112,1.4,4.3,.003,12))});   /* 對耳輪（耳廓內脊） */
   return cat(L)}
 const NUMW=.1,NUMH=.105;
 /* 背號/姓名貼片：軀幹是「超橢圓」(指數 n≈2.4)，舊版用橢圓公式會讓貼片兩側陷進衣服裡，兩位數背號邊緣就被背擋到 */
@@ -1761,7 +1784,7 @@ return{PI,TAU,sin,cos,abs,hyp,clp,sq,sgn,mix,smp,RND,nz,V3,vnorm,xf,cat,withC,EL
 /* ---- 頭髮、帽子、五官、鬍子 ---- */
 Object.assign(HM,(function(){
 const {sin,cos,abs,clp,sq,sgn,mix,smp,nz,V3,xf,cat,withC,ELL,TUBE,GRID,SLAB,CONE,LOOP,HC,sz,HD,SHELL,pick,vPos,vNor,RND,TAU,PI,vnorm}=HM;
-const hcol=(x,y,z)=>{const v=.82+.2*(.5+.5*sin(x*130+y*70+z*90))+.07*nz(x,y,z);return[v,v,v]};
+const hlt=(x,y,z)=>.15*Math.exp(-sq((y-.228)/.026))*(.55+.45*smp(-.05,.07,z))-.08*smp(.1,.02,y);const hcol=(x,y,z)=>{const v=.8+.2*(.5+.5*sin(x*130+y*70+z*90))+.07*nz(x,y,z)+hlt(x,y,z);return[v,v,v]};
 /* 軟邊髮殼：w(x,y,z)∈[0,1] 決定每個頂點長不長頭髮、長多厚；邊緣漸薄，貼著頭皮收掉，不會有一格一格的缺口 */
 function SHELLW(Hd,wf,th,jit,col,vol){const nv=Hd.p.length/3,P0=Hd.p,W=new Float32Array(nv);
   for(let v=0;v<nv;v++)W[v]=wf(P0[v*3],P0[v*3+1],P0[v*3+2]);
@@ -1775,8 +1798,8 @@ const AZ=(x,z)=>abs(Math.atan2(x,z));
 /* 髮際線高度：f=額頭、tmp=鬢角往上收多少、nap=後頸往下延伸多少（耳朵一帶永遠露出來） */
 const HLN=(f,tmp,nap)=>(x,z)=>{const a=AZ(x,z);return f-tmp*smp(.5,1.2,a)-nap*smp(1.75,2.5,a)};
 const cover=(yl,fade)=>(x,y,z)=>{const e=yl(x,z);return smp(e-.007,e+(fade||.013),y)};
-const strand=(f,k)=>(x,y,z)=>{const v=(k||.82)+.2*(.5+.5*sin(x*f+y*70+z*90))+.07*nz(x,y,z);return[v,v,v]};
-const strandZ=(f)=>(x,y,z)=>{const v=.8+.22*(.5+.5*sin(x*f+z*40))+.05*nz(x,y,z);return[v,v,v]};
+const strand=(f,k)=>(x,y,z)=>{const v=(k||.82)+.2*(.5+.5*sin(x*f+y*70+z*90))+.07*nz(x,y,z)+hlt(x,y,z);return[v,v,v]};
+const strandZ=(f)=>(x,y,z)=>{const v=.8+.22*(.5+.5*sin(x*f+z*40))+.05*nz(x,y,z)+hlt(x,y,z);return[v,v,v]};
 const cropYl=HLN(.233,.043,.06),longYl=HLN(.233,.043,.165);
 const crop=(th,jit,col,vol,yl)=>SHELLW(HD(),cover(yl||cropYl),th,jit,col||hcol,vol);
 const topVol=(a)=>(x,y,z)=>a*smp(.2,.28,y);
@@ -1787,9 +1810,9 @@ function skirt(rings,span,th){/* 從頭頂髮殼往下垂的一片頭髮（後�
     return[rx*k*sin(th0),y,-rz*k*cos(th0)]};
   return SLAB(34,rings.length*3,fn,th,true)}
 function hairP(hs,on){const Hd=HD(),L=[],tie=[];
-  if(on&&(hs===6||hs===7||hs===8||hs===9||hs===10||hs===15))hs=hs===9?5:1;           /* 戴帽時：蓬鬆的髮型改成貼頭的版本，才不會穿出帽子 */
+  if(on&&hs===17)hs=2;if(on&&hs===20)hs=4;if(on&&(hs===6||hs===7||hs===8||hs===9||hs===10||hs===15||hs===18||hs===19||hs===21||hs===22))hs=hs===9?5:1;           /* 戴帽時：蓬鬆的髮型改成貼頭的版本，才不會穿出帽子 */
   if(hs===1)L.push(crop(.0072,.003,hcol,topVol(.003)));
-  if(hs===2){L.push(SHELLW(Hd,cover(longYl),.0078,.0022,hcol));
+  if(hs===2||hs===17){L.push(SHELLW(Hd,cover(longYl),.0078,.0022,hcol));
    L.push(withC(TUBE([{c:[0,.19,-.07],rx:.075,rz:.03,T:[0,-1,0]},{c:[0,.1,-.108],rx:.086,rz:.036},{c:[0,.0,-.118],rx:.09,rz:.04},{c:[0,-.07,-.108],rx:.074,rz:.036},{c:[0,-.1,-.1],rx:.04,rz:.02}],{segs:14,caps:[0,.01],col:(j,k,r,a)=>{const v=.78+.18*(.5+.5*sin(a*9+j));return v}})));
    SIDEH.forEach(s=>L.push(withC(TUBE([{c:[s*.071,.15,.02],rx:.014,rz:.019,T:[0,-1,0]},{c:[s*.083,.07,.018],rx:.018,rz:.02},{c:[s*.09,-.01,.0],rx:.019,rz:.019},{c:[s*.088,-.07,-.01],rx:.012,rz:.012}],{segs:8,caps:[0,.01],col:()=>.9}))))}
   if(hs===3){L.push(crop(.009,.003,hcol));
@@ -1824,10 +1847,26 @@ function hairP(hs,on){const Hd=HD(),L=[],tie=[];
   if(hs===14){L.push(crop(.0072,.003,hcol));
    for(let q=0;q<9;q++){const y=.115-q*.0235,x=(q%2?-1:1)*.0085,w=.021*(1-.025*q),e=ELL(w,.0155,w*.95,8,6);L.push(xf(e,[x,y,-.117-.0035*Math.sin(q*.6)],[0,0,(q%2?-1:1)*.38]))}
    tie.push(TUBE([{c:[0,-.11,-.116],rx:.0105,rz:.0105,T:[0,-1,0]},{c:[0,-.118,-.116],rx:.0125,rz:.0125},{c:[0,-.126,-.116],rx:.0105,rz:.0105}],{segs:10}))}
-  if(hs===15)L.push(SHELLW(Hd,cover(HLN(.205,.012,.06),.012),.0082,.002,strandZ(380),(x,y,z)=>smp(.17,.26,y)*.002+.004*smp(.19,.208,y)*smp(.02,.08,z)));
+  if(hs===15||hs===17||hs===20)L.push(SHELLW(Hd,cover(HLN(.205,.012,.06),.012),.0082,.002,strandZ(380),(x,y,z)=>smp(.17,.26,y)*.002+.004*smp(.19,.208,y)*smp(.02,.08,z)));
   if(hs===16){L.push(crop(.0072,.003,hcol));/* 髒辮：一圈垂下的粗辮條 */
    for(let q=0;q<18;q++){const f=q/17,a=(f*2-1)*1.95,h1=Math.sin(q*12.9898+1.7)*43758.5453,rn=h1-Math.floor(h1),x0=.073*Math.sin(a),z0=-.087*Math.cos(a),ye=-.09-.1*rn,w=.0125+.002*(q%3);
     L.push(withC(TUBE([{c:[x0,.19,z0],rx:w,rz:w,T:[x0*6,-1,z0*6]},{c:[x0*1.18,.12,z0*1.14],rx:w,rz:w},{c:[x0*1.28,.03,z0*1.2],rx:w,rz:w},{c:[x0*1.3,(.03+ye)/2,z0*1.22],rx:w*.95,rz:w*.95},{c:[x0*1.28,ye,z0*1.2],rx:w*.6,rz:w*.6}],{segs:8,caps:[.012,.005],col:(j,k,r,a)=>.7+.3*(.5+.5*Math.sin(j*2.6+q))})))}}
+  const cur=(y0,z0,w)=>SIDEH.forEach(s=>L.push(withC(TUBE([{c:[s*.074,y0,z0],rx:.011,rz:.02,T:[0,-1,0]},{c:[s*.08,y0-.04,z0],rx:.012,rz:.016},{c:[s*.082,y0-.075,z0-.005],rx:w,rz:.01}],{segs:8,caps:[0,.01],col:()=>.92}))));
+  if(hs===18){/* 韓系中分：髮流往兩側、臉頰兩邊有髮簾 */
+    L.push(crop(.0078,.0028,(x,y,z)=>{const c=hcol(x,y,z),f=y>.2&&z>-.03&&z<.1?1-.6*Math.exp(-sq(x/.003)):1;return[c[0]*f,c[1]*f,c[2]*f]},(x,y,z)=>smp(.2,.27,y)*(.004+.009*smp(0,.05,abs(x))*smp(0,.12,z)+.005*smp(.06,.1,abs(x))*smp(-.04,.06,z))));cur(.13,.045,.008)}
+  if(hs===21){/* 照片款：中分蘑菇瀏海，瀏海垂到眉上、兩側削短露出耳朵 */
+   L.push(SHELLW(Hd,cover(HLN(.192,.056,.068),.012),.0079,.0026,(x,y,z)=>{const c=hcol(x,y,z),f=y>.19&&z>-.03&&z<.11?1-.6*Math.exp(-sq((x+.004)/.0034)):1;return[c[0]*f,c[1]*f,c[2]*f]},
+     (x,y,z)=>smp(.17,.26,y)*(.0042+.0085*smp(-.01,.1,z)*smp(.17,.22,y)+.004*smp(.04,.085,abs(x))*smp(-.06,.04,z)+.003*smp(.2,.26,y))));}
+  if(hs===22){/* 照片款2：平齊短瀏海、頂部蓬鬆、兩側削短 */
+   L.push(SHELLW(Hd,cover(HLN(.2,.036,.06),.012),.0082,.0032,strandZ(400),
+     (x,y,z)=>smp(.17,.26,y)*(.0045+.0085*smp(.19,.26,y)+.005*smp(-.01,.1,z)*smp(.17,.21,y)+.003*smp(.04,.085,abs(x))*smp(-.06,.04,z))));}
+  if(hs===19){/* 狼尾：頂部蓬鬆、後頸留一束層次長髮 */
+    L.push(SHELLW(Hd,cover(HLN(.236,.04,.06)),.0085,.0014,strandZ(420),(x,y,z)=>smp(.2,.28,y)*(.005+.008*Math.exp(-(sq(x/.05)+sq(z-.03)/.005))+.004*smp(0,-.07,z))));cur(.12,.03,.007);
+    L.push(withC(TUBE([{c:[0,.17,-.085],rx:.07,rz:.025,T:[0,-1,-.15]},{c:[0,.1,-.11],rx:.078,rz:.03},{c:[0,.03,-.12],rx:.07,rz:.032},{c:[0,-.03,-.11],rx:.05,rz:.025},{c:[0,-.07,-.1],rx:.025,rz:.012}],{segs:12,caps:[0,.01],col:(j,k,r,a)=>.8+.2*(.5+.5*Math.sin(a*6+j))})))}
+  if(hs===20){/* 高馬尾＋瀏海 */
+    L.push(crop(.0072,.003,hcol));
+    L.push(withC(TUBE([{c:[0,.225,-.075],rx:.028,rz:.028,T:[0,.4,-1]},{c:[0,.25,-.13],rx:.036,rz:.034},{c:[0,.2,-.185],rx:.04,rz:.036},{c:[0,.11,-.2],rx:.037,rz:.034},{c:[0,.02,-.185],rx:.028,rz:.026},{c:[0,-.05,-.16],rx:.012,rz:.012}],{segs:10,caps:[.012,.004],col:(j,k,r,a)=>.8+.2*(.5+.5*Math.sin(a*8+j*.7))})));
+    tie.push(TUBE([{c:[0,.228,-.082],rx:.0045,rz:.0095,T:[0,.4,-1]},{c:[0,.234,-.092],rx:.0075,rz:.0105},{c:[0,.24,-.1],rx:.0045,rz:.0095}],{segs:10}))}
   if(!L.length)return{r:null,t:null};
   return{r:withC(cat(L)),t:tie.length?cat(tie):null}}
 /* ---- 帽子 ---- */
@@ -1877,6 +1916,11 @@ function hatP(hs){const Hd=HD(),L=[];
   else if(hs===11){/* 皇冠 */
    L.push(withC(LOOP(30,u=>[.0835*sin(u),.226,.1015*cos(u)],u=>[.0835*cos(u),0,-.1015*sin(u)],.016,.0042,6,u=>[0,1,0])));
    for(let k=0;k<8;k++){const a=k*TAU/8,b=[.0835*sin(a),.236,.1015*cos(a)],c=CONE(b,[sin(a)*.12,1,cos(a)*.12],.036+.012*(k%2),.0105,6);L.push(withC(c));L.push(withC(xf(ELL(.0065,.0065,.0065,6,5),[b[0]+sin(a)*.004,b[1]+.0395+.012*(k%2),b[2]+cos(a)*.004])))}}
+  else if(hs>=13&&hs<=16){const bl=g=>{g.c=new Array(g.p.length).fill(1);return g},E=(a,b,c,p,r)=>bl(xf(ELL(a,b,c,14,8),p,r));
+    if(hs===13||hs===14){L.push(withC(LOOP(30,u=>[.0835*sin(u),.226,.1015*cos(u)],u=>[.0835*cos(u),0,-.1015*sin(u)],.006,.0042,6,u=>[0,1,0])));
+      [-1,1].forEach(s=>{if(hs===13)L.push(E(.026,.042,.012,[s*.052,.272,.012],[0,0,-s*.35]));else L.push(E(.02,.085,.01,[s*.04,.335,-.005],[0,0,-s*.18]))})}
+    else if(hs===15){L.push(E(.07,.03,.08,[0,.235,0]),E(.05,.04,.058,[0,.275,0]),E(.032,.035,.036,[0,.318,0]),E(.016,.03,.018,[0,.353,0]),E(.014,.014,.014,[0,.385,0]))}
+    else{L.push(E(.15,.007,.16,[0,.222,0]),E(.082,.05,.092,[0,.255,0]),E(.06,.05,.068,[0,.31,0]),E(.04,.05,.046,[0,.365,0],[.12,0,0]),E(.022,.045,.026,[0,.415,.012],[.3,0,0]))}}
   if(!L.length)return null;
   return withC(cat(L))}
 /* ---- 嘴唇、眉毛、五官 ---- */
@@ -1886,18 +1930,24 @@ function lipChain(y0,hw,k,th,pro,n,up,sl){const R=[];for(let i=0;i<n;i++){const 
   else tt*=1+.12*Math.exp(-sq(t/.45));
   R.push({c:[x,yy,sz(x,yy)+pro*.12],rx:tt,rz:pro*(1-.5*f),T:i===0?[1,0,0]:undefined})}
   return TUBE(R,{segs:8,ax:[0,1,0],caps:[.004,.004]})}
-const BWS=[[1,.0095,0],[1.55,.008,0],[.55,.0115,.0045],[1.12,.0022,0],[1.1,.0062,-.0058]];
-function brow(s,bw){const B=BWS[bw]||BWS[0],R=[],N=8;for(let i=0;i<N;i++){const t=i/(N-1),x=s*mix(.013,.059,t),y=.186+B[1]*Math.sin(Math.PI*Math.pow(t,.8))-.003*t+B[2]*t;
-  R.push({c:[x,y,sz(x,y)+.0007],rx:.0034*B[0]*(1-.4*t),rz:.0032,T:V3.nrm([s,.25*(1-t*2.2),0])})}
-  return TUBE(R,{segs:6,ax:[0,1,0],caps:[.004,.004]})}
+const BWS=[[1,.0058,0],[1.55,.0046,0],[.55,.0115,.0045],[1.12,.0004,0],[1.1,.0062,-.0058],[.8,.0125,.0018],[1.05,.0058,.0058],[1.3,.0072,.0032],[1.2,.0068,.0075],[1,.0112,-.0012],[1.5,.0004,0]];
+function brow(s,bw){const B=BWS[bw]||BWS[0],R=[],N=14;for(let i=0;i<N;i++){const t=i/(N-1),x=s*mix(.013,.059,t),y=.186+B[1]*Math.sin(Math.PI*Math.pow(t,.8))-.003*t+B[2]*t-.0007*(1-t);
+  R.push({c:[x,y,sz(x,y)+.0007],rx:.0034*B[0]*(.85+.3*smp(0,.25,t))*(1-.55*smp(.4,1,t)),rz:.0031*(1-.15*smp(.5,1,t)),T:V3.nrm([s,.25*(1-t*2.2),0])})}
+  return TUBE(R,{segs:6,ax:[0,1,0],caps:[.004,.004],col:(j,k,r)=>{const t=clp((abs(r.c[0])-.013)/.046,0,1);return .74+.26*Math.pow(1-t,.7)}})}
 function frameLoop(cx,cy,hw,hh,zf,shape){const fc=u=>{const c=cos(u),s=sin(u);
    if(shape===1)return[cx+hw*sgn(c)*Math.pow(abs(c),.5),cy+hh*sgn(s)*Math.pow(abs(s),.5),zf];
    if(shape===2)return[cx+hw*c*(s<0?1-.08*abs(s):1),cy+hh*s*(s<0?1.28:.82)+.001,zf];
    return[cx+hw*c,cy+hh*s,zf]};
   const td=u=>{const a=fc(u+.002),b=fc(u-.002);return[a[0]-b[0],a[1]-b[1],0]};
   return LOOP(28,fc,td,.0014,.0014,5,u=>[cos(u),sin(u),0])}
-function featP(e,mo,bd,bw){const R=[],D=[],LP=[],WH=[],LS=[],SG=[];
+function featP(e,mo,bd,bw){const R=[],D=[],LP=[],WH=[],LS=[],SG=[],K=[];
   [-1,1].forEach(s=>R.push(brow(s,bw|0)));
+  /* 眼睛立體：上眼皮皺褶（皮膚色）＋角膜反光層 */
+  {const T={1:[1.35,1.08,1.12,0,0],2:[.5,.95,1,0,0],5:[.88,1.1,1,.0034,-.0004],6:[1.05,1.02,1,-.0032,.0004],10:[.68,1.06,.95,.0022,0],11:[1.05,1.14,1.02,.0044,-.0004],12:[1.38,1.02,1.22,0,0],13:[.8,1.22,.98,.005,-.0006]}[e]||[1,1,1,0,0],hS=T[0],wS=T[1];
+  [-1,1].forEach(s=>{const hW=.0155*wS,xi=s*(.037-hW),xo=s*(.037+hW),yi=.1632+T[4],yo=.1662+T[3],pts=[];
+    for(let t=0;t<=8;t++){const q=t/8,xx=mix(xi,xo,q),yy=mix(yi,yo,q)+.0053*hS*sin(PI*Math.pow(q,.85))+.0062;pts.push({c:[xx,yy,sz(xx,yy)+.0013],rx:.0021*(1-.35*Math.abs(q*2-1)),rz:.0019,T:t===0?[s,0,0]:undefined})}
+    K.push(TUBE(pts,{segs:6,ax:[0,1,0],caps:[.003,.003]}));const p2=[];for(let t=0;t<=6;t++){const q=.12+t/6*.76,xx=mix(xi,xo,q),yy=mix(yi,yo,q)-.0042*hS*Math.sin(PI*q)-.0046;p2.push({c:[xx,yy,sz(xx,yy)+.0009],rx:.0013*Math.sin(PI*(t/6))+.0006,rz:.0013,T:t===0?[s,0,0]:undefined})}K.push(TUBE(p2,{segs:6,ax:[0,1,0],caps:[.002,.002]}));
+    const cx=s*.037,cy=.1648+(T[3]+T[4])*.5;LS.push(xf(ELL(.0155*wS,.0095*hS+.0012,.0022,12,7),[cx,cy,sz(cx,cy)+.0009]))})}
   /* 鼻孔 */
   [-1,1].forEach(s=>D.push(xf(ELL(.0034,.0019,.0042,8,5),[s*.0074,.1118,sz(s*.0074,.1118)+.0012],[-.5,0,s*.2])));
   /* 嘴 */
@@ -1928,7 +1978,9 @@ function featP(e,mo,bd,bw){const R=[],D=[],LP=[],WH=[],LS=[],SG=[];
   else if(mo===8){/* 泡泡糖 */
    LP.push(lipChain(my+.0022,.0142,.001,.0044,.0068,9,1));LP.push(lipChain(my-.0052,.0132,.0025,.0062,.0076,9));
    LP.push(xf(ELL(.027,.027,.025,16,12),[0,my-.0005,sz(0,my)+.026]))}
-  else{LP.push(lipChain(my+.003,.0248,.0004,.0036,.0054,9,1));LP.push(lipChain(my-.0052,.0232,.0012,.0054,.0062,9));
+  else if(mo===9){LP.push(xf(ELL(.0036,.002,.0026,8,5),[0,my+.0032,sz(0,my)+.0012]));LP.push(lipChain(my+.0035,.0248,.0062,.0046,.0064,11,1));LP.push(lipChain(my-.0052,.0232,.0068,.0068,.0074,11));D.push(xf(ELL(.0205,.0006,.0032,10,3),[0,my-.0003,sz(0,my)+.0004]))}
+  else if(mo===10){LP.push(xf(ELL(.0032,.0018,.0024,8,5),[0,my+.003,sz(0,my)+.0011]));LP.push(lipChain(my+.0032,.0236,.0048,.0032,.005,11,1));LP.push(lipChain(my-.0048,.0222,.0052,.0046,.0058,11));D.push(xf(ELL(.0195,.0005,.003,10,3),[0,my-.0003,sz(0,my)+.0003]))}
+  else{LP.push(xf(ELL(.0034,.0019,.0025,8,5),[0,my+.0032,sz(0,my)+.0011]));LP.push(lipChain(my+.003,.0248,.0004,.0036,.0054,9,1));LP.push(lipChain(my-.0052,.0232,.0012,.0054,.0062,9));
    D.push(xf(ELL(.0215,.0006,.003,10,3),[0,my-.0003,sz(0,my)+.0003]))}
   /* 眼鏡／墨鏡：3 圓框、4 墨鏡、7 方框、8 飛行員、9 運動墨鏡 */
   if(e===3||e===4||e===7||e===8||e===9){const zf=sz(.037,.165)+.0105,ty=.169;
@@ -1957,12 +2009,12 @@ function featP(e,mo,bd,bw){const R=[],D=[],LP=[],WH=[],LS=[],SG=[];
   if(bd===4)R.push(SHELLW(Hd,(x,y,z)=>smp(.03,.018,abs(x))*smp(.078,.067,y)*smp(.037,.05,y)*(z>0?1:0)*mhole(x,y,z),.0078,.003,bcol(.9)));
   if(bd===7){const ly=ax=>.05+.075*Math.pow(Math.min(1,ax/.072),1.4);R.push(SHELLW(Hd,(x,y,z)=>(1-smp(.002,.0095,abs(y-ly(abs(x))-.003)))*smp(-.058,-.045,z)*smp(.14,.12,y),.0062,.0022,bcol(.9)))}
   const M=(a)=>a.length?withC(cat(a)):null;
-  return{r:M(R),lip:M(LP),d:M(D),wh:M(WH),ls:M(LS),sg:M(SG)}}
+  return{r:M(R),lip:M(LP),d:M(D),wh:M(WH),ls:M(LS),sg:M(SG),k:M(K)}}
 /* ---- 配件：頭帶、耳飾、項鍊、腕帶／前臂袖套（回傳 [{p:幾何, m:材質}]）---- */
 function accP(k,v){const Hd=HD(),o=[];
   const dd=fc=>u=>{const a=fc(u+.002),b=fc(u-.002);return[a[0]-b[0],a[1]-b[1],a[2]-b[2]]};
   if(k==='hb'){const hh=v===2?.0165:.0092,yc=v===2?.221:.214;o.push({p:SHELL(Hd,(x,y,z)=>abs(y-yc)<hh&&z>-.112,.0105,0,null),m:'x'})}
-  if(k==='er'){const L=[];SIDEH.forEach(s=>{if(v===1)L.push(xf(ELL(.0044,.0044,.0044,8,6),[s*.0796,.1235,.0002]));
+  if(k==='er'){const L=[];SIDEH.forEach(s=>{if(v===1)L.push(xf(ELL(.0044,.0044,.0044,8,6),[s*.0796,.1235,.0002]));else if(v===4){L.push(xf(ELL(.0044,.0044,.0044,8,6),[s*.0796,.1235,.0002]));L.push(xf(ELL(.0044,.0044,.0044,8,6),[s*.0796,.1105,.0002]))}else if(v===5){L.push(xf(ELL(.0036,.0036,.0036,8,6),[s*.0796,.1235,.0002]));L.push(xf(ELL(.0034,.011,.0034,8,6),[s*.0796,.1085,.0002]))}else if(v===3)L.push(LOOP(20,u=>[s*.0786,.1018+.0182*cos(u),.0182*sin(u)],u=>[0,-.0182*sin(u),.0182*cos(u)],.0016,.0016,5,u=>[0,cos(u),sin(u)]));
     else L.push(LOOP(20,u=>[s*.0786,.1128+.0092*cos(u),.0092*sin(u)],u=>[0,-.0092*sin(u),.0092*cos(u)],.0013,.0013,5,u=>[0,cos(u),sin(u)]))});o.push({p:cat(L),m:'n'})}
   if(k==='ne'){/* 項鍊：鍊子從頸後繞過脖子，沿胸口曲面垂成 U／V 形（座標＝胸口 ch；領口在 y≈.57） */
    const I=HM.interp,TR=HM.TOR,YN=.588,A=.0645,B=.0605,OFF=.0095,ss=x=>{x=x<0?0:x>1?1:x;return x*x*(3-2*x)},
@@ -2013,7 +2065,7 @@ function fab(){if(_F)return _F;const c=document.createElement('canvas');c.width=
  for(let j=0;j<64;j++)for(let i=0;i<64;i++){const w=(((i+j)>>1)&1)*7+(((i-j+64)>>1)&1)*7,v=Math.min(255,226+w+r()*14),k=(j*64+i)*4;im.data[k]=im.data[k+1]=im.data[k+2]=v;im.data[k+3]=255}
  x.putImageData(im,0,0);_F=new THREE.CanvasTexture(c);_F.wrapS=_F.wrapT=THREE.RepeatWrapping;_F.repeat.set(36,24);return _F}
 /* 臉部貼圖：把頭骨球面 UV 對應到實際臉部位置，畫眼睛／腮紅／法令紋／鬍渣／眼下黑膏 */
-function faceCv(e,bd,eb,ec){const W=1280,H=640,K=W/1024,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+function faceCv(e,bd,eb,ec,mk){const W=1280,H=640,K=W/1024,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
   x.fillStyle='#ffffff';x.fillRect(0,0,W,H);
   const px=(xw,yw)=>{const q=HM.inv(xw,yw);let ph=Math.atan2(q[2],-q[0]);if(ph<0)ph+=TAU;return[ph/TAU*W,Math.acos(q[1])/PI*H]};
   const blob=(xw,yw,rw,rgb,a)=>{const c0=px(xw,yw),rx=Math.abs(px(xw+rw,yw)[0]-c0[0])||1,ry=Math.abs(px(xw,yw+rw)[1]-c0[1])||1;
@@ -2021,10 +2073,10 @@ function faceCv(e,bd,eb,ec){const W=1280,H=640,K=W/1024,c=document.createElement
   const poly=(P,close)=>{x.beginPath();P.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));if(close)x.closePath()};
   /* 臉頰紅暈、眼窩陰影、眼下、鼻翼與唇周的淡色 */
   [-1,1].forEach(s=>{blob(s*.052,.12,.028,'255,140,140',.28);blob(s*.036,.152,.014,'150,110,140',.14);blob(s*.037,.176,.026,'150,100,100',.17);blob(s*.037,.152,.012,'150,100,110',.1);blob(s*.012,.168,.008,'150,100,100',.14);blob(s*.012,.116,.01,'200,110,110',.14)});
-  blob(0,.121,.012,'255,150,140',.18);blob(0,.0875,.03,'205,110,110',.07);
-  const P0={0:[1,1,1,0,0],1:[1.35,1.08,1.12,0,0],2:[.5,.95,1,0,0],5:[.88,1.1,1,.0034,-.0004],6:[1.05,1.02,1,-.0032,.0004],10:[.68,1.06,.95,.0022,0]}[e]||[1,1,1,0,0];
+  blob(0,.121,.012,'255,150,140',.18);blob(0,.0875,.03,'205,110,110',.07);blob(0,.1085,.011,'120,70,70',.15);blob(0,.0625,.011,'150,100,100',.1);[-1,1].forEach(s=>{blob(s*.037,.19,.02,'170,120,110',.1);blob(s*.063,.104,.02,'150,100,100',.08)});
+  const P0={0:[1,1,1,0,0],1:[1.35,1.08,1.12,0,0],2:[.5,.95,1,0,0],5:[.88,1.1,1,.0034,-.0004],6:[1.05,1.02,1,-.0032,.0004],10:[.68,1.06,.95,.0022,0],11:[1.05,1.14,1.02,.0044,-.0004],12:[1.38,1.02,1.22,0,0],13:[.8,1.22,.98,.005,-.0006]}[e]||[1,1,1,0,0];
   const hS=P0[0],wS=P0[1],irS=P0[2],dyO=P0[3],dyI=P0[4];
-  const IC=[['#7a5430','#4a2f18','#2b180b','#120a05'],['#c8933f','#8f5d24','#5c3814','#2a1808'],['#97c8f2','#4f8fd0','#2a5a96','#142a4a'],['#acd88f','#5ea35a','#2e6b36','#12301a'],['#cfd7dc','#8c99a4','#55616c','#222a31'],['#d6b0f0','#9a68c8','#6a3a96','#2a1440']][ec|0]||[ '#7a5430','#4a2f18','#2b180b','#120a05'];
+  const IC=[['#7a5430','#4a2f18','#2b180b','#120a05'],['#c8933f','#8f5d24','#5c3814','#2a1808'],['#97c8f2','#4f8fd0','#2a5a96','#142a4a'],['#acd88f','#5ea35a','#2e6b36','#12301a'],['#cfd7dc','#8c99a4','#55616c','#222a31'],['#d6b0f0','#9a68c8','#6a3a96','#2a1440'],['#f6c6d6','#dc86a4','#a64868','#3a1428'],['#f0d878','#c89c22','#8a6410','#3a2808']][ec|0]||[ '#7a5430','#4a2f18','#2b180b','#120a05'];
   [-1,1].forEach(s=>{const hW=.0155*wS,ex=s*.037,xi=s*(.037-hW),xo=s*(.037+hW),yi=.1632+dyI,yo=.1662+dyO,U=[],Lw=[],Cr=[];
    for(let t=0;t<=20;t++){const q=t/20,xx=mix(xi,xo,q),yy=mix(yi,yo,q),up=.0053*hS*sin(PI*Math.pow(q,.85));U.push(px(xx,yy+up));Lw.push(px(xx,yy-.0042*hS*sin(PI*q)));Cr.push(px(xx,yy+up+.0046+.0013*sin(PI*q)))}
    x.save();poly(U.concat(Lw.slice().reverse()),true);x.fillStyle='#f3eeea';x.fill();x.clip();
@@ -2034,7 +2086,7 @@ function faceCv(e,bd,eb,ec){const W=1280,H=640,K=W/1024,c=document.createElement
    x.save();x.translate(ic[0],ic[1]);x.scale(1,iry/irx);const g=x.createRadialGradient(0,0,irx*.12,0,0,irx);
    g.addColorStop(0,IC[0]);g.addColorStop(.5,IC[1]);g.addColorStop(.88,IC[2]);g.addColorStop(1,IC[3]);
    x.fillStyle=g;x.beginPath();x.arc(0,0,irx,0,TAU);x.fill();
-   x.strokeStyle='rgba(8,5,3,.55)';x.lineWidth=irx*.1;x.beginPath();x.arc(0,0,irx*.95,0,TAU);x.stroke();
+   x.strokeStyle='rgba(8,5,3,.55)';x.lineWidth=irx*.1;x.beginPath();x.arc(0,0,irx*.95,0,TAU);x.stroke();x.lineWidth=irx*.045;for(let q=0;q<40;q++){const a=q/40*TAU;x.strokeStyle=q&1?'rgba(255,255,255,.16)':'rgba(0,0,0,.2)';x.beginPath();x.moveTo(Math.cos(a)*irx*.42,Math.sin(a)*irx*.42);x.lineTo(Math.cos(a)*irx*.9,Math.sin(a)*irx*.9);x.stroke()}x.strokeStyle='rgba(255,255,255,.13)';x.lineWidth=irx*.2;x.beginPath();x.arc(0,0,irx*.62,.15*PI,.85*PI);x.stroke();
    x.fillStyle='#050403';x.beginPath();x.arc(0,0,irx*.4,0,TAU);x.fill();x.restore();
    x.fillStyle='rgba(255,255,255,.92)';x.beginPath();x.ellipse(ic[0]+irx*.34,ic[1]-iry*.36,irx*.19,iry*.19,0,0,TAU);x.fill();
    x.fillStyle='rgba(255,255,255,.5)';x.beginPath();x.ellipse(ic[0]-irx*.3,ic[1]+iry*.34,irx*.09,iry*.09,0,0,TAU);x.fill();
@@ -2045,8 +2097,8 @@ function faceCv(e,bd,eb,ec){const W=1280,H=640,K=W/1024,c=document.createElement
    /* 上眼線：中間粗、外眼角加翼，睫毛感 */
    x.lineJoin='round';x.lineCap='round';x.strokeStyle='#1a1210';
    for(let t=0;t<20;t++){const q=(t+.5)/20,wd=(2.4+3.2*Math.sin(PI*Math.pow(q,.9)))*K;x.lineWidth=wd;x.beginPath();x.moveTo(U[t][0],U[t][1]);x.lineTo(U[t+1][0],U[t+1][1]);x.stroke()}
-   const fo=px(xo+s*.0042,yo+.0016+(e===5||e===10?.0022:e===6?-.0016:0));x.lineWidth=2.6*K;x.beginPath();x.moveTo(U[20][0],U[20][1]);x.lineTo(fo[0],fo[1]);x.stroke();
-   x.strokeStyle='rgba(120,70,60,.5)';x.lineWidth=1.7*K;poly(Lw,false);x.stroke();
+   const fo=px(xo+s*.0042,yo+.0016+(e===5||e===10||e===11||e===13?.0022:e===6?-.0016:0));x.lineWidth=2.6*K;x.beginPath();x.moveTo(U[20][0],U[20][1]);x.lineTo(fo[0],fo[1]);x.stroke();
+   {const d0=[U[20][0]-U[0][0],U[20][1]-U[0][1]],dl=Math.hypot(d0[0],d0[1])||1,ux=d0[0]/dl,uy=d0[1]/dl;x.strokeStyle='#120c0a';x.lineCap='round';for(let t=3;t<=20;t+=2){const q=t/20,L0=(4+8*Math.pow(q,1.6))*K,p=U[t];x.lineWidth=(1.5-.5*q)*K;x.beginPath();x.moveTo(p[0],p[1]);x.quadraticCurveTo(p[0]+ux*L0*.2,p[1]-L0*.62,p[0]+ux*L0*.9,p[1]-L0*.55+uy*L0*.3);x.stroke()}}x.strokeStyle='rgba(120,70,60,.5)';x.lineWidth=1.7*K;poly(Lw,false);x.stroke();
    x.strokeStyle='rgba(110,60,50,.42)';x.lineWidth=2.4*K;poly(Cr,false);x.stroke();
    x.strokeStyle='rgba(110,60,50,.12)';x.lineWidth=7*K;poly(Cr,false);x.stroke()});
   /* 法令紋（很淡）、鼻翼溝 */
@@ -2056,17 +2108,24 @@ function faceCv(e,bd,eb,ec){const W=1280,H=640,K=W/1024,c=document.createElement
   if(eb===1)[-1,1].forEach(s=>{const P=[px(s*.026,.1565),px(s*.05,.1565),px(s*.05,.1515),px(s*.026,.1515)];x.fillStyle='rgba(12,12,12,.92)';poly(P,true);x.fill()});
   if(eb===2)[-1,1].forEach(s=>{x.lineCap='round';x.strokeStyle='rgba(12,12,12,.92)';x.lineWidth=5*K;[0,-.0036].forEach(o=>{const a=px(s*.026,.1565+o),b=px(s*.05,.1545+o);x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(b[0],b[1]);x.stroke()})});
   if(eb===3)[-1,1].forEach(s=>{const P=[px(s*.023,.1572),px(s*.054,.1572),px(s*.058,.1502),px(s*.03,.1486)];x.fillStyle='rgba(10,10,10,.93)';poly(P,true);x.fill()});
+  /* 臉部痕跡（照片款）：右頰鼻翼旁一顆紅痘、左頰一顆痣、鼻翼下一顆小紅點 */
+  if(mk===1){const dot=(xw,yw,r,col)=>{const q=px(xw,yw);x.fillStyle=col;x.beginPath();x.arc(q[0],q[1],r*K,0,TAU);x.fill()};
+   blob(-.046,.109,.012,'205,95,90',.38);dot(-.046,.109,2.7,'rgba(188,62,58,.92)');dot(-.0455,.1095,1,'rgba(235,130,120,.9)');
+   blob(-.031,.093,.007,'205,95,90',.3);dot(-.031,.093,1.7,'rgba(190,66,60,.88)');
+   dot(.052,.089,3.3,'rgba(84,46,34,.88)');dot(.0515,.0895,1.2,'rgba(120,76,58,.6)')}
+  if(mk===2){const dot=(xw,yw,r,col)=>{const q=px(xw,yw);x.fillStyle=col;x.beginPath();x.arc(q[0],q[1],r*K,0,TAU);x.fill()};
+   dot(.047,.141,2.4,'rgba(92,58,44,.7)');dot(-.05,.106,2,'rgba(150,90,78,.55)')}
   return c}
-function faceTex(e,bd,eb,ec){const k=e+'_'+bd+'_'+eb+'_'+(ec|0);return FT[k]||(FT[k]=(()=>{const t=new THREE.CanvasTexture(faceCv(e,bd,eb,ec));t.anisotropy=4;return t})())}
+function faceTex(e,bd,eb,ec,mk){const k=e+'_'+bd+'_'+eb+'_'+(ec|0)+'_'+(mk|0);return FT[k]||(FT[k]=(()=>{const t=new THREE.CanvasTexture(faceCv(e,bd,eb,ec,mk));t.anisotropy=4;return t})())}
 function mats(){const mt=(c,r,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:r},o||{}));
  return{s:mt(0xe5484d,.88,{vertexColors:true,map:fab(),skinning:true}),c:mt(0x992b30,.8),p:mt(0xe6e6e6,.92,{vertexColors:true,map:fab()}),k:mt(0xefc39a,.55),o:mt(0xe5484d,.92),d:mt(0x1a1a1a,.5),l:mt(0x7a4a22,.62),
   h:mt(0x992b30,.8,{vertexColors:true,side:THREE.DoubleSide}),a:mt(0xe5484d,.88,{map:fab()}),f:mt(0xefc39a,.55,{map:faceTex(0,0,0)}),lip:mt(0xb06a62,.4),
-  r:mt(0x2a1a10,.62,{vertexColors:true}),wh:mt(0xf2f2ee,.6),ls:mt(0xd8ecff,.1,{transparent:true,opacity:.16}),sg:mt(0x0a0a0d,.18,{metalness:.5}),w:new THREE.MeshBasicMaterial({color:0xffffff}),n:mt(0xffd54a,.32,{metalness:.7}),x:mt(0xffffff,.8),sh:mt(0x1a1a1a,.5)}}
+  r:mt(0x2a1a10,.4,{vertexColors:true,metalness:.1}),wh:mt(0xf2f2ee,.6),ls:mt(0xd8ecff,.1,{transparent:true,opacity:.16}),sg:mt(0x0a0a0d,.18,{metalness:.5}),w:new THREE.MeshBasicMaterial({color:0xffffff}),n:mt(0xffd54a,.32,{metalness:.7}),x:mt(0xffffff,.8),sh:mt(0x1a1a1a,.5)}}
 const clr=g=>{while(g.children.length)g.remove(g.children[0])};
 const add=(g,o,M,cast)=>{const q=new THREE.Mesh(o.g,M[o.m]);q.castShadow=!!cast;g.add(q);return q};
 function hair(hs,on){if(!hs)return[];const k='hair'+hs+(on?'h':'');if(!CA[k]){const o=HM.hairP(hs,on);CA[k]=(o&&o.r)?[{g:toGeo(o.r),m:'r'}].concat(o.t?[{g:toGeo(o.t),m:'c'}]:[]):[]}return CA[k]}
-function hat(h){if(!(h>=0&&h<=12)||h===3)return[];const k='hat'+h;if(!CA[k]){const g=HM.hatP(h);CA[k]=g?[{g:toGeo(g),m:'h'}]:[]}return CA[k]}
-function feat(e,mo,bd,bw){const k='f'+e+'_'+mo+'_'+bd+'_'+(bw|0);if(!CA[k]){const o=HM.featP(e,mo,bd,bw),L=[];['r','lip','d','wh','ls','sg'].forEach(m=>{if(o[m])L.push({g:toGeo(o[m]),m})});CA[k]=L}return CA[k]}
+function hat(h){if(!(h>=0&&h<=16)||h===3)return[];const k='hat'+h;if(!CA[k]){const g=HM.hatP(h);CA[k]=g?[{g:toGeo(g),m:'h'}]:[]}return CA[k]}
+function feat(e,mo,bd,bw){const k='f'+e+'_'+mo+'_'+bd+'_'+(bw|0);if(!CA[k]){const o=HM.featP(e,mo,bd,bw),L=[];['r','lip','d','wh','ls','sg','k'].forEach(m=>{if(o[m])L.push({g:toGeo(o[m]),m})});CA[k]=L}return CA[k]}
 function acc(k,v){if(!v)return[];const key='acc'+k+v;if(!CA[key])CA[key]=HM.accP(k,v).map(a=>({g:toGeo(a.p),m:a.m}));return CA[key]}
 function skinG(g){if(g.attributes.skinIndex)return g;const P=g.attributes.position,n=P.count,si=new Uint16Array(n*4),sw=new Float32Array(n*4);
  for(let v=0;v<n;v++){const u=HM.smp(0,.34,P.getY(v))*2,i=Math.min(1,Math.floor(u)),f=u-i;si[v*4]=i;si[v*4+1]=i+1;sw[v*4]=1-f;sw[v*4+1]=f}
@@ -2095,7 +2154,7 @@ function jtex(c,a,s){const k=c+'_'+a+'_'+s;if(_tx[k])return _tx[k];const e=docum
  else if(s===6){x.fillRect(0,0,N,N*.12);x.fillRect(0,N*.12,N,N*.016)}
  else if(s===7){/* 胸帶只畫在正面（背面留給背號與姓名） */[[0,.27],[.73,1]].forEach(r=>{x.fillRect(r[0]*N,N*.3,(r[1]-r[0])*N,N*.075);x.fillRect(r[0]*N,N*.4,(r[1]-r[0])*N,N*.03)})}
  else if(s===8){[.25,.75].forEach(u=>{x.fillRect(u*N-N*.035,0,N*.07,N);x.fillRect(u*N-N*.065,0,N*.012,N);x.fillRect(u*N+N*.053,0,N*.012,N)})}
- else if(s===9){const g=x.createLinearGradient(0,0,0,N);g.addColorStop(0,hx6(c));g.addColorStop(.7,hx6(c));g.addColorStop(1,hx6(a));x.fillStyle=g;x.fillRect(0,0,N,N)}
+ else if(s===19){x.lineWidth=3*S;for(let i=-N;i<N*2;i+=N/14){x.beginPath();x.moveTo(i,0);x.lineTo(i+N,N);x.stroke()}}else if(s===20){for(let r=0;r<8;r++)for(let q=0;q<8;q++){const cx=(q+(r&1?.5:0))*N/8+N/16,cy=r*N/8+N/16,d=N*.028;x.beginPath();x.moveTo(cx,cy-d);x.lineTo(cx+d,cy);x.lineTo(cx,cy+d);x.lineTo(cx-d,cy);x.fill()}}else if(s===21){x.fillRect(0,N*.3,N,N*.07);x.fillRect(0,N*.44,N,N*.07)}else if(s===22){for(let r=0;r<8;r++)for(let q=0;q<8;q++)if((r+q)&1)x.fillRect(q*N/8,r*N/8,N/8,N/8)}else if(s===9){const g=x.createLinearGradient(0,0,0,N);g.addColorStop(0,hx6(c));g.addColorStop(.7,hx6(c));g.addColorStop(1,hx6(a));x.fillStyle=g;x.fillRect(0,0,N,N)}
  else if(s===10){x.globalAlpha=.55;for(let i=0;i<8;i++){x.fillRect(i*N/8,0,N*.035,N);x.fillRect(0,i*N/8,N,N*.035)}x.globalAlpha=1}
  else if(s===11){for(let i=0;i<N;i+=N/16)x.fillRect(0,i,N,N*.022)}
  else if(s===12){for(let i=0;i<N;i+=N/8){x.fillRect(i,0,N*.012,N);x.fillRect(i+N*.03,0,N*.012,N)}}
@@ -2130,7 +2189,7 @@ function mkCharm(kind,col,metal,cord){/* 吊飾：由原點往下垂；kind 1圓
  else if(kind===5){add(chG('mbat',()=>new THREE.CylinderGeometry(.017,.006,.075,8)),chM(0x8a5a2b,.7,0),0,y-.04,0);add(chG('mband',()=>new THREE.CylinderGeometry(.0172,.0172,.006,8)),cm,0,y-.02,0)}
  return g}
 const PLG={};
-function plG(k){return PLG[k]||(PLG[k]=(()=>{const P={1:[[.066,-.41],[.074,-.2],[.083,0],[.085,.04]],2:[[.108,-.42],[.104,-.2],[.1,-.02],[.098,.04]],4:[[.072,-.27],[.074,-.14],[.083,0],[.085,.04]]}[k],g=new THREE.LatheGeometry(P.map(a=>new THREE.Vector2(a[0],a[1])),24),p=g.attributes.position,ix=g.index.array;
+function plG(k){return PLG[k]||(PLG[k]=(()=>{const P={1:[[.067,-.41],[.075,-.26],[.082,-.12],[.08,-.04],[.078,.0],[.077,.05]],2:[[.108,-.42],[.1,-.22],[.094,-.1],[.09,-.02],[.088,.05]],4:[[.073,-.27],[.078,-.16],[.082,-.1],[.08,-.03],[.078,.0],[.077,.05]]}[k],g=new THREE.LatheGeometry(P.map(a=>new THREE.Vector2(a[0],a[1])),24),p=g.attributes.position,ix=g.index.array;
  {const a=ix[0],b=ix[1],c=ix[2],ax=p.getX(a),ay=p.getY(a),az=p.getZ(a),ux=p.getX(b)-ax,uy=p.getY(b)-ay,uz=p.getZ(b)-az,vx=p.getX(c)-ax,vy=p.getY(c)-ay,vz=p.getZ(c)-az,nx=uy*vz-uz*vy,nz=ux*vy-uy*vx;/* 面朝內就翻轉 */
   if(nx*ax+nz*az<0){for(let i=0;i<ix.length;i+=3){const q=ix[i+1];ix[i+1]=ix[i+2];ix[i+2]=q}g.computeVertexNormals()}}
  g.setAttribute('color',new THREE.Float32BufferAttribute(new Float32Array(p.count*3).fill(.93),3));return g})())}
@@ -2176,7 +2235,7 @@ function bgDress(h,P,u,c,ac){if(!h._bat)return;const o=u?_ix(P.bgl,5):3;
  const B=h._bgm,C=[[0xf6f6f8,0xf6f6f8,0x14213f,0x2250b8],[0x1b1b1e,0x2a2c31,0x0a0a0b,0x3a3d44],[0xf5f5f1,0xe6e7e8,0xaab0bb,0xd5d8de],[ac===c?0xf1f0ea:ac,c,new THREE.Color(c).multiplyScalar(.45).getHex(),new THREE.Color(c).multiplyScalar(.8).getHex()],[0,0,0,0]][o];
  B.pal.color.setHex(C[0]);B.dor.color.setHex(C[1]);B.trim.color.setHex(C[2]);B.fin.color.setHex(C[3]);B.dor.map=o===3?bgTex():null;B.dor.needsUpdate=true;h._bgOn=o!==4}
 
-function dress(h,t,i,L){stnClear(h);if(h._yon)yelPaint(h,0);{const _Q=L||(t===0?LK:DEFLK);h._th=_Q.th|0;h._bt=_Q.bt|0}const u=t===0||!!L,c=L?L.jc:(t<2?TC[t]:t),P=L||(u?LK:DEFLK),_lo=(h._LKo=P),M=h.M,ac=P.ac,js=_ix(P.js,19),st=h._st||(h._st={}),fb=HM.fab(),hat=_ix(P.hat,13),hs=_ix(P.hs,17),eye=_ix(P.eye,11),mo=_ix(P.mo,9),bd=_ix(P.bd,8),eb=_ix(P.eb,4),bw=_ix(P.bw,5),ec=_ix(P.ec,6),fw=_ix(P.fw,4);
+function dress(h,t,i,L){stnClear(h);if(h._yon)yelPaint(h,0);{const _Q=L||(t===0?LK:DEFLK);h._th=_Q.th|0;h._bt=_Q.bt|0}const u=t===0||!!L,c=L?L.jc:(t<2?TC[t]:t),P=L||(u?LK:DEFLK),_lo=(h._LKo=P),M=h.M,ac=P.ac,js=_ix(P.js,23),st=h._st||(h._st={}),fb=HM.fab(),hat=_ix(P.hat,17),hs=_ix(P.hs,23),eye=_ix(P.eye,14),mo=_ix(P.mo,11),bd=_ix(P.bd,8),eb=_ix(P.eb,4),bw=_ix(P.bw,11),ec=_ix(P.ec,8),fw=_ix(P.fw,6),mk=_ix(P.mk,3);
  const cs=(m,k,v,d)=>{if(u&&v!=null){m.color.setHex(v);st[k]=1}else if(st[k]){m.color.setHex(d);st[k]=0}};
  M.k.color.setHex(P.sk);M.f.color.setHex(P.sk);M.k.emissive.setHex(P.sk).multiplyScalar(.1);M.f.emissive.copy(M.k.emissive);
  M.lip.color.setHex(P.sk).lerp(_LIP,.55);
@@ -2189,9 +2248,9 @@ function dress(h,t,i,L){stnClear(h);if(h._yon)yelPaint(h,0);{const _Q=L||(t===0?
  const hk=hs+'_'+(hat===3?0:1);if(st.hk!==hk){HM.clr(h.hr);HM.hair(hs,hat!==3).forEach(o=>HM.add(h.hr,o,M));st.hk=hk}
  if(st.hat!==hat){HM.clr(h.ht);HM.hat(hat).forEach(o=>HM.add(h.ht,o,M));st.hat=hat}
  const fk=eye+'_'+mo+'_'+bd+'_'+bw;if(st.fk!==fk){HM.clr(h.fc);HM.feat(eye,mo,bd,bw).forEach(o=>HM.add(h.fc,o,M));st.fk=fk}
- const tk=eye+'_'+bd+'_'+eb+'_'+ec;if(st.tk!==tk){M.f.map=HM.faceTex(eye,bd,eb,ec);st.tk=tk}
- {const a=[_ix(P.hb,3),_ix(P.er,3),_ix(P.ne,9),_ix(P.wb,3)],ak=a.join('_');if(st.ak!==ak){[h.xh,h.xw1,h.xw2,h.xn].forEach(g=>HM.clr(g));HM.acc('hb',a[0]).forEach(o=>HM.add(h.xh,o,M));HM.acc('er',a[1]).forEach(o=>HM.add(h.xh,o,M));HM.acc('ne',a[2]).forEach(o=>HM.add(h.xn,o,M));HM.acc('wb',a[3]).forEach(o=>{HM.add(h.xw1,o,M);HM.add(h.xw2,o,M)});st.ak=ak}}
- {const FS=[[1,1],[.95,1.04],[1.06,.97],[.95,.95]][fw];h.hd.scale.set(FS[0],FS[1],FS[0])}
+ const tk=eye+'_'+bd+'_'+eb+'_'+ec+'_'+mk;if(st.tk!==tk){M.f.map=HM.faceTex(eye,bd,eb,ec,mk);st.tk=tk}
+ {const a=[_ix(P.hb,3),_ix(P.er,6),_ix(P.ne,9),_ix(P.wb,3)],ak=a.join('_');if(st.ak!==ak){[h.xh,h.xw1,h.xw2,h.xn].forEach(g=>HM.clr(g));HM.acc('hb',a[0]).forEach(o=>HM.add(h.xh,o,M));HM.acc('er',a[1]).forEach(o=>HM.add(h.xh,o,M));HM.acc('ne',a[2]).forEach(o=>HM.add(h.xn,o,M));HM.acc('wb',a[3]).forEach(o=>{HM.add(h.xw1,o,M);HM.add(h.xw2,o,M)});st.ak=ak}}
+ {const FS=[[1,1],[.95,1.04],[1.06,.97],[.95,.95],[.98,1.03],[.93,1.06]][fw];h.hd.scale.set(FS[0],FS[1],FS[0])}
  const n=u?((L&&!L.cpu)?P.num:(i>0?i+1:P.num)):-1,own=u&&((L&&!L.cpu)||!(i>0)),pn=own?String(P.nm||'').trim().slice(0,8):'',nc=(u&&P.nc!=null)?P.nc:(ac===c?(c===0xffffff?0x111111:0xffffff):ac),nk=u?n+'_'+nc+'_'+pn:'';
  if(st.nk!==nk){HM.clr(h.nm);if(u){const q=new THREE.SkinnedMesh(HM.skinG(HM.geo('num')),nmat(n,nc));q.frustumCulled=false;h.nm.add(q);q.bind(h.sk,h.tm.bindMatrix);if(pn){const q2=new THREE.SkinnedMesh(HM.skinG(HM.geo('nam')),namemat(pn,nc));q2.frustumCulled=false;h.nm.add(q2);q2.bind(h.sk,h.tm.bindMatrix)}}st.nk=nk}dressX(h,P,u,c,ac,M)}
 /* 關節動作：legSet 回傳腿高，骨盆高度由著地腳決定 */
@@ -2376,7 +2435,7 @@ function cpuStealTry(){if((MP.on&&(!MP.host||MP.pvp))||(userBats()&&!auto)||(win
  if(!go.length)return;go.forEach(r=>{r.stl=1;r.target=r.base+1;r.st='go';r.man=0;r.ctl=0;r.k=.96+rnd()*.1;r.aSl=autoSlOK(r)?1:0});g.call='盜壘！';g.callT=T+1.2;toast('對手盜壘！',1.2)}
 function face(h,tx,tz,k){const ty=Math.atan2(tx-h.position.x,tz-h.position.z),d=((ty-h.rotation.y+Math.PI*3)%(Math.PI*2))-Math.PI;h.rotation.y+=d*k}
 F=FH.map((p,i)=>({n:NM[i],i,hx:p[0],hz:p[1],x:p[0],z:p[1],vx:0,vz:0,m:human(),busy:0,hold:0,cool:0,rt:.45}));
-const WM=Array.from({length:9},()=>{const m=human();m.gl.visible=false;m.visible=false;m.rotation.order='YXZ';return{m}});
+const WM=Array.from({length:9},()=>{const m=human();m.gl.visible=false;m.visible=false;m.rotation.order='YXZ';return{m}});window.WM=WM;
 Object.assign(F[0].m,{pd:-99,wu:1.35,S:1,dc:0,dB:0,pw:0,qa:0});
 const RM=Array.from({length:5},()=>{const m=human();m.gl.visible=false;m.visible=false;return{m,used:0}});
 /* ===== 休息區隊友：兩邊休息區各 5 人，平常站在護網後加油；得分時舉手歡呼；觸身球時打擊方板凳清空 ===== */
@@ -2660,7 +2719,7 @@ function phys(b,dt){let ev='';
 function predict(){const b={...ball},o=[];for(let t=0;t<8;){const ev=phys(b,.05);t+=.05;o.push({t,x:b.x,y:b.y,z:b.z,bn:b.bounced});if(ev==='hr'||ev==='dead'||ev==='grd')break}return o}
 
 /* ================= 投打 ================= */
-function startPitch(type,tx,ty,q){try{mcStart()}catch(e){ABS.mc=null}psPitch();trk.visible=false;pstg=0;const pm=F[0].m,S=RN.some(r=>alive(r)&&r.st==='on')?.72:1,wu=(window.DB&&DB.on)?.85:.4+.95*S,sp=pspd(type,q);/* q＝出手品質0~1（只有玩家投球才有）：越差→球速越慢、變化越小、越好打 */pc={type,q:q==null?null:q,spd:sp,rpm:prpm(type,q),br:q==null?1:.5+.5*q,t0:T+wu,dur:REL/(sp/3.6*(1-DRAG))*PSP,sx:.05,sy:1.72+MH,z0:-REL,tx,ty,sw:null,end:0};pc.hbp=bodyHit(bp(pc,1))?1:0;pm.pd=pc.t0;pm.wu=wu;pm.S=S;pm.thr=-99;g.spd=0;g.ph='pitch';ball.mode='pitch';ball.holder=null;F[0].hold=0;try{cpuStealTry()}catch(e){console.warn('cpuSteal',e)}
+function startPitch(type,tx,ty,q){try{mcStart()}catch(e){ABS.mc=null}psPitch();trk.visible=false;pstg=0;const pm=F[0].m,S=RN.some(r=>alive(r)&&r.st==='on')?.72:1,wu=(window.DB&&DB.on)?.85:.4+.95*S,sp=pspd(type,q);/* q＝出手品質0~1（只有玩家投球才有）：越差→球速越慢、變化越小、越好打 */pc={type,q:q==null?null:q,spd:sp,rpm:prpm(type,q),br:q==null?1:.5+.5*q,t0:T+wu,dur:REL/(sp/3.6*(1-DRAG))*PSP,sx:.05,sy:1.72+MH,z0:-REL,tx,ty,sw:null,end:0};pc.hbp=bodyHit(bp(pc,1))?1:0;pm.pd=pc.t0;pm.wu=wu;pm.S=S;pm.thr=-99;g.spd=0;midPA=0;g.ph='pitch';ball.mode='pitch';ball.holder=null;F[0].hold=0;try{cpuStealTry()}catch(e){console.warn('cpuSteal',e)}
  if(auto||(!userBats()&&!MP.pvp))cpuBat()}
 function cpuType(){const W=[3,2,2,2,1.1,2.2,2.6,2,2],av=PT.map((p,i)=>i).filter(i=>!cdC[i]),tot=av.reduce((a,i)=>a+W[i],0);let r=rnd()*tot,t=av[0];for(const i of av){r-=W[i];if(r<=0){t=i;break}}cdUse(cdC,t);return t}
 let cpuLT=-1;function cpuSeq(){const av=PT.map((p,i)=>i).filter(i=>!cdC[i]);if(cpuLT<0||av.length<2)return cpuType();const ls=PT[cpuLT][1];av.sort((a,b)=>Math.abs(PT[b][1]-ls)-Math.abs(PT[a][1]-ls));const pool=av.slice(0,3).filter(i=>i!==cpuLT),pl=pool.length?pool:av,t=pl[(rnd()*pl.length)|0];cdUse(cdC,t);return t}/* 配球：優先選與上一球球速差最大的球種 */
@@ -2769,7 +2828,7 @@ function mcRestore(m){const s=m.pre;
  LS=JSON.parse(JSON.stringify(s.ls));BI[0]=s.bi[0]|0;BI[1]=s.bi[1]|0;
  RN.forEach(freeRunner);RN=[];selRun=null;(m.rn&&m.rn.length?m.rn:s.bases.map(b=>({b}))).forEach(q=>{const r=mkRunner(q.b,q.b,false);if(r){if(q.own!==undefined)r.own=q.own;if(q.lid!==undefined)r.lid=q.lid;if(q.ld!==undefined)r.ld=q.ld;if(q.spd!==undefined)r.spd=q.spd}});/* 多人：壘上跑者要保留是哪位玩家的（外觀與操控） */
  play=null;chg=0;ut=null;stlPlan=0;pstg=0;retNext=0;pbNext=0;bxOut=0;paKeep=0;
- pc=m.pc;g.ph='pitch';prevPh='pitch';lastT=batIdx();
+ midPA=0;pc=m.pc;g.ph='pitch';prevPh='pitch';lastT=batIdx();
  resetField(-1,true);const e=bpc(pc,1);ball.x=e.x;ball.y=e.y;ball.z=e.z;ball.mode='pitch';ball.holder=null;ball.drag=0;
  try{F[1].m.thr=-99}catch(_){}trk.visible=false;drawBB();drawSB();try{MP.dressAll&&MP.dressAll()}catch(_){}}
 function manShow(){try{if(window.DB&&DB.on)return 0;if(g.ph==='menu'||g.ph==='over')return 0;if(!(MP.on||!auto))return 0;if(MP.on)return absWho(MP.id)?1:0;return(userBats()||selF<=1)?1:0}catch(e){return 0}}/* 打者／投手／捕手畫面一直顯示 */
@@ -2932,7 +2991,7 @@ const BTB=mkBtn('btb','🏏 拿球棒','calc(50% - 150px)',()=>batToggle()),BTS=
 const batNear=o=>[1,-1].some(s=>{const t=dugW(s,.5,2.2);return hyp(o.x-t[0],o.z-t[1])<2.6});
 function batOn(m,on){on=!!on;if(on&&!m._hb){const gp=new THREE.Group(),b=new THREE.Mesh(new THREE.CylinderGeometry(.055,.0225,.9,10),new THREE.MeshLambertMaterial({color:0xc89b5b}));b.position.y=.4;b.castShadow=true;gp.add(b);gp.position.set(.038,-.305,-.07);gp.rotation.x=Math.PI/2;m.E1.add(gp);m._hb=gp}if(m._hb)m._hb.visible=on;/* 球棒軸對準拳頭中心，握把朝手心；拿棒時換成握拳的手、收起手套 */if(m._hbS!==on){m._hbS=on;const e=m.E1;if(e._g){e._g.visible=on;e._h.visible=!on}if(m.gl){if(on){m._glv=m.gl.visible;m.gl.visible=false}else if(m._glv!==undefined)m.gl.visible=m._glv}}}
 const batRec=v=>{if(MP.on&&MP.x)try{MP.x.update(MP.R('players/'+MP.id),{bat:v})}catch(e){}};
-function batDrop(){if(HOLD){batOn(HOLD.m,0);HOLD=null;BSW=null;batRec(0)}}
+function batDrop(){if(HOLD){batOn(HOLD.m,0);HOLD=null;BSW=null;batRec(0)}}window.batDrop=batDrop;
 function batToggle(){const o=banEnt();if(!o)return;if(HOLD){batDrop();return}const m=bnM(o);if(!m||!inDug(o.x,o.z)||!batNear(o))return;HOLD={k:bkey(),m};batOn(m,1);batRec(bkey())}
 function flyAdd(m,o){o.m=m;o.t=T;FLY.push(o)}
 function batHit(o){const cand=[];ACT.flat().forEach(a=>{if(a.m.visible)cand.push({x:a.x,z:a.z,a})});
@@ -2960,7 +3019,7 @@ function sitTick(){const me=sitMe();if(!me&&SIT.k)sitSet(null);
  const off=!me||(typeof LKON!=='undefined'&&LKON);let t='';if(me&&!off)t=SIT.k?'🪑 起身':(sitNear(me.o)?'🪑 坐下':'');
  SITB.style.display=t?'block':'none';if(t&&SITB.textContent!==t)SITB.textContent=t;
  const wl=MP.on&&MP.wlist?MP.wlist():[];/* 坐姿（自己與其他玩家） */
- WM.forEach((e,k)=>{const id=wl[k];if(!id||!e.m.visible)return;const key=id===MP.id?SIT.k:((MP.players||{})[id]||{}).sit,q=key?seatOf(key):null;if(q)sitPose(e.m,q)})}
+ WM.forEach((e,k)=>{const id=wl[k];if(!id||!e.m.visible)return;const key=id===MP.id?SIT.k:((MP.players||{})[id]||{}).sit,q=key?seatOf(key):null;if(q){const o=MP.WT&&MP.WT[id];/* 人不在座位旁邊（重生／被撞飛／座位資訊殘留）就不能被硬拉去座位，否則身體會留在休息室地板下，只剩名字浮在上面 */if(!o||hyp(o.x-q.x,o.z-q.z)>1.8){if(id===MP.id&&SIT.k)sitSet(null);return}sitPose(e.m,q)}})}
 const bZone=(x,z)=>inDug(x,z)||-z<Math.abs(x);/* 可用球棒的範圍：休息室＋界外警戒區（不含界內比賽場地） */
 function batLogic(){const o=banEnt(),inD=!!(o&&bZone(o.x,o.z)),my=!!(userBats()&&(!MP.on||MP.ap===MP.id));
  if(HOLD&&(!o||!inD||my||HOLD.k!==bkey()||bnM(o)!==HOLD.m))batDrop();
@@ -3126,12 +3185,12 @@ function userRun(dt,r0,S0){if(!r0&&(auto||!userBats()||!play||play.hr||play.grd)
  {const _hd=ball.mode==='held'&&ball.holder?ball.holder:null,_live=!play.hr&&!play.grd&&!play.po&&!r.po&&!(r.sl&&T-r.sl<.9)&&!(play.caught&&!r.isB&&!r.tu);
   const _ta=_live&&_hd&&!isSafe(r)&&r.base<4&&!(r.base===0&&!r.isB)&&hyp(_hd.x-r.x,_hd.z-r.z)<5.5;
   if(_ta){if(!r.bp)r.bp=[r.x,r.z];const _n=BB(Math.min(4,r.base+1)),_v=BB(r.base),sD=(ax,az,bx,bz)=>{const dx=bx-ax,dz=bz-az,l2=dx*dx+dz*dz||1,u=cl(((r.x-ax)*dx+(r.z-az)*dz)/l2,0,1);return hyp(r.x-(ax+dx*u),r.z-(az+dz*u))};
-   if(Math.min(sD(r.bp[0],r.bp[1],_n[0],_n[1]),sD(r.bp[0],r.bp[1],_v[0],_v[1]))>.95){r.bp=null;r.rd=0;outR(r,1);play.how=_hd.n;fdPO(_hd);play.bl=1;call(0,'out','跑離壘線超過三尺　出局！');return}
+   if(Math.min(sD(r.bp[0],r.bp[1],_n[0],_n[1]),sD(r.bp[0],r.bp[1],_v[0],_v[1]))>1.7){r.bp=null;r.rd=0;outR(r,1);play.how=_hd.n;fdPO(_hd);play.bl=1;call(0,'out','跑離壘線太遠　出局！');return}
    /* 在壘包附近（沒離開壘線）一直來回拖延超過 3.5 秒 → 野手改採夾殺：持球野手貼身追，並把球傳給另一端壘包的野手，把跑者夾在兩個壘包中間（見 rdnOn／rdnTb） */
    if(mv&&Math.min(hyp(r.x-_n[0],r.z-_n[1]),hyp(r.x-_v[0],r.z-_v[1]))<5){r.rd=(r.rd||0)+dt;if(r.rd>3.5){r.rd=0;if(!rdnOn()){play.rdn=r;play.rdB=r.base;toast('夾殺！野手包夾跑者',2.2)}}}else r.rd=Math.max(0,(r.rd||0)-dt*1.5)}
   else{r.bp=null;r.rd=Math.max(0,(r.rd||0)-dt*1.5)}
   /* 打者跑向一壘的三呎跑道：後半段要在界外線外側 3 呎寬的跑道內（或踩著線）跑；球傳向一壘、快到的時候人在跑道外 → 妨礙守備，打者出局 */
-  if(r.isB&&r.base===0&&ball.mode==='throw'&&ball.tgt===1&&!play.hr&&!play.grd){const h0=BB(0),b1=BB(1),ux=b1[0]-h0[0],uz=b1[1]-h0[1],L1=hyp(ux,uz)||1;let nx=-uz/L1,nz=ux/L1;if(nz*MZ<0){nx=-nx;nz=-nz}const t=((r.x-h0[0])*ux+(r.z-h0[1])*uz)/(L1*L1),lat=(r.x-h0[0])*nx+(r.z-h0[1])*nz;if(t>.5&&t<1&&hyp(ball.x-b1[0],ball.z-b1[1])<6&&(lat>.55||lat<-1.25)){play.lane=1;outR(r);call(1,'out','三尺線妨礙守備　打者出局！');return}}}
+  if(r.isB&&r.base===0&&ball.mode==='throw'&&ball.tgt===1&&!play.hr&&!play.grd){const h0=BB(0),b1=BB(1),ux=b1[0]-h0[0],uz=b1[1]-h0[1],L1=hyp(ux,uz)||1;let nx=-uz/L1,nz=ux/L1;if(nz*MZ<0){nx=-nx;nz=-nz}const t=((r.x-h0[0])*ux+(r.z-h0[1])*uz)/(L1*L1),lat=(r.x-h0[0])*nx+(r.z-h0[1])*nz;if(t>.5&&t<1&&hyp(ball.x-b1[0],ball.z-b1[1])<6&&(lat>1.05||lat<-1.9)){play.lane=1;outR(r);call(1,'out','跑道妨礙守備　打者出局！');return}}}
  if(!alive(r))return;
  if(isSafe(r)&&!mv){r.st='on';r.target=r.base}else{r.st='go';const nb=Math.min(4,r.base+1),pn=BB(nb),pc0=BB(r.base);r.target=(r.base===0||hyp(r.x-pn[0],r.z-pn[1])<hyp(r.x-pc0[0],r.z-pc0[1]))?nb:r.base;if(play.caught&&!r.isB&&!r.tu)r.target=r.base}
  r.man=1}
@@ -3301,11 +3360,11 @@ function endPlay0(){const p=play;try{if((p.outs|0)>=2)for(const id in FDS){const
   else if(p.steal){const ng=p.stl.filter(r=>r.st==='out').length,ok=p.stl.length-ng;m=(p.m?p.m+'　':'')+(ng&&ok?`盜壘 ${ok} 成功 ${ng} 失敗`:ng?'盜壘失敗！':'盜壘成功！')}
  else if(p.hr)m=p.runs>=4?'滿貫全壘打！':'全壘打！';
   else if(p.grd)m='Ground Rule Double！彈起越過全壘打牆　二壘安打';
- else if(bt&&bt.st==='out'&&p.lane)m='三尺線妨礙守備　打者出局';else if(bt&&bt.st==='out'&&p.caught)m=`${p.cf.n}接殺（${p.la<22?'平飛球':'高飛球'}）`+(p.dbl?`　跑者回壘不及出局${p.outs>=3?'（三殺）':p.outs>=2?'（雙殺）':''}`:'');
+ else if(bt&&bt.st==='out'&&p.lane)m='跑道妨礙守備　打者出局';else if(bt&&bt.st==='out'&&p.caught)m=`${p.cf.n}接殺（${p.la<22?'平飛球':'高飛球'}）`+(p.dbl?`　跑者回壘不及出局${p.outs>=3?'（三殺）':p.outs>=2?'（雙殺）':''}`:'');
  else if(bt&&bt.st==='out'&&p.iff)m=p.outs>=2?'內野高飛　打者出局＋守備出局！':'內野高飛　打者自動出局';else if(bt&&bt.st==='out')m=p.outs>=2?'雙殺打！':(p.mode==='b'?'短打出局':'滾地球出局（'+(p.how||'野手')+'刺殺）');
  else if(bt){const k=bt.base;m=k>=4?'場內全壘打！':(p.outs>0?'野手選擇':['','一壘安打','二壘安打','三壘安打'][k]||'安打');if(p.mode==='b'&&k===1&&!p.outs)m='短打安打'}
  if(p.steal&&p.stl&&p.stl.some(r=>r.rcl)){const rn=p.stl.filter(r=>r.rcl&&r.st==='out').length;if(p.stl.every(r=>r.rcl))m=rn?'回壘不及　出局！':'跑者回壘　SAFE';else m+='　（有跑者中途回壘）'}
-  if(p.bl)m+='　（跑離壘線超過三尺，跑者出局）';
+  if(p.bl)m+='　（跑離壘線太遠，跑者出局）';
   if(g.outs>=3&&p.l3&&(p.l3.b||p.l3.f)&&p.runs>0&&!(window.DB&&DB.on)){const n=p.runs,bi=batIdx(),ii=g.inn-1;psUndo(n);g.sc[bi]=Math.max(0,g.sc[bi]-n);if(LS[bi])LS[bi][ii]=Math.max(0,(LS[bi][ii]||0)-n);p.runs=0;if(g.wo&&!(g.top!==g.uf&&g.inn>=g.max&&g.sc[g.uf?1:0]>g.sc[g.uf?0:1]))g.wo=0;m+='　（第三出局為'+(p.l3.b?'打者未上壘':'封殺')+'，'+n+' 分不算）';drawSB()}
   psPlay(p,bt);let _sp=repSpec(p,bt);{const h3=g.outs>=3&&PSOK()&&!p.po&&!p.pb&&!p.pk&&!p.steal;if(h3){if(!_sp)_sp={l:'終結半局',k:'h3',dv:null};else if(_sp.k.indexOf('dp')<0)_sp.l+='・終結半局'}}/* 第三個出局的那一球一定重播 */if(window.DB&&DB.on){const r=dbPlay(p,bt);if(r)m=r}if(!p.steal)g.b=g.s=0;
  RN=RN.filter(r=>{if(r.st==='out'||r.st==='score'||r.base<1||r.base>3){freeRunner(r);return false}r.man=0;r.ctl=0;r.tu=0;r.st='on';r.target=r.base;r.isB=false;r.po=0;r.pko=0;r.aSl=0;r.rd=0;r.bp=null;r.vx=r.vz=0;return true});
@@ -3364,7 +3423,7 @@ const AIM_BAT=1.45,AIM_PIT=1;let pLx=0,pLy=0;
 function padMove(e){const r=joy.getBoundingClientRect();let x=e.clientX-r.left,y=e.clientY-r.top;x=cl(x,0,r.width);y=cl(y,0,r.height);jk.style.transform=`translate(${x-r.width/2}px,${y-r.height/2}px)`}
 function padDrag(e){const ub=userBats(),sg=Math.cos(view.yaw)>=0?1:-1,rf=!ub&&pv<2,/* 投手視1／視2：用視3的鏡頭距離與視角換算，手指滑動時瞄準圈在好球帶移動的速度與視3相同 */d=rf?18.44*K0+.86:(hyp(cam.position.x,cam.position.z)||4.2),ppm=innerHeight/(2*d*Math.tan((rf?bFov*.5:cam.fov)*Math.PI/360)),k=(ub?AIM_BAT:AIM_PIT)/ppm,dx=e.clientX-pLx,dy=e.clientY-pLy;pLx=e.clientX;pLy=e.clientY;
  if(!(isFinite(k)&&isFinite(dx)&&isFinite(dy)))return;
- if(ub){ba.x=cl(ba.x+dx*k*sg,-.65,.65);ba.y=cl(ba.y-dy*k,.1,1.35)}else{pa.x=cl(pa.x+dx*k*sg,-1.5,.6);pa.y=cl(pa.y-dy*k,.15,1.9)}padMove(e)}
+ if(ub){const fm=fpb.on;/* 第一人稱從側面看瞄準區：左右被壓縮、上下被放大，手指滑動的增益跟著補償 */ba.x=cl(ba.x+dx*k*sg*(fm?1.9:1),-.65,.65);ba.y=cl(ba.y-dy*k*(fm?.7:1),.1,1.35)}else{pa.x=cl(pa.x+dx*k*sg,-1.5,.6);pa.y=cl(pa.y-dy*k,.15,1.9)}padMove(e)}
 let jm=0,jIgn=0;
 function resetAim(){ba.x=0;ba.y=.72;pa.x=0;pa.y=.75}
 joy.onpointerdown=e=>{jid=e.pointerId;jIgn=0;jOx=jOy=0;try{joy.setPointerCapture(e.pointerId)}catch(x){}jm=joy.classList.contains('pad')?1:0;JY.x=JY.y=0;if(jm){pLx=e.clientX;pLy=e.clientY;padMove(e)}else{const q=joy.getBoundingClientRect(),k0=joy.classList.contains('stk');jOx=k0?0:e.clientX-(q.left+q.width/2);jOy=k0?0:e.clientY-(q.top+q.height/2);/* 區域：和瞄準區一樣以按下的位置為中心；舊搖桿：以圓心為中心 */jset(e)}};
@@ -3554,24 +3613,30 @@ const lkc=()=>{const c=crestCol(0),l=(c>>16&255)*.3+(c>>8&255)*.59+(c&255)*.11;r
  for(let i=-6;i<=6;i++)mm(new THREE.BoxGeometry(1,2.5,.5),i%2?0x24456f:0x2e5a94,i*1.2,1.25,-1.9);
  mm(new THREE.BoxGeometry(4,.4,.55),0x8a5a2b,0,.2,-1.1);
  const pl=new THREE.PointLight(0xfff0d8,.9,14);pl.position.set(LX,2.8,LZ+2);sc.add(pl)}
-const SW={sk:[0xffe9d8,0xfde0c8,0xefc39a,0xd9a066,0xc68642,0xb87a4b,0xa5673f,0x8d5524,0x6b4226,0x5c3a1e],hc:[0x111111,0x2a1a10,0x5a3a1c,0x7b4a2a,0xb8742a,0xe6c35c,0xb0b0b0,0xf5f5f5,0xd23a3a,0x3a7bd5,0x22a06b,0x8b5cf6,0xff8fb1,0xff7a1a],jc:[0xe5484d,0x3b82f6,0x22a06b,0xffb703,0x8b5cf6,0xf4f1ea,0x1c1f2a,0xff7a1a,0x0b3d91,0x7a1f2b,0x00a6a6,0xf48fb1,0x9aa3b2,0x111111],ac:[0xffffff,0x111827,0xffb703,0xe5484d,0x3b82f6,0x22a06b,0x0b3d91,0x7a1f2b,0xc0c0c0,0xff7a1a,0x8b5cf6,0x00a6a6]};SW.hcol=SW.jc;SW.lc=SW.jc;SW.nc=SW.ac;SW.xc=SW.ac;SW.skc=SW.jc.concat([0xffffff]);SW.pc=[0xe6e6e6,0x1c1f2a,0x9aa3b2,0xc2b280,0x0b3d91,0x7a1f2b,0xe5484d,0x3b82f6];SW.shc=[0x1a1a1a,0xffffff,0xe5484d,0x3b82f6,0xffb703,0x22a06b,0x8b5cf6];SW.glc=[0x7a4a22,0x1a1a1a,0xf4f1ea,0xe5484d,0x3b82f6,0x22a06b];SW.nk=[0xffd54a,0xdfe3e8,0x1a1a1a,0xb87333,0xe5484d,0x3b82f6];SW.bcl=[0xd9b27c,0x8b5a2b,0x6b4423,0x3a2a1c,0xc9ced6,0x1b1b1f,0xf4f1ea,0xe5484d,0x3b82f6,0xffb703,0x22a06b,0x8b5cf6];SW.bgc=[0x222222,0xf4f1ea,0xe5484d,0x3b82f6,0xffb703,0x22a06b,0x8b5cf6,0x7a4a22];SW.bpc=SW.jc;SW.btc=[0xffffff,0x1a1a1a,0xffd54a,0xe5484d,0x3b82f6,0x22a06b,0x8b5cf6,0xff8a1f];SW.jkc=SW.jc;SW.chc=SW.ac;const AUTOC=['hcol','lc','nc','pc','shc','skc','glc','xc','nk','bcl','bgc','bpc','btc','jkc','chc'];
-const TB=[['膚髮',[['膚色','sk'],['髮色','hc'],['髮型','hs',['光頭','短髮','長髮','捲髮','馬尾','平頭','旁分','後梳油頭','刺蝟頭','莫霍克','包包頭','鮑伯頭','雙馬尾','爆炸頭','辮子','瀏海','髒辮']]]],
- ['臉部',[['臉型','fw',['標準','瘦長','圓臉','小臉']],['眼睛','eye',['圓點','大眼','瞇眼','圓框眼鏡','墨鏡','鳳眼','下垂眼','方框眼鏡','飛行員墨鏡','運動墨鏡','銳利眼']],['瞳色','ec',['深褐','琥珀','藍','綠','灰','紫']],['眉毛','bw',['標準','粗濃','細挑','平直','八字']],['嘴巴','mo',['無','微笑','平口','張嘴','大笑','驚訝','壞笑','嘟嘴','泡泡糖']],['鬍子','bd',['無','鬍渣','小鬍子','落腮','山羊鬍','八字鬍','大鬍子','下顎鬍']],['眼下黑膏','eb',['無','橫塊','雙線','斜塊']]]],
- ['球衣',[['主色','jc'],['配色（條紋／袖子／背號）','ac'],['樣式','js',['純色','細直條','橫條','雙色袖','粗直條','斜紋','肩線配色','胸帶','側邊條','漸層','格紋','細橫條','雙細條','圓點','粗橫條','菱格','鋸齒','迷彩','對角雙色']],['滾邊色（領口／袖口／褲側線）','lc'],['背號色','nc'],['球員姓名（最多8字，顯示在背後）','nm','s'],['背號（0–99）','num','n']]],
- ['帽子',[['樣式','hat',['棒球帽','平沿帽','打擊頭盔','無帽','毛線帽','漁夫帽','頭巾','牛仔帽','貝雷帽','反戴棒球帽','草帽','皇冠','雙耳頭盔']],['帽色','hcol']]],
- ['配件',[['頭帶','hb',['無','細頭帶','寬頭帶']],['耳飾','er',['無','耳釘','耳環圈']],['項鍊','ne',['無','細鍊','細鍊＋圓墜','粗鍊','項圈','珍珠串','雙層鍊','十字架墜','狗牌鍊']],['護腕／袖套','wb',['無','腕帶','前臂袖套']],['配件色（頭帶／腕帶／袖套）','xc'],['金屬色（項鍊／耳飾）','nk'],['褲色','pc'],['鞋色','shc'],['襪色','skc'],['手套色','glc']]],
+const SW={sk:[0xffe9d8,0xfde0c8,0xefc39a,0xd9a066,0xc68642,0xb87a4b,0xa5673f,0x8d5524,0x6b4226,0x5c3a1e],hc:[0x111111,0x2a1a10,0x5a3a1c,0x7b4a2a,0xb8742a,0xe6c35c,0xb0b0b0,0xf5f5f5,0xd23a3a,0x3a7bd5,0x22a06b,0x8b5cf6,0xff8fb1,0xff7a1a],jc:[0xe5484d,0x3b82f6,0x22a06b,0xffb703,0x8b5cf6,0xf4f1ea,0x1c1f2a,0xff7a1a,0x0b3d91,0x7a1f2b,0x00a6a6,0xf48fb1,0x9aa3b2,0x111111],ac:[0xffffff,0x111827,0xffb703,0xe5484d,0x3b82f6,0x22a06b,0x0b3d91,0x7a1f2b,0xc0c0c0,0xff7a1a,0x8b5cf6,0x00a6a6]};SW.sk.push(0xf8e0d0,0xf2cfae,0xe0ac69,0xc99a6b,0x7a4b2a,0x4b2e1f);SW.hc.push(0x00c2ff,0x39ff14,0xff3df2,0xffd700,0x4a2c82,0x7a0019,0x6b6b6b,0xfff3c4);SW.jc.push(0xff5fa2,0x7fd1ff,0xb6f23a,0xd4a017,0x3a0ca3,0x4d908e,0x2d6a4f,0xc1121f,0x6d4c41,0xe9ecef,0xff9e80,0x5e60ce);SW.ac.push(0xff5fa2,0x7fd1ff,0xb6f23a,0xd4a017,0x2d6a4f,0xe9ecef);SW.hcol=SW.jc;SW.lc=SW.jc;SW.nc=SW.ac;SW.xc=SW.ac;SW.skc=SW.jc.concat([0xffffff]);SW.pc=[0xe6e6e6,0x1c1f2a,0x9aa3b2,0xc2b280,0x0b3d91,0x7a1f2b,0xe5484d,0x3b82f6];SW.shc=[0x1a1a1a,0xffffff,0xe5484d,0x3b82f6,0xffb703,0x22a06b,0x8b5cf6];SW.glc=[0x7a4a22,0x1a1a1a,0xf4f1ea,0xe5484d,0x3b82f6,0x22a06b];SW.nk=[0xffd54a,0xdfe3e8,0x1a1a1a,0xb87333,0xe5484d,0x3b82f6];SW.bcl=[0xd9b27c,0x8b5a2b,0x6b4423,0x3a2a1c,0xc9ced6,0x1b1b1f,0xf4f1ea,0xe5484d,0x3b82f6,0xffb703,0x22a06b,0x8b5cf6];SW.bgc=[0x222222,0xf4f1ea,0xe5484d,0x3b82f6,0xffb703,0x22a06b,0x8b5cf6,0x7a4a22];SW.bpc=SW.jc;SW.btc=[0xffffff,0x1a1a1a,0xffd54a,0xe5484d,0x3b82f6,0x22a06b,0x8b5cf6,0xff8a1f];SW.jkc=SW.jc;SW.chc=SW.ac;SW.pc.push(0xffffff,0x2b2d42,0x2d6a4f,0xd4a017,0xff7a1a);SW.shc.push(0xff7a1a,0xff8fb1,0x0b3d91,0x7a1f2b,0x00a6a6,0xb6f23a);SW.glc.push(0x0b3d91,0x7a1f2b,0xffb703,0x8b5cf6,0xff8fb1,0x2d6a4f);SW.nk.push(0xe6b8a2,0x00a6a6,0x8b5cf6);SW.bcl.push(0x2d6a4f,0x0b3d91,0xff7a1a,0xff8fb1,0x7fd1ff);SW.bgc.push(0x0b3d91,0x7a1f2b,0xff7a1a,0x00a6a6);SW.btc.push(0x00a6a6,0xff8fb1,0xb6f23a);const AUTOC=['hcol','lc','nc','pc','shc','skc','glc','xc','nk','bcl','bgc','bpc','btc','jkc','chc'];
+const TB=[['膚髮',[['膚色','sk'],['髮色','hc'],['髮型','hs',['光頭','短髮','長髮','捲髮','馬尾','平頭','旁分','後梳油頭','刺蝟頭','莫霍克','包包頭','鮑伯頭','雙馬尾','爆炸頭','辮子','瀏海','髒辮','長直髮瀏海','韓系中分','狼尾','高馬尾','蘑菇瀏海（照片款）','平齊短瀏海（照片款2）']]]],
+ ['照片角色',[['依照片建立角色（髮型、膚色、臉部痕跡、黑外套）','','p']]],
+ ['臉部',[['臉型','fw',['標準','瘦長','圓臉','小臉','鵝蛋臉','V臉']],['眼睛','eye',['圓點','大眼','瞇眼','圓框眼鏡','墨鏡','鳳眼','下垂眼','方框眼鏡','飛行員墨鏡','運動墨鏡','銳利眼','貓眼','杏眼','狐狸眼']],['瞳色','ec',['深褐','琥珀','藍','綠','灰','紫','粉','金']],['眉毛','bw',['標準','粗濃','細挑','平直','八字','柳葉眉','劍眉','自然眉','英氣上揚','拱形眉','粗直眉']],['嘴巴','mo',['無','微笑','平口','張嘴','大笑','驚訝','壞笑','嘟嘴','泡泡糖','豐唇微笑','淺笑']],['鬍子','bd',['無','鬍渣','小鬍子','落腮','山羊鬍','八字鬍','大鬍子','下顎鬍']],['眼下黑膏','eb',['無','橫塊','雙線','斜塊']],['臉部痕跡','mk',['無','痣與痘（照片款）','淡痣（照片款2）']]]],
+ ['球衣',[['主色','jc'],['配色（條紋／袖子／背號）','ac'],['樣式','js',['純色','細直條','橫條','雙色袖','粗直條','斜紋','肩線配色','胸帶','側邊條','漸層','格紋','細橫條','雙細條','圓點','粗橫條','菱格','鋸齒','迷彩','對角雙色','細斜紋','菱點','雙橫帶','棋盤格']],['滾邊色（領口／袖口／褲側線）','lc'],['背號色','nc'],['球員姓名（最多8字，顯示在背後）','nm','s'],['背號（0–99）','num','n']]],
+ ['帽子',[['樣式','hat',['棒球帽','平沿帽','打擊頭盔','無帽','毛線帽','漁夫帽','頭巾','牛仔帽','貝雷帽','反戴棒球帽','草帽','皇冠','雙耳頭盔','貓耳頭箍','兔耳頭箍','派對帽','巫師帽']],['帽色','hcol']]],
+ ['配件',[['頭帶','hb',['無','細頭帶','寬頭帶']],['耳飾','er',['無','耳釘','耳環圈','大圈環','雙耳釘','垂墜']],['項鍊','ne',['無','細鍊','細鍊＋圓墜','粗鍊','項圈','珍珠串','雙層鍊','十字架墜','狗牌鍊']],['護腕／袖套','wb',['無','腕帶','前臂袖套']],['配件色（頭帶／腕帶／袖套）','xc'],['金屬色（項鍊／耳飾）','nk'],['褲色','pc'],['鞋色','shc'],['襪色','skc'],['手套色','glc']]],
  ['外套褲',[['外套','jk',['無','運動外套','連帽外套','棒球夾克','羽絨背心']],['外套色（自動＝球衣色加深；棒球夾克袖子用配色）','jkc'],['褲子樣式','ps',['棒球褲','長直筒褲','寬鬆褲','短褲','七分捲邊褲']],['褲色','pc']]],
  ['吊飾',[['褲子吊飾','pch',['無','圓球','星星','小棒球','鑰匙','迷你球棒']],['球棒吊飾','bch',['無','圓球','星星','小棒球','鑰匙','迷你球棒']],['吊飾色','chc'],['金屬色（繩圈／鑰匙）','nk']]],
  ['球棒',[['材質','bm',['原木','深色木','鋁合金','碳纖維','亮面烤漆']],['棒身形狀','bs',['標準','粗桶','細長','錐形','直桶（鋁棒）','凹槽端']],['棒身色','bcl'],['棒身圖案','bp',['無','雙環帶','三環帶','斜紋','端頭上色','端頭漸層','縱向雙條']],['圖案色','bpc'],['棒身印字','bx',['無','背號','姓名','隊名']],['印字色','btc'],['握把樣式','bg',['黑膠帶','無膠帶','螺旋纏繞','防滑顆粒','雙色環帶']],['握把色','bgc'],['打擊手套','bgl',['白藍','全黑','全白','隊色','無']],['棒尾旋鈕','bk',['標準','大圓鈕','喇叭鈕','金屬環鈕']]]],
  ['投打',[['投球手（左投為原動作）','th',['左投','右投']],['打擊（右打為原動作）','bt',['右打','左打']]]],
  ['動作',[['目前的全壘打慶祝','','i'],['個人動作（點選預覽）','cel','c:0:12'],['雙人動作（電腦隊友會跑來一起做）','cel','c:12:18']]],
   ['隊伍',[['隊名（最多4字）','tn','t']]]];
+/* 依照片：深黑偏棕的髮色、暖調淺膚色、中分蘑菇瀏海、粗直眉、圓臉、右頰痘與左頰痣、黑色拉鍊外套（不改球衣隊色／背號） */
+const PHOTO_LK={sk:0xe2b38e,hc:0x1d1715,hs:21,hat:3,eye:12,ec:0,bw:10,mo:2,fw:2,bd:0,eb:0,mk:1,jk:1,jkc:0x14171d};
+/* 照片2：深黑髮（帶些灰白反光）、平齊短瀏海、粗濃平直眉、圓臉、淡淡鬍渣、深藍拉鍊外套 */
+const PHOTO_LK2={sk:0xe4b690,hc:0x1a1816,hs:22,hat:3,eye:0,ec:0,bw:10,mo:10,fw:2,bd:1,eb:0,mk:2,jk:1,jkc:0x1b2438};
 function lkRender(){lkBat.visible=TB[tab][0]==='球棒'||TB[tab][0]==='吊飾';$('lkt').innerHTML=TB.map((t,i)=>`<button data-t="${i}"${i===tab?' class="on"':''}>${t[0]}</button>`).join('');
  $('lkc').innerHTML=TB[tab][1].map(([n,k,o])=>{let b;
   if(o==='s')b=`<input id="lkname" maxlength="8" placeholder="輸入姓名" value="${String(LK.nm||'').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';')}">`;
   else if(o==='n')b=`<input id="lkn" type="number" min="0" max="99" value="${LK.num}">`;
   else if(o==='t')b=`<input id="lkm" maxlength="4" value="${LK.tn}">`;
   else if(o==='i')b=`<div class="cur">${CELS[CEL]}</div>`;
+  else if(o==='p')b=`<div class="seg cl"><button data-k="preset" data-v="0">照片角色 1</button><button data-k="preset" data-v="1">照片角色 2</button></div>`;
   else if(typeof o==='string'&&o[0]==='c'){const[,c0,c1]=o.split(':').map(Number);b=`<div class="seg cg">${CELS.slice(c0,c1).map((nm,j)=>`<button data-k="cel" data-v="${c0+j}"${CEL===c0+j?' class="on"':''}>${nm.replace('雙人・','')}</button>`).join('')}</div>`}
   else if(o)b=`<div class="seg cl">${o.map((s,j)=>`<button data-k="${k}" data-v="${j}"${(k==='cel'?CEL:LK[k])===j?' class="on"':''}>${s}</button>`).join('')}</div>`;
   else b=`<div class="sws">${AUTOC.includes(k)?`<button class="swa${LK[k]==null?' on':''}" data-k="${k}" data-v="a">${['xc','nk','bcl','bgc','bpc'].includes(k)?'預設':'自動'}</button>`:''}${SW[k].map(c=>`<button class="sw1${LK[k]===c?' on':''}" data-k="${k}" data-v="${c}" style="background:${hx6(c)}"></button>`).join('')}<input type="color" data-k="${k}" value="${hx6(LK[k]==null?LK.jc:LK[k])}"></div>`;
@@ -3579,7 +3644,7 @@ function lkRender(){lkBat.visible=TB[tab][0]==='球棒'||TB[tab][0]==='吊飾';$
 function lkApply(){TC[0]=LK.jc;dress(LM,0);batStyle(lkBat,LK);dressAll();try{localStorage.setItem('nbLK',JSON.stringify(LK))}catch(e){}window.mpLook&&mpLook();(()=>{const e=$('mtn');if(e)e.textContent=LK.tn})()}
 function setCel(i){CEL=i;try{localStorage.setItem('nbCel',i)}catch(x){}[...$('celb').children].forEach(b=>b.classList.toggle('on',+b.dataset.c===i))}
 $('lkt').onclick=e=>{const t=e.target.dataset.t;if(t===undefined)return;tab=+t;lkRender()};
-$('lkc').onclick=e=>{const d=e.target.dataset;if(d.k===undefined||e.target.type==='color')return;if(d.k==='cel'){setCel(+d.v);LC={t:T,id:+d.v}}else LK[d.k]=d.v==='a'?null:+d.v;lkApply();lkRender()};
+$('lkc').onclick=e=>{const d=e.target.dataset;if(d.k===undefined||e.target.type==='color')return;if(d.k==='preset'){Object.assign(LK,d.v==='1'?PHOTO_LK2:PHOTO_LK);lkApply();lkRender();return}if(d.k==='cel'){setCel(+d.v);LC={t:T,id:+d.v}}else LK[d.k]=d.v==='a'?null:+d.v;lkApply();lkRender()};
 $('lkc').oninput=e=>{const t=e.target;if(t.type==='color'){LK[t.dataset.k]=parseInt(t.value.slice(1),16);lkApply()}else if(t.id==='lkn'){LK.num=cl(parseInt(t.value)||0,0,99);lkApply()}else if(t.id==='lkname'){LK.nm=t.value.trim().slice(0,8);lkApply()}else if(t.id==='lkm'){LK.tn=t.value.trim().slice(0,4)||'紅隊';lkApply()}};
 $('lkc').onkeydown=e=>e.stopPropagation();
 function lkOff(){if(LKON)cam.setViewOffset(innerWidth,innerHeight,$('lkp').offsetWidth/2,0,innerWidth,innerHeight);else cam.clearViewOffset()}
@@ -4320,14 +4385,14 @@ const FWK=(()=>{const N=1100,P=[],R=Math.random,tx=(()=>{const c=document.create
   nodes(){return P.map(p=>p.s)}}})();
 function dugSignUpd(){const A=window._dgs;if(!A||!window.tmName)return;for(let i=0;i<2;i++){const o=A[i];if(!o)continue;const nm=String(tmName(i)||''),col=i===0?TC[0]:TC[1],k=nm+'|'+col;if(o.last===k)continue;o.last=k;const x=o.cn.getContext('2d'),w=1024,h=96;x.fillStyle='#2a5cb8';x.fillRect(0,0,w,h);x.fillStyle='#ffffff22';x.fillRect(0,0,w,5);x.fillStyle='#'+('000000'+(col>>>0).toString(16)).slice(-6);x.fillRect(0,h-12,w,12);x.fillStyle='#fff';let fs=70;x.font='900 '+fs+'px '+FNT;while(fs>24&&x.measureText(nm).width>w-80){fs-=4;x.font='900 '+fs+'px '+FNT}x.textAlign='center';x.textBaseline='middle';x.fillText(nm,w/2,h/2-3);o.ct.needsUpdate=true}}
 function sync(dt){CPM.visible=false;try{dugSignUpd()}catch(e){}psTick();batTrack();pvUpd(dt);CONF.upd(dt);DFX.upd(dt);FWK.upd(dt);
- {const rpp=g.ph==='ready'||g.ph==='pitch',fb=!auto&&userBats()&&rpp&&!(MP.on&&!MP.isAP()),fp=!auto&&!userBats()&&rpp&&selF===0&&pv===2;const hid=!!PV||(g.ph==='play'&&play&&play.hr&&T-play.hrT>1.4);F[1].m.visible=(!fb||!!bra)&&!hid;UM[0].m.visible=(!fb||!!bra)&&!hid;F[0].m.visible=!fp||!!bra;if(window.DB&&DB.on){F.forEach(f=>{if(f.i>=1)f.m.visible=false});RM.forEach(e=>{if(!e.used)e.m.visible=false});UM.forEach(u=>{u.m.visible=false})}else{UM[1].m.visible=UM[2].m.visible=UM[3].m.visible=true;F.forEach(f=>{if(f.i>=2)f.m.visible=true})/* 野手一律顯示（暫停／回房間／全壘打大賽後不會再留下隱形野手；冠軍慶祝由 champDrive 另外處理） */}}
+ {const rpp=g.ph==='ready'||g.ph==='pitch',fb=!auto&&userBats()&&rpp&&!(MP.on&&!MP.isAP()),fp=!auto&&!userBats()&&rpp&&selF===0&&pv===2;const hid=!!PV||(g.ph==='play'&&play&&play.hr&&T-play.hrT>1.4);F[1].m.visible=(!fb||!!bra||!!fpb.on)&&!hid;UM[0].m.visible=(!fb||!!bra||!!fpb.on)&&!hid;/* 第一人稱打擊：捕手與主審要顯示（轉頭／拖曳畫面就看得到） */F[0].m.visible=!fp||!!bra;if(window.DB&&DB.on){F.forEach(f=>{if(f.i>=1)f.m.visible=false});RM.forEach(e=>{if(!e.used)e.m.visible=false});UM.forEach(u=>{u.m.visible=false})}else{UM[1].m.visible=UM[2].m.visible=UM[3].m.visible=true;F.forEach(f=>{if(f.i>=2)f.m.visible=true})/* 野手一律顯示（暫停／回房間／全壘打大賽後不會再留下隱形野手；冠軍慶祝由 champDrive 另外處理） */}}
  F.forEach(f=>{const m=f.m;m.rotation.order='YXZ';{/* 電腦防守球員頭上顯示守備位置（玩家操控的野手維持顯示玩家名稱） */const hum=(typeof m._lk==='string'&&m._lk[0]==='h')||(!MP.on&&f===userF()),wt=hum?'':NM[f.i];if(wt){if(m._pt!==wt||m._pk!==m._lk){m._pt=wt;m._pk=m._lk;nameTag(m,wt)}}else if(m._pt){m._pt=null;if(!MP.on)nameTag(m,'')}}if(m._mir){mirrorRig(m);m._mir=0;m.gl.visible=true;m.gl2.visible=false}if(f.i===0){pitState(f,m,dt)}m.dyc=(m.dyc||0)+(dugY(f.x,f.z)-(m.dyc||0))*.35;m.dy=m.dyc+moundY(f.x,f.z);m.position.set(f.x,m.dy,f.z+(f.i===0?m.dc:0));const sp=hyp(f.vx,f.vz);gait(m,sp,dt);
   if(f.ft&&(f.pt||T-m.thr<.6||(f.i===0&&play&&play.pkDly)))face(m,f.ft[0],f.ft[1],f.i===0&&play&&play.pkDly?.6:.3);else if(sp>.8)face(m,f.x+f.vx,f.z+f.vz,.3);else if(f.i===1)face(m,0,-30,.2);else if(f.i===0&&g.ph!=='play')face(m,0,0,.2);else face(m,ball.x,ball.z,.1);m.scale.y=1;m.cr=f.i===1?catcherCr(f,dt,sp):0;if(f.i===1)CGR.apply(m,true);
   if(f.dv){const t=T-f.dv.t,k=t<0?0:t<.12?t/.12:t<f.dv.dur?1:Math.max(0,1-(t-f.dv.dur)/.6);if(k>0){if(f._stT!==f.dv.t&&t>.15){f._stT=f.dv.t;stnMark(m,2)}face(m,f.x+f.dv.dx,f.z+f.dv.dz,.6);m.rotation.x=1.45*k;m.position.y=.03*k+.32*(t<.3?Math.sin(Math.PI*t/.3):0)+(m.dy||0);m.A1.rotation.x=m.A2.rotation.x=-3*k;DFX.dive(f,m,t,dt)}else{m.rotation.x=0;f.dv=null}}else m.rotation.x=0;
   if(f.i===0&&g.ph==='play'&&play&&ball.mode==='held'&&ball.holder===F[1]&&F[1]===userF()&&!f.dv&&!f.jp&&!f.hold&&sp<.8){m.A1.rotation.x=-1.7;m.E1.rotation.x=-.3}/* 玩家操控捕手持球：投手在投手丘舉手套要球 */
   if(f.jp){const u=(T-f.jp.t)/f.jp.dur;if(u>=0&&u<1&&!f.dv&&f.jp.w)wjPose(m,u,f.jp.nx,f.jp.nz,m.dy||0);else if(u>=0&&u<1&&!f.dv){const k=Math.sin(Math.PI*u);m.position.y=1.15*4*u*(1-u)+(m.dy||0);m.A1.rotation.x=m.A2.rotation.x=-2.9*k;m.E1.rotation.x=m.E2.rotation.x=-.12;legSet(m,1,-.55*k,1.1*k,.08);legSet(m,2,-.35*k,.8*k,.08);m.ch.rotation.x=-.12*k}else if(u>=1)f.jp=null}
   if(f.fl){const u=cl((T-f.fl.t)/f.fl.dur,0,1);m.position.y=(m.dy||0)+7*4*u*(1-u);m.rotation.x=-u*15.7;m.A1.rotation.x=m.A2.rotation.x=-2.6}else if(f.stn>T){m.rotation.x=1.45;m.position.y=(m.dy||0)+.25}if(m._th===1){mirrorRig(m);m._mir=1;m.gl.visible=false;m.gl2.visible=true}/* 右投：整套動作（投球姿勢、撲接、跳躍…）都算完才左右鏡像；下一幀開頭先還原 */});
- animBat(dt);{const fh=!!view.fp&&!auto&&userBats()&&(g.ph==='ready'||g.ph==='pitch')&&!(pc&&pc.sw)&&!bra&&!(g.hs1>T)&&!(g.ph==='ready'&&g.nb1>T&&nbF())&&!(MP.on&&!MP.isAP());bmFpHid=fh;if(fh){bat.visible=false;BM.visible=false}}/* 第一人稱瞄準時不擋視線：按下揮棒後手與球棒才出現 */dugTick(dt);
+ animBat(dt);{const fh=!!view.fp&&!auto&&userBats()&&(g.ph==='ready'||g.ph==='pitch')&&!(pc&&pc.sw)&&!bra&&!(g.hs1>T)&&!(g.ph==='ready'&&g.nb1>T&&nbF())&&!(MP.on&&!MP.isAP());bmFpHid=false;/* 第一人稱瞄準／揮棒都不隱藏打者與球棒 */}/* 第一人稱瞄準時不擋視線：按下揮棒後手與球棒才出現 */dugTick(dt);
  UM.forEach(u=>{const m=u.m;if(m.rotation.order!=='YXZ')m.rotation.order='YXZ';m.rotation.x=m.rotation.z=0;/* 重播還原後歐拉角會翻成 x=z=180°，導致主審背對投手；每幀歸正 */gait(m,0,dt);const d=T-u.t;if(u.i===0){face(m,0,-30,.2);m.cr=.9}else face(m,BS[u.i][0],BS[u.i][1],.1);
   if(d>=0&&d<1.2){const k=u.k;if(k==='strike'||k==='out'){m.A2.rotation.x=-3+Math.sin(d*18)*.12;m.A2.rotation.z=.15}else if(k==='safe'){m.A1.rotation.z=-1.45;m.A2.rotation.z=1.45}else if(k==='foul'){m.A1.rotation.x=m.A2.rotation.x=-3}else if(k==='play'){m.A2.rotation.x=-1.55+Math.sin(d*9)*.08;m.A2.rotation.z=.12}}
   else{m.A1.rotation.z=0;m.A2.rotation.z=0}});
@@ -4341,7 +4406,7 @@ RN.forEach(r=>{const m=r.rm.m,mv=(r.st==='go'||r.ctl)?hyp(r.vx,r.vz):0;m.dyc=(m.
  {let u=userF();if(!u&&!auto&&userBats()&&g.ph==='play'&&selRun&&selRun.st!=='out'&&selRun.st!=='score')u=selRun;let sh=!!u&&g.ph==='play'&&ball.mode!=='held'&&ball.mode!=='dead';
   if(sh){const dx=ball.x-u.x,dz=ball.z-u.z,d=hyp(dx,dz);sh=d>2.2;if(sh){const L=cl(1.3+d*.17,1.5,2.25),sl=Math.max(.01,L-1.1);ash.scale.z=sl;ahd.position.z=sl;arw.position.set(u.x,.1,u.z);arw.rotation.y=Math.atan2(dx,dz)}}arw.visible=sh}
  const rb=userBats()&&(g.ph==='ready'||g.ph==='pitch')&&!ABS.w/* ABS 挑戰期間（提出、回放、判決）不顯示打者瞄準區 */,rp=!userBats()&&g.ph==='ready'&&selF===0&&pstg===1;ring.visible=rp;{const nbh=g.ph==='ready'&&g.nb1>T&&nbF();/* 新打者走上打擊區的鏡頭期間先不顯示瞄準區 */batR.visible=rb&&!nbh;batG.visible=rb&&!nbh;zone.visible=g.ph==='ready'&&(rb||rp)&&!nbh}
- pd.visible=rp;if(rb){const bs={c:.5,p:.42,b:.6}[bmode]*D.r;batR.position.set(ba.x,ba.y,.02);batR.scale.setScalar(bs);
+ pd.visible=rp;if(rb){const bs={c:.5,p:.42,b:.6}[bmode]*D.r;batR.position.set(ba.x,ba.y,.02);batR.scale.setScalar(bs);{/* 瞄準區維持在本壘板上方的真實平面（面向投手／捕手），第一人稱也不轉向打者 */batR.rotation.y=batG.rotation.y=0}
   /* 握把端高度固定(HY)、水平隨甜蜜點；上下移動＝球棒繞握把端擺動，預設微微上傾 */
   const LH=1.1,HY=.45,dy=ba.y-HY,dd=Math.hypot(LH,dy),k=dd/1.6;batG.position.set(ba.x,ba.y,.015);{const lh=LHB();batG.scale.x=lh?-1:1;batG.rotation.z=lh?-Math.atan2(dy,LH):Math.atan2(dy,LH)}/* 左打：瞄準區的球棒圖示左右鏡像 */batM.scale.set(k,bs,1);batM.position.x=-.572*k}else if(rp){ring.material.color.setHex(0xffd60a);ring.position.set(pa.x,pa.y,.02);ring.scale.setScalar(.85);pd.position.set(pa.x,pa.y,.015)}
  eRing.visible=rp;
@@ -4361,12 +4426,58 @@ const _fv=new THREE.Vector3();let fpKey='',fpY0=0,fpHid=null,fpTy=0,fpTp=0;
 function fpSubj(){const ph=g.ph;if(ph==='menu'||ph==='over'||(play&&play.hr))return null;const rp=ph==='ready'||ph==='pitch',ub=userBats();
  if(MP.wme&&MP.wme()){const k=MP.wlist().indexOf(MP.id);if(k<0)return null;const m=WM[k].m;return{m,key:'w',y0:Math.PI}}
  if(rp&&ub&&!(MP.on&&!MP.isAP())&&(BM.visible||bmFpHid))return{m:BM,key:'b',y0:Math.PI};
+ if(ph==='play'&&ub&&!auto&&!(MP.on&&!MP.isAP())&&lastSw&&!lastSw.cpu&&T>=lastSw.t&&BM.visible)return{m:BM,key:'b',y0:Math.PI};/* 擊中後到揮棒收尾：仍留在打者視角，看完整個轉腰、收棒 */
  {const mr=ub&&myRunMP()?RN.find(r=>r.own===MP.id&&alive(r)):null;if(mr&&mr.rm&&mr.rm.m)return{m:mr.rm.m,key:'r',y0:Math.atan2(-mr.x,-mr.z)}}
  if(!ub&&!auto){const f=F[selF];if(!f||!f.m)return null;if(rp&&selF===0)return{m:f.m,key:'p',y0:0};return{m:f.m,key:'f'+selF,y0:Math.atan2(-f.x,-f.z)}}
  if(ub&&!auto&&ph==='play'){const r=selR();if(r&&r.rm&&r.rm.m)return{m:r.rm.m,key:'r',y0:Math.atan2(-r.x,-r.z)}}
  return null}
-const fpSet=(m,v)=>{if(m===BM){m.pel.children.forEach(o=>{if(o.isMesh)o.visible=v});[m.L1,m.L2].forEach(L=>L.visible=v)}m.hd.visible=m.nm.visible=v;m.ch.children.forEach(o=>{if(o.isMesh)o.visible=v});[m.A1,m.A2].forEach(A=>A.children.forEach(o=>{if(o.isMesh)o.visible=v}))};/* 打者第一人稱：連同袖子、上臂（肩膀）一起藏起來，只留前臂、手和球棒 *//* 隱藏頭、衣領、鈕扣、軀幹，只留手腳 */
-function fpVis(m){if(fpHid&&fpHid!==m){fpSet(fpHid,true);fpHid=null}if(m&&m!==fpHid){fpSet(m,false);fpHid=m}else if(m)fpSet(m,false)}
+const fpSet=(m,v)=>{m.hd.visible=m.nm.visible=v;if(m.xn){if(!v){if(!m._xh){m._xv=m.xn.visible;m._xh=1}m.xn.visible=false}else if(m._xh){m.xn.visible=m._xv;m._xh=0}}m.ch.children.forEach(o=>{if(o.isMesh)o.visible=v});/* 打者：藏頭、軀幹、肩膀與上臂（才不會擋視線），只留前臂、手、球棒、骨盆與雙腿 */[m.A1,m.A2].forEach(A=>A.children.forEach(o=>{if(o.isMesh)o.visible=v}))};/* 打者第一人稱：連同袖子、上臂（肩膀）一起藏起來，只留前臂、手和球棒 *//* 隱藏頭、衣領、鈕扣、軀幹，只留手腳 */
+function fpVis(m){if(fpHid&&fpHid!==m){fpSet(fpHid,true);fpHid=null}const hd=q=>fpSet(q,false);/* 打者第一人稱：鏡頭在頭後方，整個人（頭、軀幹、手、腿）都顯示，才看得到轉腰揮棒；其他角色維持只留手腳 */if(m&&m!==fpHid){hd(m);fpHid=m}else if(m)hd(m)}
+/* ===== 打者第一人稱（沉浸式）=====
+   眼睛就放在打者的頭上，看到的跟真人打者一樣：
+   ‧站姿：頭轉向投手——投手在視野左側、本壘板與瞄準圈在右下方；看不到自己的臉與身體，只有地面、白線、遠方的投手
+   ‧球出手：視線隨球慢慢移向「擊球點」（真人是靠預測去接球，不是死盯著球）
+   ‧揮棒：眼睛釘在擊球點，雙手與球棒從右邊掃進視野，畫面帶出速度感（暈邊＋掃過的光）
+   ‧擊中：畫面震一下＋閃光，頭停頓一瞬後抬起、追著球飛出去；揮空則慢慢回到站姿
+   【調整】眼睛前移 .1／上移 .045 在 tx,ty,tz；視野寬度 fvB；視線平滑速度 rate；鏡頭震動大小 jt */
+const fpb={sw:0,on:0,init:0,t:0,x:0,y:0,z:0,yaw:Math.PI,pit:-.4,roll:0,ex:0,ez:0};
+const _fq=new THREE.Quaternion(),_ff=new THREE.Vector3(),fpvEl=document.getElementById('fpv');let fpvK='';{const b=$('vswf'),ap=()=>b&&b.classList.toggle('on',!!SET.swf);ap();if(b)b.onclick=()=>{SET.swf=SET.swf?0:1;ap();window.nbSv()}}
+function fpbFx(on,sw,fl,tp){if(!fpvEl)return;const k=(on?1:0)+'|'+((sw*30)|0)+'|'+((fl*30)|0)+'|'+(tp?1:0);if(k===fpvK)return;fpvK=k;fpvEl.classList.toggle('on',!!on);fpvEl.classList.toggle('tp',!!tp);fpvEl.style.setProperty('--sw',sw.toFixed(2));fpvEl.style.setProperty('--fl',fl.toFixed(2))}
+/* 第三人稱打擊也有揮棒的臨場感：揮棒推近＋速度光、擊中閃光＋鏡頭微震 */
+function tpbSw(){const s=lastSw;if(!SET.swf||!s||s.cpu||T<s.t||T-s.t>1.2)return null;const hit=!!(s.res&&s.res.hit),q=T-s.tc;return{pz:Math.sin(Math.PI*cl((T-s.t)/.3,0,1)),fx:Math.sin(Math.PI*cl((T-s.t)/.4,0,1)),fl:hit&&q>=0?Math.max(0,1-q/.14)*.7:0,jt:hit&&q>=0&&q<.2?.035*Math.pow(1-q/.2,2):0}}
+function fpbCam(fpo,snap){
+ const m=fpo.m;m.updateMatrixWorld(true);m.hd.getWorldPosition(_fv);m.hd.getWorldQuaternion(_fq);_ff.set(0,0,1).applyQuaternion(_fq);const hl=Math.hypot(_ff.x,_ff.z)||1;
+ /* 眼睛：頭的中心往臉的方向 .1、往上 .045（跟著頭走，蹲低、前傾、跨步時視線高度自然起伏，再做一點平滑） */
+ const tx=_fv.x+_ff.x/hl*.12,ty=_fv.y+.045,tz=_fv.z+_ff.z/hl*.12,fi=!!fpb.init&&!snap,dt=fi?cl(T-fpb.t,0,.05):0;fpb.t=T;
+ if(fi){const a=1-Math.exp(-dt*16);fpb.x+=(tx-fpb.x)*a;fpb.y+=(ty-fpb.y)*a;fpb.z+=(tz-fpb.z)*a}else{fpb.x=tx;fpb.y=ty;fpb.z=tz}
+ const ex=fpb.x,ey=fpb.y,ez=fpb.z;fpb.ex=ex;fpb.ez=ez;
+ const fvB=innerWidth<innerHeight?1.42:1.3,vf=bFov*fvB*Math.PI/180,hv=Math.atan(Math.tan(vf/2)*(innerWidth/Math.max(1,innerHeight)));
+ /* 站姿視線：投手與瞄準區（本壘板上方）同時留在視野內；視線方向固定，不會跟著手指瞄準亂晃 */
+ const aZ=Math.atan2(-ex,-ez),aP=Math.atan2(-ex,-REL-ez),sep=angD(aP,aZ),lim=Math.max(.14,hv*.95-.2),g0=aZ+(sep<0?-1:1)*Math.min(Math.abs(sep),lim),eZ=Math.atan2(.75-ey,Math.hypot(ex,ez)),p0=cl(eZ+vf*.3,-.62,.1);
+ let ta=g0,tp=p0,rate=7,fx=0,fl=0,rl=0;
+ const s=lastSw,sw=!!s&&!s.cpu&&T>=s.t&&T-s.t<2.2,live=g.ph==='pitch'&&!!pc&&!pc.end&&T>=pc.t0;let C=null;if(pc&&(live||sw)){try{C=bp(pc,1)}catch(e){C=null}}
+ if(C&&isFinite(C.x)&&isFinite(C.y)){
+  const dC=Math.hypot(C.x-ex,C.z-ez)||1,aC=Math.atan2(C.x-ex,C.z-ez),eC=cl(Math.atan2(C.y-ey,dC),-1.2,.2),u=cl((T-pc.t0)/Math.max(.05,pc.dur),0,1.5);
+  /* 視線：站姿 → 慢慢往擊球點偏；球出手後頭只會「跟上」球（球永遠留在視野內），不會搶在球前面轉走；揮棒後才釘在擊球點 */
+  {const sg=angD(aC,aP)<0?-1:1,ob=live?sg*angD(Math.atan2(ball.x-ex,ball.z-ez),aP):0,og=sg*angD(g0,aP),oc=sg*angD(aC,aP),w=sstep((u-.3)/.65)*.35;let o=Math.max(og+(oc-og)*w,ob-.2);tp=p0+(eC-p0)*w;rate=10+6*w;
+   if(sw){const w2=sstep((T-s.t)/.12);o+=(oc-o)*w2;tp+=(eC-tp)*w2;rate=18}/* 揮棒：眼睛釘在擊球點 */
+   if(live)o=Math.min(o,ob+.73);ta=aP+sg*o}
+  /* 沒揮棒：球過本壘後，頭跟著球轉向捕手手套（看球進手套） */
+  if(live&&!sw&&u>1){const bx=ball.x-ex,bz=ball.z-ez;ta=aC+cl(angD(Math.atan2(bx,bz),aC),-.7,.7);tp=cl(Math.atan2(ball.y-ey,Math.hypot(bx,bz)||1),-1,.3);rate=9}
+  if(sw){
+   const q=T-s.tc,hit=!!(s.res&&s.res.hit);
+   fx=Math.sin(Math.PI*cl((T-s.t)/.4,0,1));rl=Math.sin(Math.PI*cl((T-s.t)/(s.tc-s.t+.3),0,1));
+   if(hit&&q>=0){fl=Math.max(0,1-q/.14)*.85;/* 擊中閃光 */
+    if(q>.1){const bx=ball.x-ex,bz=ball.z-ez,w3=sstep((q-.1)/.3);ta+=angD(Math.atan2(bx,bz),ta)*w3;tp+=(cl(Math.atan2(ball.y-ey,Math.hypot(bx,bz)||1),-1.2,1.15)-tp)*w3;rate=5+4*w3}/* 停頓 .1 秒後抬頭追球 */}
+   else if(q>.5){const w4=sstep((q-.5)/.8);ta+=angD(g0,ta)*w4;tp+=(p0-tp)*w4;rate=4}/* 揮空：慢慢回到站姿 */
+  }
+ }
+ if(!fi){fpb.yaw=ta;fpb.pit=tp}else{const a=1-Math.exp(-dt*rate);fpb.yaw+=angD(ta,fpb.yaw)*a;fpb.pit+=(tp-fpb.pit)*a}
+ const jt=(SET.swf&&sw&&s.res&&s.res.hit&&T>=s.tc&&T-s.tc<.2)?.022*Math.pow(1-(T-s.tc)/.2,2):0;/* 擊中瞬間鏡頭微震 */
+ const Y=fpb.yaw+view.yo+Math.sin(T*83)*jt,Pt=cl(fpb.pit+view.fpp+Math.cos(T*71)*jt,-1.45,1.45),cb=Math.cos(Pt);
+ fpb.sw=sw&&T-s.t>-.02?1:0;fpb.roll=-(ex<0?1:-1)*.045*rl;fpb.on=1;fpb.init=1;if(!SET.swf){fx=fl=0}fpbFx(SET.swf?1:0,fx,fl);
+ return{p:[ex,ey,ez],l:[ex+Math.sin(Y)*cb*6,ey+Math.sin(Pt)*6,ez+Math.cos(Y)*cb*6],fv:fvB+.07*fx,yaw:Y+Math.PI}}
+let fpSwE=0;/* 揮棒鏡頭混合量 0~1：揮棒時鏡頭稍微往後、往下，並放大視角，讓身體進入畫面 */
 /* ===== 半局交換：舊守備球員跑回休息區 → 換裝 → 新守備球員跑上場 ===== */
 let hsDressed=0;
 function hsMove(dt){const mv=(f,tg,w)=>{w=cl(w,0,1);const px=f.x,pz=f.z;f.x=f.hq[0]+(tg[0]-f.hq[0])*w;f.z=f.hq[1]+(tg[1]-f.hq[1])*w;let vx=(f.x-px)/dt,vz=(f.z-pz)/dt;const v=hyp(vx,vz);if(v>9){vx*=9/v;vz*=9/v}f.vx=vx;f.vz=vz};
@@ -4437,7 +4548,7 @@ function abCam(){const w=ABS.w,on=w&&w.rp&&pc&&T>=w.rp&&T<(w.rv>1?w.rv:w.rp+ABTT
  if(ph===0)return{p:[.3+q.x*.1,1.9,-(18.44*K0+3)],l:[q.x,q.y,q.z],fv:pt?mx(.22,.09,ee):mx(.3,.12,ee),k:.2,snp:sn,yaw:Math.PI};/* 投手視角：鏡頭固定在投手板後方，視線慢慢跟著球走 */
  const f1=pt?.4:.5;/* 本壘板視角：鏡頭在本壘後方，視線與焦距慢慢跟著球走；放大階段鏡頭位置不變，只把焦距拉近、中心對準落點 */
  return{p:[q.x*.12,1+(q.y-.8)*.15,pt?4.2:3.4],l:[q.x,q.y,q.z],fv:ph===1?mx(pt?.14:.18,f1,ee):mx(f1,pt?.14:.24,zz),k:ph===1?.16:.3,snp:sn,yaw:0}}
-function camUpd(){poseTick();window._tv=0;trailUpd();hsbUpd();{/* 玩家操控投手防守時，預設鏡頭跟隨球（仍可用 ⚾／🧍 鈕手動切換） */const pd=!userBats()&&!auto&&selF===0&&!(MP.wme&&MP.wme());if(view._pd!==pd){view._pd=pd;view.tg=pd?1:0;$('cmb').textContent=view.tg?'⚾':'🧍';$('cmb').classList.toggle('on',!!view.tg)}}if(g.hsp&&hsDressed!==g.hsp&&T>=g.hsp&&g.ph!=='menu'&&g.ph!=='over'){hsDressed=g.hsp;F.forEach(f=>yelPaint(f.m,0));RM.forEach(e=>yelPaint(e.m,0));BEAT=null;actShuffle();dressAll()}const ph=g.ph,rp=ph==='ready'||ph==='pitch',ub=userBats(),fR=fRP(),mrc=!!(MP.on&&!(MP.isAP&&MP.isAP())&&ub&&(ph==='ready'||ph==='pitch'||(ph==='play'&&!(play&&play.hr)))&&RN.some(r=>r.own===MP.id&&alive(r))),kk=(ph==='play'||fR||mrc||(MP.wme&&MP.wme()))?'play':ph;let p,l,k=.22,fv=1,snp=0,cwOn=0;view.fl=0;const wo=!!(MP.wme&&MP.wme()&&view.tg!==1&&!(play&&play.hr)),hc=(ph==='play'&&play&&play.hr&&T-play.hrT>1.6&&!(window.DB&&DB.on))?hrCam():null,fpo=(fpOn()&&!(view.tg===1&&ph==='play')&&!LKON&&!hc&&!bra&&!(g.hs1>T&&T>=g.hsc)&&!(ph==='ready'&&g.nb1>T&&T>=g.nb0-.3&&nbF())&&!(PV&&(ph==='menu'||ph==='over')))?fpSubj():null;
+function camUpd(){fpb.on=0;poseTick();window._tv=0;trailUpd();hsbUpd();{/* 玩家操控投手防守時，預設鏡頭跟隨球（仍可用 ⚾／🧍 鈕手動切換） */const pd=!userBats()&&!auto&&selF===0&&!(MP.wme&&MP.wme());if(view._pd!==pd){view._pd=pd;view.tg=pd?1:0;$('cmb').textContent=view.tg?'⚾':'🧍';$('cmb').classList.toggle('on',!!view.tg)}}if(g.hsp&&hsDressed!==g.hsp&&T>=g.hsp&&g.ph!=='menu'&&g.ph!=='over'){hsDressed=g.hsp;F.forEach(f=>yelPaint(f.m,0));RM.forEach(e=>yelPaint(e.m,0));BEAT=null;actShuffle();dressAll()}const ph=g.ph,rp=ph==='ready'||ph==='pitch',ub=userBats(),fR=fRP(),mrc=!!(MP.on&&!(MP.isAP&&MP.isAP())&&ub&&(ph==='ready'||ph==='pitch'||(ph==='play'&&!(play&&play.hr)))&&RN.some(r=>r.own===MP.id&&alive(r))),kk=(ph==='play'||fR||mrc||(MP.wme&&MP.wme()))?'play':ph;let p,l,k=.22,fv=1,snp=0,cwOn=0;view.fl=0;const wo=!!(MP.wme&&MP.wme()&&view.tg!==1&&!(play&&play.hr)),hc=(ph==='play'&&play&&play.hr&&T-play.hrT>1.6&&!(window.DB&&DB.on))?hrCam():null,fpo=(fpOn()&&!(view.tg===1&&ph==='play')&&!LKON&&!hc&&!bra&&!(g.hs1>T&&T>=g.hsc)&&!(ph==='ready'&&g.nb1>T&&T>=g.nb0-.3&&nbF())&&!(PV&&(ph==='menu'||ph==='over')))?fpSubj():null;
  if(window._abc=abCam()){const c=window._abc;p=c.p;l=c.l;fv=c.fv;k=c.k;snp=c.snp;view.yaw=c.yaw}
  else if(window._chc=champCam()){const c=window._chc;p=c.p;l=c.l;fv=c.fv;k=c.k;snp=c.snp;view.yaw=0}
  else if(LKON){const pt=innerWidth<innerHeight;const dq=LC&&LC.id>=12;p=[LX+(dq?.45:0),1.1+lky,LZ+(pt?2.55:2.95)*lkz*(dq?1.4:1)];l=[LX+(dq?.45:0),.97+lky,LZ];fv=pt?.84:.86;k=1;view.yaw=0}
@@ -4449,12 +4560,8 @@ function camUpd(){poseTick();window._tv=0;trailUpd();hsbUpd();{/* 玩家操控�
  else if(g.hs1>T&&T>=g.hsc){const u=T-g.hsc;p=[14*Math.sin(u*.35),112,6];l=[0,0,-58];fv=1.15;k=.04;view.yaw=0;window._tv=1}/* 半局之間：拉遠俯瞰球場 */
   else if(ph==='ready'&&g.nb1>T&&T>=g.nb0-.3&&nbF()){const bp=BM.position;p=[bp.x+2.7,1.55,bp.z-3.3];l=[bp.x,1.3,bp.z];fv=.9;k=.16;view.yaw=0}/* 新打者上場鏡頭 */
   else if(fpo){if(fpo.key!==fpKey){fpKey=fpo.key;fpY0=fpTy=fpo.y0;fpTp=0;view.yo=0;view.fpp=fpo.key==='b'?0:-.2;snp=1}fpo.m.updateMatrixWorld(true);fpo.m.hd.getWorldPosition(_fv);let ty0=fpY0,tp0=0;/* 打者：球投出後視線跟著球走 */if(fpo.key==='b'&&g.ph==='pitch'&&pc&&!pc.end&&T>=pc.t0&&bmesh.visible){const dx=bmesh.position.x-_fv.x,dy=bmesh.position.y-_fv.y,dz=bmesh.position.z-_fv.z;ty0=Math.atan2(dx,dz);tp0=Math.atan2(dy,Math.hypot(dx,dz))}fpTy+=angD(ty0,fpTy)*.3;fpTp+=(tp0-fpTp)*.3;const yw=fpTy+view.yo,fpt=cl(fpTp+view.fpp,-1.45,1.45),cp_=Math.cos(fpt),sx=Math.sin(yw),cz=Math.cos(yw);p=[_fv.x+sx*.1,_fv.y+.02,_fv.z+cz*.1];l=[p[0]+sx*cp_*6,p[1]+Math.sin(fpt)*6,p[2]+cz*cp_*6];fv=1.25;k=.75;view.yaw=yw+Math.PI;
-  if(fpo.key==='b'){/* 打者：鏡頭在頭部略後、略右，看向本壘板前方；球出手後視線稍微跟球；拖曳畫面可轉頭看捕手／主審 */
-   p=[_fv.x+FPB_OFF[0],_fv.y+FPB_OFF[1],_fv.z+FPB_OFF[2]];let lx=.1,ly=.85,lz=-1.4;
-   if(g.ph==='pitch'&&pc&&!pc.end&&T>=pc.t0&&bmesh.visible){lx+=(bmesh.position.x-lx)*.3;ly+=(bmesh.position.y-ly)*.25;lz+=(Math.max(bmesh.position.z,-9)-lz)*.3}
-   const ddx=lx-p[0],ddz=lz-p[2],a=Math.atan2(ddx,ddz)+view.yo,b=cl(Math.atan2(ly-p[1],hyp(ddx,ddz))+view.fpp,-1.45,1.45),cb_=Math.cos(b);
-   l=[p[0]+Math.sin(a)*cb_*6,p[1]+Math.sin(b)*6,p[2]+Math.cos(a)*cb_*6];fv=1.05;k=.3;view.yaw=a+Math.PI}}
-  else if((rp||(window.DB&&DB.on&&ph==='play'))&&ub&&!wo&&!mrc&&(!MP.on||(MP.isAP&&MP.isAP()))){view.yaw=0;p=[-.1,.97,view.zb];l=[-.02,.95,0];fv=innerWidth<innerHeight?.4:.55;k=.35}
+  if(fpo.key==='b'){const c=fpbCam(fpo,snp);p=c.p;l=c.l;fv=c.fv;k=1;view.yaw=c.yaw}}
+  else if((rp||(window.DB&&DB.on&&ph==='play'))&&ub&&!wo&&!mrc&&(!MP.on||(MP.isAP&&MP.isAP()))){view.yaw=0;p=[-.1,.97,view.zb];l=[-.02,.95,0];fv=(innerWidth<innerHeight?.4:.55)*(1-.06*((tpbSw()||{}).pz||0));k=.35}
  else if(rp&&!fR&&!ub){view.yaw=Math.PI;if(pcam){const pt=innerWidth<innerHeight;p=[pt?-.9:-1.25,1.95+MH,-(18.44*K0+6.16)];l=[-.15,1.0,-2];fv=(pt?.8:.5)*view.zf}else{p=[0,2.05+MH,-(18.44*K0+.86)];l=[.05,1.05,0];fv=.5*view.zf}}
  else{const b=ball,wc=wo?MP.wme():null,fu=(!ub&&!auto)||!!wc,hold=b.mode==='held'&&b.holder;let c;
   if(view.tg===1)c=hold?b.holder:b;else if(mrc)c=RN.find(r=>r.own===MP.id&&alive(r));else if(wc)c=wc;else if(fu&&!(play&&play.hr))c=F[selF];else c=selR()||(hold?b.holder:b);
@@ -4466,7 +4573,7 @@ function camUpd(){poseTick();window._tv=0;trailUpd();hsbUpd();{/* 玩家操控�
  view.pp=kk;if(snp){cp.x=p[0];cp.y=p[1];cp.z=p[2];cL.x=l[0];cL.y=l[1];cL.z=l[2]}
  cp.x+=(p[0]-cp.x)*k;cp.y+=(p[1]-cp.y)*k;cp.z+=(p[2]-cp.z)*k;cL.x+=(l[0]-cL.x)*k;cL.y+=(l[1]-cL.y)*k;cL.z+=(l[2]-cL.z)*k;
  fvm+=(fv-fvm)*.15;const nf=bFov*fvm;if(Math.abs(cam.fov-nf)>.01){cam.fov=nf;cam.updateProjectionMatrix()}
- if(cwOn)camWall();cam.position.set(cp.x,cp.y,cp.z);cam.lookAt(cL.x,cL.y,cL.z);if(!fpo)fpKey='';fpVis(fpo?fpo.m:null);{const nn=fpo?.05:window._tv?40:.1;if(cam.near!==nn){cam.near=nn;cam.updateProjectionMatrix()}}}
+ let sx=0,sy=0,tf=null;if(!fpb.on&&ub){tf=tpbSw();if(tf){sx=Math.sin(T*83)*tf.jt*1.5;sy=Math.cos(T*71)*tf.jt}}if(cwOn)camWall();cam.position.set(cp.x+sx,cp.y+sy,cp.z);cam.lookAt(cL.x+sx,cL.y+sy,cL.z);if(fpb.on&&fpb.roll)cam.rotateZ(fpb.roll);if(!fpo)fpKey='';if(!fpb.on){fpb.init=0;if(tf)fpbFx(1,tf.fx,tf.fl,1);else fpbFx(0,0,0,0)}BM.E1.visible=BM.E2.visible=true;fpVis(fpo?fpo.m:null);{const nn=fpo?.05:window._tv?40:.1;if(cam.near!==nn){cam.near=nn;cam.updateProjectionMatrix()}}}
 const dots=(n,m)=>'●'.repeat(n)+'○'.repeat(m-n);
 function ui(){{const cs=cdL.join();if(pstg!==_ps||cs!==_cs){_ps=pstg;_cs=cs;updPit()}}boardUpd();joy.classList.toggle('pad',!auto&&aiming());$('camc').style.display=(g.ph==='menu'||g.ph==='over')?'none':'flex';$('mpi').style.display=MP.on?'flex':'none';fieldUI();if(g.ph==='menu')return;$('joy').style.display=((MP.waiting&&MP.waiting())||(MP.xo&&MP.xo())||!auto&&(aiming()||(g.ph==='play'&&play&&(!userBats()||selR()))||fRP()))?'block':'none';if($('joy').style.display==='none'){JY.x=JY.y=0;jk.style.transform='';jid=null;jIgn=0;jOx=jOy=0}const live=RN.filter(r=>r.st!=='out'&&r.st!=='score'),oc=n=>live.some(r=>r.st==='on'&&r.base===n),AP=[[27,24.5,-45],[27,16.5,-135],[17,16.5,135],[17,24.5,45]],ar=live.filter(r=>r.st==='go'&&r.target!==r.base).map(r=>r.target>r.base?[r.base,0]:[r.base-1,180]).filter(a=>AP[a[0]]).map(a=>`<b class="ar" style="left:${AP[a[0]][0]-5}px;top:${AP[a[0]][1]-5}px;transform:rotate(${AP[a[0]][2]+a[1]}deg)">▶</b>`).join('');
 $('hud').innerHTML=`<div id="sbd"><div class="ib"><i class="${g.top===g.uf?'on':''}">▲</i><span>${g.inn}</span><i class="${g.top===g.uf?'':'on'}">▼</i></div><div class="tms">${(()=>{const A=`<div class="tm a${g.top?' bat':''}"><b class="tn" style="${lkc()}">${crest(0)}<span class="nm">${sEsc(tmName(0))}</span></b><b class="sc">${g.sc[0]}</b></div>`,H=`<div class="tm h${g.top?'':' bat'}"><b class="tn">${crest(1)}<span class="nm">${sEsc(tmName(1))}</span></b><b class="sc">${g.sc[1]}</b></div>`;return g.uf?A+H:H+A})()}</div><div class="bso">${[['B',g.b,3,'#2fbf5a'],['S',g.s,2,'#f2b705'],['O',g.outs,2,'#e0383e']].map(a=>`<div><em>${a[0]}</em>${Array.from({length:a[2]},(_,k)=>`<u${k<a[1]?` style="background:${a[3]}"`:''}></u>`).join('')}</div>`).join('')}</div><div class="bs"><i class="${oc(2)?'on':''}" style="left:14px;top:8px"></i><i class="${oc(3)?'on':''}" style="left:4px;top:16px"></i><i class="${oc(1)?'on':''}" style="left:24px;top:16px"></i>${ar}<div class="spd"><svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.2" fill="none" stroke="#2a3040" stroke-width="1"/><path d="M3 1.6Q4.6 5 3 8.4M7 1.6Q5.4 5 7 8.4" fill="none" stroke="#2a3040" stroke-width=".8"/></svg><b>${g.spd||'--'}</b></div></div></div>`;
@@ -4552,7 +4659,7 @@ function repSpec(p,bt){const cls=p.cls&&p.slN,hsl=p.hsl&&p.slN;/* 滑壘／撲�
 function repTrig(sp){if(!sp||g.ph!=='ready'||(MP.on&&!MP.host))return;repStart(sp.l,sp.k,++REP.id);if(REP.on){REP.host=1;REP.sig={id:REP.id,l:sp.l,k:sp.k,n:REP.fr.length,dv:sp.dv||0,c:REP.tc|0,e:REP.en|0}}}
 $('rpk').onclick=()=>repEnd();
 $('rep').addEventListener('click',e=>{if(e.target.id!=='rep'||!REP.on||MP.on)return;REP.pz=REP.pz?0:1;repCamUI()});/* 單機：點背景暫停／繼續；多人由房主統一播放，不開放暫停 */
-function frame(now){requestAnimationFrame(frame);bvApply();jpLbl();try{cqLbl()}catch(e){}const dt=Math.min(.05,(now-last)/1000||0);last=now;try{wxTick(now/1000)}catch(e){}if(PZ){R.render(sc,cam);return}try{window.chrUpd&&chrUpd(dt,now/1000)}catch(e){}if(!mqP.matches){acc+=dt;while(acc>=1/60){if(!REP.on){tick(1/60);wallFix()}acc-=1/60}}
+function frame(now){requestAnimationFrame(frame);if(window._pmCap&&now-(window._pmT||0)<29)return;window._pmT=now;bvApply();jpLbl();try{cqLbl()}catch(e){}const dt=Math.min(.05,(now-last)/1000||0);last=now;try{wxTick(now/1000)}catch(e){}if(PZ){R.render(sc,cam);return}try{window.chrUpd&&chrUpd(dt,now/1000)}catch(e){}if(!mqP.matches){acc+=dt;while(acc>=1/60){if(!REP.on){tick(1/60);wallFix()}acc-=1/60}}
  if(REP.on)repUpd(dt);else{sync(dt);lkUpd(dt);camUpd()}SND.tick(dt);try{catchHint()}catch(e){}{const dbo=!!(window.DB&&DB.on);if(dbo!==window._dbo){window._dbo=dbo;document.body.classList.toggle('dbon',dbo)}}{const h=!!(REP.on||(ABS.w&&ABS.w.rp));if(h!==window._hoff){window._hoff=h;document.body.classList.toggle('hudoff',h)}const ab=!!(ABS.w&&ABS.w.rp);if(ab!==window._abon){window._abon=ab;document.body.classList.toggle('abson',ab)}}if(!REP.on){HM.all.forEach(spineUpd);repRec(dt)}if(shdCur===1)R.shadowMap.needsUpdate=!(shdN++&1);const _ah=(!REP.on&&window._abc)?[...HM.all,bat,lmk,arw,ring,batR,batG,zone].map(o=>[o,o.visible]):null;/* ABS 回放：場上人物、球棒、落點圈等全部隱藏，只留球與好球帶；播完自動恢復 */if(_ah)_ah.forEach(a=>a[0].visible=false);R.render(sc,cam);zpipDraw();if(_ah)_ah.forEach(a=>a[0].visible=a[1]);if(chg){if(g.ph!=='ready'||pstg!==1){chg=0;$('go').classList.remove('hold');mtrOff()}else drawMtr()}if((hT+=dt)>.12){hT=0;ui()}}
 /* 投手按住瞄準時：左上角小畫面放大好球帶附近（落點圈、目標點都在裡面） */
 const cam2=new THREE.PerspectiveCamera(26,1,.1,1000);let zpipOn=0;
@@ -4657,7 +4764,7 @@ function rollWx(){if(MP.on&&!MP.host)return;if((window.DB&&DB.on)||MP.dbm){setWx
 function wxMuff(f,fly){if(!play||(MP.on&&!MP.host)||(window.DB&&DB.on)||f.dv||f.jp)return false;const q=fly?WXM[1]:WXM[0];if(!q||rnd()>=q)return false;const b=ball;fdErr(f);Object.assign(b,{mode:'loose',holder:null,vx:(rnd()-.5)*5,vz:(rnd()-.5)*5,vy:fly?-.4:1.4,drag:0,bounced:1,y:Math.max(.35,b.y)});f.hold=0;f.pt=null;f.cool=T+.6;try{assignLoose()}catch(e){}toast('失誤！'+(f.n||'野手')+'漏接',1.4);return true}
 function wxBadge(){const e=$('wxb');if(!e)return;const w=WXN[WXS.k];e.textContent=w[1]+' '+w[0]+(WXS.k===3?'・'+WXDN[WXS.d]:'')}
 function applyWX(){const k=WXS.k,K=KB;let near=170,far=800,tint=null,ta=0,hm=1,dm=1,sky=true;
- if(k===1){tint=0x9aa3ad;ta=.55;hm=.92;dm=.5;sky=false}else if(k===2){tint=0x707c89;ta=.6;hm=.88;dm=.4;near=140;far=700;sky=false}else if(k===4){tint=0xd2d7db;ta=.8;hm=.97;dm=.55;near=16;far=165;sky=false}/* 濃霧：霧加濃（原本 near70／far420 太淡） */
+ if(k===1){tint=0x9aa3ad;ta=.55;hm=.92;dm=.5;sky=false}else if(k===2){tint=0x707c89;ta=.6;hm=.88;dm=.4;near=140;far=700;sky=false}else if(k===4){tint=0xd2d7db;ta=.9;hm=.97;dm=.55;near=7;far=80;sky=false}/* 濃霧：再加濃（上一版 near16／far165） */
  sc.fog.near=near*K;sc.fog.far=far*K;
  if(tint!=null){const c=sc.background,lum=Math.min(1,(.299*c.r+.587*c.g+.114*c.b)/.82);c.lerp(new THREE.Color(tint).multiplyScalar(lum),ta);sc.fog.color.copy(c);hl.intensity*=hm;dl.intensity*=dm}
  if(SKYM)SKYM.visible=sky;if(!sky){SUNG.visible=SUND.visible=false;MOON.visible=MOONG.visible=false}}
@@ -4676,7 +4783,20 @@ function wxTick(t){if(g.ph==='menu'&&WXS.on&&WXS.k)setWx(0,0);const bd=$('wxb');
  $('gearb').onclick=()=>$('setm').classList.add('open');
  $('setx').onclick=()=>$('setm').classList.remove('open');
  $('setm').onclick=e=>{if(e.target.id==='setm')$('setm').classList.remove('open')};
- $('vfar').onclick=()=>{SET.far=SET.far?0:1;ap();sv()};$('vchr').onclick=()=>{SET.chr=SET.chr?0:1;ap();sv()};$('vlow').onclick=()=>{SET.low=SET.low?0:1;ap();sv()};$('unstk').onclick=()=>{unstick(0);$('setm').classList.remove('open');toast('已重置卡住狀態',1.8)};$('btnrs').onclick=()=>{$('setm').classList.remove('open');btnReset();toast('已重置按鈕功能',1.8)};$('wtrs').onclick=()=>{$('setm').classList.remove('open');if(MP.on&&MP.wtHome&&MP.wtHome())toast('已重生在休息室',1.8);else{unstick(0);toast(MP.on?'你目前不在待機區，已改為重置卡住狀態':'只有多人模式待機中的玩家能使用',2.2)}}}
+ $('vfar').onclick=()=>{SET.far=SET.far?0:1;ap();sv()};$('vchr').onclick=()=>{SET.chr=SET.chr?0:1;ap();sv()};$('vlow').onclick=()=>{SET.low=SET.low?0:1;ap();sv()};$('unstk').onclick=()=>{unstick(0);$('setm').classList.remove('open');toast('已重置卡住狀態',1.8)};$('btnrs').onclick=()=>{$('setm').classList.remove('open');btnReset();toast('已重置按鈕功能',1.8)};$('wtrs').onclick=()=>{$('setm').classList.remove('open');if(MP.on&&MP.wtHome&&MP.wtHome())toast('已重生在休息室入口',1.8);else{unstick(0);toast(MP.on?'你目前不在待機區，已改為重置卡住狀態':'只有多人模式待機中的玩家能使用',2.2)}}}
+/* ===== ⚡ 效能模式：統一調整所有影響效能的選項 ===== */
+{const PMS={h:{shd:0,fq:'h',far:1,chr:1,low:0,pr:2},b:{shd:1,fq:'m',far:1,chr:1,low:0,pr:1.5},e:{shd:2,fq:'l',far:0,chr:0,low:1,pr:1}},PMN={a:'自動',h:'高畫質',b:'平衡',e:'省電',c:'自訂'},LV=['h','b','e'];let lv=0;
+const setPR=v=>{try{R.setPixelRatio(Math.min(devicePixelRatio||1,v));R.setSize(innerWidth,innerHeight)}catch(e){}},
+cap=()=>{window._pmCap=SET.pm==='e'},
+ui=()=>{document.querySelectorAll('#pmb button').forEach(b=>b.classList.toggle('on',b.dataset.p===SET.pm));const e=$('pmv');if(e)e.textContent=PMN[SET.pm]||''},
+apply=k=>{const v=PMS[k];if(!v)return;SET.shd=v.shd;SET.fq=v.fq;SET.far=v.far;SET.chr=v.chr;SET.low=v.low;applyShd();applyFq();FARS.forEach(o=>o.visible=!!SET.far);$('vfar').classList.toggle('on',!!SET.far);$('vchr').classList.toggle('on',!!SET.chr);$('vlow').classList.toggle('on',!!SET.low);setLowRes(!!SET.low);setPR(v.pr)};
+document.querySelectorAll('#pmb button').forEach(b=>b.onclick=()=>{const p=b.dataset.p;SET.pm=p;lv=0;apply(p==='a'?'h':p);cap();ui();try{localStorage.removeItem('nbLoMd')}catch(e){}window.nbSv();toast('效能模式：'+PMN[p]+((p==='e'?0:1)!==MDET?'（人物精細度重新開啟遊戲後切換）':''),(p==='e'?0:1)!==MDET?3.2:1.6)});
+const manual=()=>{if(SET.pm!=='c'){SET.pm='c';cap();ui();window.nbSv()}};
+['#shdb button','#fqb button','#vfar','#vchr','#vlow'].forEach(q=>document.querySelectorAll(q).forEach(b=>b.addEventListener('click',manual)));
+if(PMS[SET.pm])setPR(PMS[SET.pm].pr);cap();ui();
+/* 自動：每 2 秒量一次幀率，連續兩次低於 40 就降一級（高畫質→平衡→省電） */
+let fN=0,fT=performance.now(),bad=0;(function loop(){requestAnimationFrame(loop);fN++;const n=performance.now(),d=n-fT;if(d<2000)return;const f=fN*1000/d;fN=0;fT=n;if(SET.pm!=='a'||document.hidden||d>3500)return;bad=f<40?bad+1:0;if(bad>=2&&lv<2){lv++;bad=0;apply(LV[lv]);if(lv===2)try{localStorage.setItem('nbLoMd','1')}catch(e){}toast('偵測到卡頓，已自動調整為「'+PMN[LV[lv]]+'」',2.6)}})()}
+
 {$('absb').onpointerdown=e=>{e.preventDefault();absGo()}}
 /* ===== 震動回饋（手機）：掛在音效事件上，設定裡可開關 ===== */
 {const CAN=typeof navigator.vibrate==='function',sv=()=>window.nbSv(),last={};
